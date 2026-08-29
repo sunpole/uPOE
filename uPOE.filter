@@ -1,7 +1,7 @@
 # ==============================================================================================================
 # uPOE — Path of Exile 1 Loot Filter
 # Target: PoE 1 — 3.29 Curse of the Allflame
-# Currency system: v0.2
+# Currency system: v0.3
 # ==============================================================================================================
 
 # Rules are processed top-to-bottom. Current-league currency is intentionally placed first.
@@ -29,19 +29,48 @@ Show
 
 # ==============================================================================================================
 # [0200] CURRENCY — HIGH
-# Style: bright lime, almost-black background, maximum label size, built-in alert, beam and minimap icon.
+# Style: bright lime, almost-black background, maximum label size, Sound 1 and permanent green beam.
+# Minimap icons are reserved only for the current top 10 currencies by market value.
+# Price snapshot: Allflame, 2026-08-29, sourced from live poe.ninja-based economy data.
 # ==============================================================================================================
 
+# [0201] HIGH — MARKET TOP 1–5
+# Mirror of Kalandra, Hinekora's Lock, Mirror Shard, Reflecting Mist, Foulborn Exalted Orb
 Show
     Class == "Stackable Currency"
-    BaseType == "Albino Rhoa Feather" "Ancient Orb" "Awakener's Orb" "Chaotic Astrolabe" "Coin of Knowledge" "Coin of Power" "Coin of Skill" "Crusader's Exalted Orb" "Crystallised Rancour" "Crescent Splinter" "Deceptive Astrolabe" "Dextral Catalyst" "Divine Orb" "Elder's Exalted Orb" "Eldritch Chaos Orb" "Eldritch Orb of Annulment" "Eternal Orb" "Exceptional Eldritch Ember" "Exceptional Eldritch Ichor" "Exotic Coinage" "Fertile Catalyst" "Flesh of Xesht" "Foulborn Exalted Orb" "Foulborn Regal Orb" "Fracturing Orb" "Fracturing Shard" "Fruiting Astrolabe" "Fungal Astrolabe" "Grand Eldritch Ember" "Grasping Astrolabe" "Hinekora's Lock" "Hunter's Exalted Orb" "Lightless Astrolabe" "Maven's Chisel of Avarice" "Maven's Chisel of Divination" "Maven's Chisel of Procurement" "Maven's Chisel of Proliferation" "Maven's Chisel of Scarabs" "Memory of Loneliness" "Memory of Reverence" "Memory of Trauma" "Mirror of Kalandra" "Mirror Shard" "Nameless Astrolabe" "Orb of Annulment" "Orb of Conflict" "Orb of Dominance" "Orb of Remembrance" "Orb of Unravelling" "Prismatic Catalyst" "Redeemer's Exalted Orb" "Reflecting Mist" "Refracting Fog" "Ritual Vessel" "Runic Astrolabe" "Sacred Crystallised Lifeforce" "Sacred Orb" "Shaper's Exalted Orb" "Sinistral Catalyst" "Tainted Catalyst" "Tainted Chaos Orb" "Tainted Divine Teardrop" "Tainted Exalted Orb" "Tainted Mythic Orb" "Tainted Orb of Fusing" "Tailoring Orb" "Tempering Orb" "Templar Astrolabe" "Timeless Astrolabe" "Unstable Catalyst" "Valdo's Puzzle Box" "Veiled Chaos Orb" "Veiled Exalted Orb" "Volatile Vaal Orb" "Warlord's Exalted Orb"
+    BaseType == "Mirror of Kalandra" "Hinekora's Lock" "Mirror Shard" "Reflecting Mist" "Foulborn Exalted Orb"
     SetFontSize 45
     SetTextColor 205 255 70 255
     SetBackgroundColor 3 7 2 255
     SetBorderColor 185 255 45 255
     PlayAlertSound 1 300
     PlayEffect Green
-    MinimapIcon 0 Green Star
+    MinimapIcon 0 Green Cross
+
+# [0202] HIGH — MARKET TOP 6–10
+# Tempering Orb, Tainted Divine Teardrop, Orb of Dominance, Volatile Vaal Orb, Refracting Fog
+Show
+    Class == "Stackable Currency"
+    BaseType == "Tempering Orb" "Tainted Divine Teardrop" "Orb of Dominance" "Volatile Vaal Orb" "Refracting Fog"
+    SetFontSize 45
+    SetTextColor 205 255 70 255
+    SetBackgroundColor 3 7 2 255
+    SetBorderColor 185 255 45 255
+    PlayAlertSound 1 300
+    PlayEffect Green
+    MinimapIcon 0 Green Circle
+
+# [0203] HIGH — REMAINING HIGH-TIER CURRENCY
+# No minimap icon. Sound 1 + permanent green beam remain for the whole HIGH grade.
+Show
+    Class == "Stackable Currency"
+    BaseType == "Albino Rhoa Feather" "Ancient Orb" "Awakener's Orb" "Chaotic Astrolabe" "Coin of Knowledge" "Coin of Power" "Coin of Skill" "Crusader's Exalted Orb" "Crystallised Rancour" "Crescent Splinter" "Deceptive Astrolabe" "Dextral Catalyst" "Divine Orb" "Elder's Exalted Orb" "Eldritch Chaos Orb" "Eldritch Orb of Annulment" "Eternal Orb" "Exceptional Eldritch Ember" "Exceptional Eldritch Ichor" "Exotic Coinage" "Fertile Catalyst" "Flesh of Xesht" "Foulborn Regal Orb" "Fracturing Orb" "Fracturing Shard" "Fruiting Astrolabe" "Fungal Astrolabe" "Grand Eldritch Ember" "Grasping Astrolabe" "Hunter's Exalted Orb" "Lightless Astrolabe" "Maven's Chisel of Avarice" "Maven's Chisel of Divination" "Maven's Chisel of Procurement" "Maven's Chisel of Proliferation" "Maven's Chisel of Scarabs" "Memory of Loneliness" "Memory of Reverence" "Memory of Trauma" "Nameless Astrolabe" "Orb of Annulment" "Orb of Conflict" "Orb of Remembrance" "Orb of Unravelling" "Prismatic Catalyst" "Redeemer's Exalted Orb" "Ritual Vessel" "Runic Astrolabe" "Sacred Crystallised Lifeforce" "Sacred Orb" "Shaper's Exalted Orb" "Sinistral Catalyst" "Tainted Catalyst" "Tainted Chaos Orb" "Tainted Exalted Orb" "Tainted Mythic Orb" "Tainted Orb of Fusing" "Tailoring Orb" "Templar Astrolabe" "Timeless Astrolabe" "Unstable Catalyst" "Valdo's Puzzle Box" "Veiled Chaos Orb" "Veiled Exalted Orb" "Warlord's Exalted Orb"
+    SetFontSize 45
+    SetTextColor 205 255 70 255
+    SetBackgroundColor 3 7 2 255
+    SetBorderColor 185 255 45 255
+    PlayAlertSound 1 300
+    PlayEffect Green
 
 # ==============================================================================================================
 # [0300] CURRENCY — MEDIUM
