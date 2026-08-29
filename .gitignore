@@ -13,3 +13,10 @@ Thumbs.db
 # Local test/export files
 local/
 exports/
+
+# PoE OAuth / API credentials — never commit
+.env
+.env.*
+!.env.example
+.upoe-poe-token.json
+poe-token.json
