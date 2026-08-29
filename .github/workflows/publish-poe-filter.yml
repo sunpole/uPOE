@@ -1,0 +1,33 @@
+name: Publish uPOE to Path of Exile
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "uPOE.filter"
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    # Push-based publishing stays disabled until POE_API_ENABLED=true is added
+    # as a repository variable. Manual workflow_dispatch can still be used for
+    # the first proof-of-concept run.
+    if: ${{ github.event_name == 'workflow_dispatch' || vars.POE_API_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Publish and validate filter through official PoE API
+        env:
+          POE_ACCESS_TOKEN: ${{ secrets.POE_ACCESS_TOKEN }}
+          POE_CLIENT_ID: ${{ vars.POE_CLIENT_ID }}
+          POE_CONTACT: ${{ secrets.POE_CONTACT }}
+          POE_FILTER_ID: ${{ vars.POE_FILTER_ID }}
+          POE_FILTER_NAME: uPOE
+          POE_FILTER_PUBLIC: "false"
+          POE_FILTER_VERSION: ${{ github.sha }}
+        run: python3 scripts/publish_poe_filter.py
