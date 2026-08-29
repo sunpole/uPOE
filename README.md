@@ -39,9 +39,6 @@ index.html
 uPOE.filter
 README.md
 CHANGELOG.md
-.github/
-  workflows/
-    pages.yml
 docs/
   SOURCES.md
   FILTER-RULES.md
@@ -59,4 +56,4 @@ references/
 
 ## Статус
 
-Проект находится в активной разработке. GitHub Pages публикуется автоматически из ветки `main` через GitHub Actions.
+Проект находится в активной разработке. GitHub Pages публикуется из ветки `main`.
