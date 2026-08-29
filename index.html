@@ -4,114 +4,100 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#080c08">
-  <meta name="description" content="uPOE — интерактивный предпросмотр персонального loot-фильтра Path of Exile 1.">
-  <title>uPOE — Loot Filter Preview</title>
-  <style>
-    :root{
-      --bg:#070a07;--panel:#0d120e;--panel-2:#111812;--line:#263226;--text:#e7ece5;--muted:#879286;--accent:#b9ff2d;
-      --simple-text:rgb(145 190 75);--simple-bg:rgb(15 20 14);--simple-border:rgb(72 100 45);
-      --medium-text:rgb(175 230 75);--medium-bg:rgb(12 19 10);--medium-border:rgb(125 175 55);
-      --high-text:rgb(205 255 70);--high-bg:rgb(3 7 2);--high-border:rgb(185 255 45);
-      --league-text:rgb(180 240 75);--league-bg:rgb(5 11 4);--league-border:rgb(140 205 50);
-    }
-    *{box-sizing:border-box} html{color-scheme:dark;background:var(--bg)}
-    body{margin:0;min-height:100vh;background:radial-gradient(circle at 20% 0%,rgba(185,255,45,.06),transparent 34rem),linear-gradient(180deg,#0a0e0a 0%,#060806 100%);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-    body.modal-open{overflow:hidden} button,a{font:inherit} a{color:inherit}
-    .shell{width:min(1440px,100%);margin:0 auto;padding:18px}
-    .topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:4px 2px 18px}
-    .brand{display:flex;align-items:center;gap:12px;text-decoration:none}.mark{width:36px;height:36px;border:1px solid #5e7b3a;background:#10170d;display:grid;place-items:center;box-shadow:0 0 28px rgba(185,255,45,.08) inset}.mark:before{content:"u";font-family:Georgia,serif;font-size:28px;color:var(--accent);transform:translateY(-1px)}
-    .brand-title{font-family:Georgia,"Times New Roman",serif;font-size:23px;letter-spacing:.02em}.brand-sub{font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin-top:2px}
-    .toplinks{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.linkbtn,.btn{border:1px solid #2c392b;background:#101510;color:#cbd4c7;text-decoration:none;padding:9px 12px;cursor:pointer;transition:.18s ease}.linkbtn:hover,.btn:hover{border-color:#627c43;color:#eff7e9;background:#141c12}.btn.primary{color:#081004;background:var(--accent);border-color:var(--accent);font-weight:800}.btn.primary:hover{background:#ceff6d}
-    .hero{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(300px,.65fr);gap:14px}.stage-card,.side{border:1px solid #202920;background:rgba(10,14,10,.88);box-shadow:0 24px 80px rgba(0,0,0,.35)}
-    .stage-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:18px 18px 14px;border-bottom:1px solid #202920}.eyebrow{font-size:10px;font-weight:800;letter-spacing:.19em;color:#7f9d5a;text-transform:uppercase}h1{font-family:Georgia,"Times New Roman",serif;font-size:clamp(26px,3vw,43px);line-height:1.05;margin:7px 0 8px;font-weight:500}.lead{margin:0;color:#9ba697;max-width:760px;font-size:13px;line-height:1.55}.status{white-space:nowrap;font-size:11px;border:1px solid #39502c;color:#a9d879;background:#0d1609;padding:7px 9px}
-    .toolbar{display:flex;gap:7px;align-items:center;flex-wrap:wrap;padding:12px 18px;border-bottom:1px solid #202920;background:#090c09}.tier-btn{appearance:none;border:1px solid #2a3429;background:#0f130f;color:#879285;padding:7px 10px;cursor:pointer;font-size:11px;letter-spacing:.05em;text-transform:uppercase}.tier-btn.active{border-color:#647c46;color:#dfffb1;background:#141d10}.spacer{flex:1}.counter{font-size:11px;color:#687367}
-    .ground{position:relative;height:min(64vh,650px);min-height:500px;overflow:hidden;background:radial-gradient(ellipse at 50% 48%,rgba(72,88,55,.18) 0%,rgba(18,25,17,.18) 25%,transparent 55%),repeating-linear-gradient(18deg,rgba(255,255,255,.012) 0 1px,transparent 1px 18px),linear-gradient(135deg,#151813 0%,#0d100c 48%,#131610 100%)}.ground:after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 130px #000}
-    .ground-label{position:absolute;z-index:2;transform:translate(-50%,-50%);padding:4px 9px;line-height:1.08;white-space:nowrap;font-family:Arial,Helvetica,sans-serif;font-weight:700;border-style:solid;border-width:1px;text-shadow:0 1px 0 #000;box-shadow:0 2px 6px rgba(0,0,0,.7);user-select:none;transition:opacity .18s ease,filter .18s ease,transform .18s ease}.ground-label:hover{z-index:8;transform:translate(-50%,-50%) scale(1.06);filter:brightness(1.15)}
-    .ground-label.simple{color:var(--simple-text);background:rgba(15,20,14,.96);border-color:var(--simple-border);font-size:15px}.ground-label.medium{color:var(--medium-text);background:rgba(12,19,10,.98);border-color:var(--medium-border);font-size:18px}.ground-label.high{color:var(--high-text);background:var(--high-bg);border-color:var(--high-border);font-size:25px;border-width:2px;box-shadow:0 0 0 1px #020302,0 5px 12px rgba(0,0,0,.85),0 0 22px rgba(185,255,45,.12)}.ground-label.league{color:var(--league-text);background:var(--league-bg);border-color:var(--league-border);font-size:22px;border-width:2px;box-shadow:0 4px 10px rgba(0,0,0,.8)}.ground-label.hidden{opacity:0;pointer-events:none}
-    .beam{position:absolute;z-index:1;width:4px;height:180px;transform:translate(-50%,-100%);background:linear-gradient(to top,rgba(190,255,70,.75),rgba(190,255,70,.07),transparent);box-shadow:0 0 14px rgba(190,255,70,.5);pointer-events:none}.beam.hidden{display:none}
-    .side{padding:16px;display:flex;flex-direction:column;gap:12px}.side h2{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:20px;margin:0 0 4px}.small{font-size:12px;line-height:1.5;color:#8d9989}.legend{display:grid;gap:8px}.legend-row{border:1px solid #222d21;background:#0a0e0a;padding:10px;display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;cursor:pointer}.legend-row:hover{border-color:#43563a}.swatch{display:inline-block;padding:4px 7px;font-family:Arial,sans-serif;font-weight:700;border:1px solid;font-size:13px;margin-bottom:5px}.swatch.simple{color:var(--simple-text);background:var(--simple-bg);border-color:var(--simple-border)}.swatch.medium{color:var(--medium-text);background:var(--medium-bg);border-color:var(--medium-border)}.swatch.high{color:var(--high-text);background:var(--high-bg);border-color:var(--high-border);font-size:16px;border-width:2px}.swatch.league{color:var(--league-text);background:var(--league-bg);border-color:var(--league-border);font-size:15px;border-width:2px}.legend-meta{font-size:10px;color:#687466;text-align:right;line-height:1.45}.rgb{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:10px;color:#657062}.notice{border-left:2px solid #536d36;background:#0c120a;padding:11px 12px;font-size:11px;line-height:1.55;color:#93a08e}.sourcebox{margin-top:auto;border-top:1px solid #202920;padding-top:12px}.sourcebox a{color:#b8d78d;text-decoration:none}.sourcebox a:hover{text-decoration:underline}
-    .below{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}.info{border:1px solid #202920;background:#0b0f0b;padding:14px}.info .num{font-family:Georgia,serif;font-size:28px;color:#caff72}.info .label{font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:#687466;margin-top:3px}.info p{font-size:12px;color:#8c9789;line-height:1.5;margin:10px 0 0}footer{display:flex;justify-content:space-between;gap:20px;align-items:center;padding:20px 2px 6px;color:#5f695e;font-size:11px}
-    .filter-modal{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.78);backdrop-filter:blur(5px);display:none;padding:18px}.filter-modal.open{display:grid;place-items:center}.filter-panel{width:min(1180px,100%);height:min(88vh,920px);border:1px solid #35452f;background:#080c08;box-shadow:0 30px 120px #000;display:grid;grid-template-rows:auto 1fr}.filter-head{display:flex;align-items:center;gap:10px;padding:12px;border-bottom:1px solid #263226;background:#0d120e}.filter-title{margin-right:auto}.filter-title strong{display:block;font-family:Georgia,serif;font-size:18px;font-weight:500}.filter-title span{font-size:10px;color:#778374;letter-spacing:.1em;text-transform:uppercase}.filter-code{margin:0;padding:18px;overflow:auto;white-space:pre;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;color:#c6d6bd;background:linear-gradient(#090d09,#060906);tab-size:4}.sound-on{border-color:#7aa448!important;color:#dfffab!important;background:#15200f!important}
-    @media(max-width:980px){.hero{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr;align-items:start}.sourcebox{margin-top:0}}
-    @media(max-width:660px){.shell{padding:10px}.topbar{align-items:flex-start}.brand-sub{display:none}.stage-head{padding:14px;flex-direction:column}.status{align-self:flex-start}.toolbar{padding:10px 14px}.ground{height:560px;min-height:560px}.ground-label.simple{font-size:13px}.ground-label.medium{font-size:15px}.ground-label.high{font-size:19px}.ground-label.league{font-size:18px}.side{grid-template-columns:1fr}.below{grid-template-columns:1fr}footer{flex-direction:column;align-items:flex-start}.filter-modal{padding:6px}.filter-head{flex-wrap:wrap}.filter-title{width:100%}}
-  </style>
+  <meta name="description" content="uPOE — интерактивная лаборатория персонального loot-фильтра Path of Exile 1.">
+  <title>uPOE — PoE1 Loot Filter Laboratory</title>
+  <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
-  <main class="shell">
-    <header class="topbar">
-      <a class="brand" href="./" aria-label="uPOE home"><span class="mark" aria-hidden="true"></span><span><div class="brand-title">uPOE</div><div class="brand-sub">PoE 1 loot filter laboratory</div></span></a>
-      <nav class="toplinks" aria-label="Навигация"><a class="linkbtn" href="https://github.com/sunpole/uPOE">GitHub</a><button class="linkbtn" id="showFilter" type="button">Показать весь фильтр</button></nav>
-    </header>
+<main class="shell">
+  <header class="topbar">
+    <a class="brand" href="./"><span class="mark"></span><span><div class="brand-title">uPOE</div><div class="brand-sub">PoE 1 loot filter laboratory</div></span></a>
+    <nav class="toplinks"><a class="linkbtn" href="https://github.com/sunpole/uPOE">GitHub</a><button class="linkbtn" id="showFilter" type="button">Показать весь фильтр</button></nav>
+  </header>
 
-    <section class="hero">
-      <article class="stage-card">
-        <div class="stage-head"><div><div class="eyebrow">Live visual preview · Currency v0.1</div><h1>Как будет выглядеть дроп</h1><p class="lead">Интерактивная визуализация салатовой системы uPOE. «Новый дроп» перемешивает предметы. Если High-tier видим и звук включён — срабатывает тестовый alert.</p></div><div class="status">PoE 1 · 3.29 Allflame</div></div>
-        <div class="toolbar">
-          <button class="btn primary" id="reroll" type="button">Новый дроп</button>
-          <button class="btn" id="soundToggle" type="button" aria-pressed="true">🔊 Звук: ВКЛ</button>
-          <button class="btn" id="soundTest" type="button">Тест звука</button>
-          <button class="tier-btn active" data-toggle="simple" type="button">Simple</button><button class="tier-btn active" data-toggle="medium" type="button">Medium</button><button class="tier-btn active" data-toggle="high" type="button">High</button><button class="tier-btn active" data-toggle="league" type="button">Allflame</button>
-          <span class="spacer"></span><span class="counter" id="counter">0 предметов</span>
-        </div>
-        <div class="ground" id="ground" aria-label="Предпросмотр дропа Path of Exile"></div>
-      </article>
+  <section class="main-grid">
+    <article class="card">
+      <div class="head">
+        <div><div class="eyebrow">Currency v0.2 · live preview</div><h1>Как будет выглядеть дроп</h1><p class="lead">Случайный дроп показывает обычную игровую ситуацию. «Дроп всей валюты» выводит сразу все уже распределённые виды валюты без наложений. Масштаб земли можно менять вручную или автоматически вместить содержимое.</p></div>
+        <div class="status">PoE 1 · uPOE</div>
+      </div>
+      <div class="toolbar">
+        <button class="btn primary" id="reroll" type="button">Новый дроп</button>
+        <button class="btn active" data-mode="random" type="button">Случайный дроп</button>
+        <button class="btn" data-mode="all" type="button">Дроп ВСЕЙ валюты</button>
+        <button class="btn active" id="soundToggle" type="button">🔊 Звук: ВКЛ</button>
+        <button class="btn" id="soundTest" type="button">Тест звука</button>
+        <span class="spacer"></span><span class="counter" id="counter"></span>
+      </div>
+      <div class="toolbar zoom-bar">
+        <span class="eyebrow">Масштаб земли</span>
+        <button class="btn small" id="zoomOut" type="button">−</button><button class="btn small" id="zoomReset" type="button">100%</button><button class="btn small" id="zoomIn" type="button">+</button><button class="btn small" id="zoomFit" type="button">Вместить</button><span class="zoom-value" id="zoomValue">100%</span>
+      </div>
+      <div class="ground-viewport" id="groundViewport"><div class="ground-world" id="groundWorld"></div></div>
+    </article>
 
-      <aside class="side">
-        <div><div class="eyebrow">uPOE visual system</div><h2>Четыре уровня валюты</h2><p class="small">Не копируем оформление NeverSink. Его используем как источник актуальных названий и экономического ориентира, внешний вид держим своим.</p></div>
-        <div class="legend">
-          <div class="legend-row" data-focus="simple"><div><span class="swatch simple">Orb of Transmutation</span><div class="rgb">145 190 75 / 15 20 14 / 72 100 45</div></div><div class="legend-meta">SIMPLE<br>Font 32<br>без звука</div></div>
-          <div class="legend-row" data-focus="medium"><div><span class="swatch medium">Chaos Orb</span><div class="rgb">175 230 75 / 12 19 10 / 125 175 55</div></div><div class="legend-meta">MEDIUM<br>Font 37<br>без звука</div></div>
-          <div class="legend-row" data-focus="high"><div><span class="swatch high">Divine Orb</span><div class="rgb">205 255 70 / 3 7 2 / 185 255 45</div></div><div class="legend-meta">HIGH<br>Font 45<br>звук + луч</div></div>
-          <div class="legend-row" data-focus="league"><div><span class="swatch league">Ukatoa's Ducat</span><div class="rgb">180 240 75 / 5 11 4 / 140 205 50</div></div><div class="legend-meta">ALLFLAME<br>Font 41<br>тёмный фон</div></div>
-        </div>
-        <div class="notice"><strong>Звук на сайте:</strong> браузер синтезирует короткий alert через Web Audio — это тест поведения, не копия игрового аудиофайла. В PoE звук задаётся настоящей командой <code>PlayAlertSound</code>.</div>
-        <div class="sourcebox small"><div class="eyebrow">Current reference</div><p>Основа проверки названий: NeverSink / FilterBlade для PoE 1. Сайт показывает согласованную часть uPOE.</p><a href="https://www.filterblade.xyz/?game=Poe1">FilterBlade ↗</a></div>
-      </aside>
-    </section>
+    <aside class="card sidebar">
+      <div><div class="eyebrow">uPOE visual system</div><h2>4 уровня валюты</h2><p class="muted">Одна салатовая цветовая семья, но разная заметность. HIGH получает игровой alert, луч и minimap icon.</p></div>
+      <div class="legend">
+        <div class="legend-row"><div><span class="drop-label simple">Orb of Transmutation</span><div class="rgb">145 190 75 / 15 20 14 / 72 100 45</div></div><div class="legend-meta">SIMPLE<br>Font 32</div></div>
+        <div class="legend-row"><div><span class="drop-label medium">Chaos Orb</span><div class="rgb">175 230 75 / 12 19 10 / 125 175 55</div></div><div class="legend-meta">MEDIUM<br>Font 37</div></div>
+        <div class="legend-row"><div><span class="drop-label high">Divine Orb</span><div class="rgb">205 255 70 / 3 7 2 / 185 255 45</div></div><div class="legend-meta">HIGH<br>Font 45<br>sound + beam</div></div>
+        <div class="legend-row"><div><span class="drop-label league">Ukatoa's Ducat</span><div class="rgb">180 240 75 / 5 11 4 / 140 205 50</div></div><div class="legend-meta">LEAGUE<br>Font 41</div></div>
+      </div>
+      <div class="notice"><strong>Звуки на сайте:</strong> PoE официально поддерживает встроенные ID 1–16. Оригинальные игровые аудиофайлы не включены в uPOE; веб-страница использует короткие синтезированные демо. В самой игре выбранный ID воспроизводит настоящий встроенный звук.</div>
+      <div class="notice"><strong>Источник истины:</strong> синтаксис GGG + актуальные NeverSink/FilterBlade данные. Наше оформление и структура остаются собственными.</div>
+    </aside>
+  </section>
 
-    <section class="below" aria-label="Состояние проекта"><div class="info"><div class="num">4</div><div class="label">визуальных уровня</div><p>Одна цветовая семья, но разная важность предметов без лишней радуги.</p></div><div class="info"><div class="num">45</div><div class="label">High font size</div><p>High-tier получает максимальный размер, почти чёрный фон, звук и зелёный луч.</p></div><div class="info"><div class="num">3.29</div><div class="label">Curse of the Allflame</div><p>Лиговые предметы выводятся отдельным слоем, чтобы новые механики не потерялись.</p></div></section>
-    <footer><span>uPOE · personal Path of Exile 1 loot filter</span><span>Preview build · 29.08.2026</span></footer>
-  </main>
+  <section class="section card lab-card" id="sounds">
+    <div class="section-head"><div><div class="eyebrow">Sound laboratory</div><h2>Все встроенные PlayAlertSound</h2><p>16 доступных ID. Нажатие выбирает ID для веб-превью HIGH.</p></div></div>
+    <div class="sound-grid" id="soundGrid"></div>
+    <div class="selected-line">Выбрано: <span id="selectedSound">PlayAlertSound 6 300</span></div>
+  </section>
 
-  <div class="filter-modal" id="filterModal" role="dialog" aria-modal="true" aria-labelledby="filterModalTitle">
-    <section class="filter-panel">
-      <div class="filter-head"><div class="filter-title"><strong id="filterModalTitle">uPOE.filter</strong><span>полный текущий игровой фильтр</span></div><a class="btn" href="./uPOE.filter" target="_blank" rel="noopener">Открыть отдельно</a><button class="btn" id="copyFilter" type="button">Копировать</button><button class="btn" id="closeFilter" type="button">Закрыть ×</button></div>
-      <pre class="filter-code" id="filterCode">Загрузка uPOE.filter…</pre>
-    </section>
-  </div>
+  <section class="section card lab-card" id="icons">
+    <div class="section-head"><div><div class="eyebrow">MinimapIcon laboratory</div><h2>12 форм × 11 цветов × 3 размера</h2><p>Официальные варианты PoE1. Размер 0 — самый большой, 2 — самый маленький.</p></div></div>
+    <div class="icon-controls"><button class="btn small active" data-icon-size="0" type="button">Size 0</button><button class="btn small" data-icon-size="1" type="button">Size 1</button><button class="btn small" data-icon-size="2" type="button">Size 2</button></div>
+    <div class="icon-matrix"><div class="icon-table" id="iconTable"></div></div>
+  </section>
 
-  <script>
-    const pools={
-      simple:["Armourer's Scrap","Jeweller's Orb","Orb of Chance","Orb of Transmutation","Blacksmith's Whetstone","Orb of Binding"],
-      medium:["Chaos Orb","Exalted Orb","Orb of Alchemy","Orb of Regret","Vaal Orb","Stacked Deck","Gemcutter's Prism"],
-      high:["Divine Orb","Mirror of Kalandra","Fracturing Orb","Hinekora's Lock","Orb of Annulment","Awakener's Orb"],
-      league:["Ukatoa's Ducat","Telesia's Ducat","Tzamoto's Ducat","Dead Man's Sulphur","Message in a Bottle","Karui Enshrouding Crystal"]
-    };
-    const ground=document.getElementById('ground'),counter=document.getElementById('counter'),enabled=new Set(Object.keys(pools));let drops=[],soundEnabled=true,audioCtx=null;
-    const rand=(min,max)=>Math.random()*(max-min)+min,pick=arr=>arr[Math.floor(Math.random()*arr.length)];
+  <section class="section card lab-card" id="effects">
+    <div class="section-head"><div><div class="eyebrow">PlayEffect laboratory</div><h2>Все цвета луча</h2><p>Каждый цвет поддерживает постоянный эффект или временный вариант <code>Temp</code>.</p></div></div>
+    <div class="effect-grid" id="effectGrid"></div>
+    <div class="selected-line">Пример: PlayEffect Green &nbsp; / &nbsp; PlayEffect Green Temp</div>
+  </section>
 
-    function createDrop(tier,name,x,y){const el=document.createElement('div');el.className=`ground-label ${tier}`;el.dataset.tier=tier;el.textContent=name;el.style.left=`${x}%`;el.style.top=`${y}%`;ground.appendChild(el);let beam=null;if(tier==='high'){beam=document.createElement('div');beam.className='beam';beam.dataset.tier=tier;beam.style.left=`${x}%`;beam.style.top=`${y}%`;ground.appendChild(beam)}drops.push({tier,el,beam})}
-    function render(playSound=false){ground.innerHTML='';drops=[];const layout=[['simple',14,23],['medium',36,18],['league',68,22],['simple',80,43],['high',48,48],['medium',22,61],['league',70,68],['simple',39,79],['medium',86,82]];layout.forEach(([tier,x,y],i)=>{let name=pick(pools[tier]);if(i===4)name=Math.random()>.55?'Divine Orb':'Mirror of Kalandra';createDrop(tier,name,Math.max(8,Math.min(92,x+rand(-4,4))),Math.max(10,Math.min(90,y+rand(-3,3))))});applyVisibility();if(playSound&&soundEnabled&&enabled.has('high'))playDropSound()}
-    function applyVisibility(){let visible=0;drops.forEach(({tier,el,beam})=>{const on=enabled.has(tier);el.classList.toggle('hidden',!on);if(beam)beam.classList.toggle('hidden',!on);if(on)visible++});counter.textContent=`${visible} предметов`}
+  <section class="section card lab-card" id="tools">
+    <div class="section-head"><div><div class="eyebrow">Filter toolkit</div><h2>Другие инструменты фильтра</h2><p>Основные команды, которые мы будем постепенно подключать к визуальному редактору uPOE.</p></div></div>
+    <div class="tool-grid">
+      <div class="tool-card"><h3>Label colours</h3><code>SetTextColor<br>SetBackgroundColor<br>SetBorderColor</code><p>RGB + alpha для текста, фона и рамки.</p></div>
+      <div class="tool-card"><h3>Font</h3><code>SetFontSize 1–45</code><p>Размер игровой надписи предмета.</p></div>
+      <div class="tool-card"><h3>Built-in sound</h3><code>PlayAlertSound 1–16 0–300</code><p>Обычный встроенный alert.</p></div>
+      <div class="tool-card"><h3>Positional sound</h3><code>PlayAlertSoundPositional</code><p>Alert звучит из 3D-позиции предмета.</p></div>
+      <div class="tool-card"><h3>Custom sound</h3><code>CustomAlertSound<br>CustomAlertSoundOptional</code><p>Свой mp3/wav/другой поддерживаемый файл.</p></div>
+      <div class="tool-card"><h3>Drop sound flags</h3><code>DisableDropSound<br>EnableDropSound<br>DisableDropSoundIfAlertSound</code><p>Управление обычным физическим звуком падения.</p></div>
+      <div class="tool-card"><h3>Rule flow</h3><code>Show · Hide · Continue</code><p><code>Continue</code> позволяет предмету пройти к следующим правилам.</p></div>
+      <div class="tool-card"><h3>Composition</h3><code>Import "file.filter" Optional</code><p>Можно разбивать большой фильтр на отдельные файлы.</p></div>
+    </div>
+  </section>
 
-    function playDropSound(){
-      const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
-      audioCtx=audioCtx||new AC();if(audioCtx.state==='suspended')audioCtx.resume();const now=audioCtx.currentTime;
-      const master=audioCtx.createGain();master.gain.setValueAtTime(.0001,now);master.gain.exponentialRampToValueAtTime(.24,now+.015);master.gain.exponentialRampToValueAtTime(.0001,now+.55);master.connect(audioCtx.destination);
-      [[740,'sine',0],[1110,'triangle',.025],[1480,'sine',.055]].forEach(([freq,type,delay])=>{const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type=type;o.frequency.setValueAtTime(freq,now+delay);o.frequency.exponentialRampToValueAtTime(freq*.72,now+delay+.38);g.gain.setValueAtTime(.0001,now+delay);g.gain.exponentialRampToValueAtTime(.7,now+delay+.01);g.gain.exponentialRampToValueAtTime(.0001,now+delay+.42);o.connect(g);g.connect(master);o.start(now+delay);o.stop(now+delay+.45)});
-    }
+  <section class="section card lab-card" id="projects">
+    <div class="section-head"><div><div class="eyebrow">Open-source references</div><h2>Проекты, которые ускоряют uPOE</h2></div></div>
+    <div class="repo-grid">
+      <div class="repo-card"><strong>NeverSink-Filter</strong><span>Главный актуальный источник готовых PoE1 tier-листов и практических правил.</span></div>
+      <div class="repo-card"><strong>FilterBlade Public Assets · MIT</strong><span>Разрешённые к повторному использованию данные и метаданные FilterBlade.</span></div>
+      <div class="repo-card"><strong>Scalpel · AGPL-3.0</strong><span>Современные UX-идеи: filter editor, economy audit, checkpoints. Код напрямую не копируем.</span></div>
+      <div class="repo-card"><strong>wraeblast · MIT</strong><span>Генерация фильтров, экономика poe.ninja и TTS alert sounds — интересная база для будущей автоматизации.</span></div>
+    </div>
+    <div class="copyright-note">uPOE не содержит оригинальные игровые аудиофайлы Path of Exile. Названия команд и допустимые значения отображаются как техническая документация.</div>
+  </section>
 
-    document.getElementById('reroll').addEventListener('click',()=>render(true));document.getElementById('soundTest').addEventListener('click',playDropSound);
-    const soundToggle=document.getElementById('soundToggle');function syncSoundButton(){soundToggle.textContent=soundEnabled?'🔊 Звук: ВКЛ':'🔇 Звук: ВЫКЛ';soundToggle.classList.toggle('sound-on',soundEnabled);soundToggle.setAttribute('aria-pressed',String(soundEnabled))}soundToggle.addEventListener('click',()=>{soundEnabled=!soundEnabled;syncSoundButton();if(soundEnabled)playDropSound()});syncSoundButton();
-    document.querySelectorAll('[data-toggle]').forEach(btn=>btn.addEventListener('click',()=>{const tier=btn.dataset.toggle;enabled.has(tier)?enabled.delete(tier):enabled.add(tier);btn.classList.toggle('active',enabled.has(tier));applyVisibility()}));
-    document.querySelectorAll('[data-focus]').forEach(row=>row.addEventListener('click',()=>{const tier=row.dataset.focus;enabled.clear();enabled.add(tier);document.querySelectorAll('[data-toggle]').forEach(btn=>btn.classList.toggle('active',btn.dataset.toggle===tier));applyVisibility();if(tier==='high'&&soundEnabled)playDropSound()}));
+  <footer><span>uPOE · personal Path of Exile 1 loot filter</span><span>Filter laboratory · 29.08.2026</span></footer>
+</main>
 
-    const modal=document.getElementById('filterModal'),filterCode=document.getElementById('filterCode');let filterLoaded=false;
-    async function openFilter(){modal.classList.add('open');document.body.classList.add('modal-open');if(!filterLoaded){try{const res=await fetch('./uPOE.filter?ts='+Date.now());if(!res.ok)throw new Error('HTTP '+res.status);filterCode.textContent=await res.text();filterLoaded=true}catch(e){filterCode.textContent='Не удалось загрузить uPOE.filter. Используй кнопку «Открыть отдельно».\n\n'+e.message}}}
-    function closeFilter(){modal.classList.remove('open');document.body.classList.remove('modal-open')}
-    document.getElementById('showFilter').addEventListener('click',openFilter);document.getElementById('closeFilter').addEventListener('click',closeFilter);modal.addEventListener('click',e=>{if(e.target===modal)closeFilter()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeFilter()});
-    document.getElementById('copyFilter').addEventListener('click',async e=>{try{await navigator.clipboard.writeText(filterCode.textContent);const b=e.currentTarget,old=b.textContent;b.textContent='Скопировано ✓';setTimeout(()=>b.textContent=old,1200)}catch{e.currentTarget.textContent='Не удалось'}});
-    render(false);
-  </script>
+<div class="filter-modal" id="filterModal" role="dialog" aria-modal="true">
+  <div class="filter-panel"><div class="filter-head"><div class="filter-title"><strong>uPOE.filter</strong><span>актуальный файл из GitHub Pages</span></div><button class="btn small" id="copyFilter" type="button">Копировать</button><a class="btn small" href="./uPOE.filter" target="_blank">Открыть отдельно</a><button class="btn small" id="closeFilter" type="button">Закрыть</button></div><pre class="filter-code" id="filterCode"></pre></div>
+</div>
+<script src="./app.js"></script>
 </body>
 </html>
