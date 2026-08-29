@@ -26,7 +26,10 @@ uPOE использует числовую архитектуру, совмес�
 | 1100 | Особые модификаторы | UPSTREAM |
 | 1200 | Особые классы предметов | UPSTREAM |
 | 1300 | Особые варианты предметов | UPSTREAM |
-| 1400 | Links / recipes | UPSTREAM |
+| 1400 | Links / recipes — uPOE pink 4L / 5L / 6L | CUSTOM |
+| 1401 | 6-link Normal/Magic/Rare — hot pink, Sound 2, Pink beam | CUSTOM |
+| 1402 | 5-link Normal/Magic/Rare — medium pink | CUSTOM |
+| 1403 | 4-link Normal/Magic/Rare — dark pink | CUSTOM |
 | 1500 | High-level crafting bases | UPSTREAM |
 | 1600 | Endgame rare gear | UPSTREAM |
 | 1700 | Дополнительные правила rare gear | UPSTREAM |
@@ -75,6 +78,6 @@ uPOE использует числовую архитектуру, совмес�
 
 Когда мы берём следующую категорию, например `4300 Divination Cards`, мы создаём собственные правила с номером `4300` выше `Import`. После проверки в игре статус меняется с `UPSTREAM` на `CUSTOM` или `PARTIAL`.
 
-Подномера позволяют менять только один кусок категории. Например, внутри Currency у нас уже есть `4001` (TOP 1–5), `4002` (TOP 6–10), `4003` (остальной HIGH), `4004` (MEDIUM), `4005` (SIMPLE) и `4104` (Allflame).
+Подномера позволяют менять только один кусок категории. Например, `1401` — 6-link, `1402` — 5-link, `1403` — 4-link. В Currency у нас уже есть `4001` (TOP 1–5), `4002` (TOP 6–10), `4003` (остальной HIGH), `4004` (MEDIUM), `4005` (SIMPLE) и `4104` (Allflame).
 
 Таким образом, каталог остаётся стабильным, а NeverSink постепенно заменяется uPOE по одной категории без риска потерять остальные классы предметов.
