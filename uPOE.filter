@@ -22,6 +22,42 @@
 # See docs/CATALOG.md for the full numbered project map.
 
 # ==============================================================================================================
+# [[1400]] LINKS / RECIPES — uPOE PINK LINK HIERARCHY
+# Normal/Magic/Rare linked gear only. Unique items remain upstream so valuable unique styling is not overwritten.
+# 4L = dark/cool pink, 5L = brighter pink, 6L = hot pink + Sound 2 + permanent Pink beam.
+# Rules are ordered 6L -> 5L -> 4L for clarity and future extension.
+# ==============================================================================================================
+
+# [1401] SIX-LINK — HIGH
+Show
+    Rarity Normal Magic Rare
+    LinkedSockets 6
+    SetFontSize 45
+    SetTextColor 255 170 225 255
+    SetBackgroundColor 8 2 7 255
+    SetBorderColor 255 80 200 255
+    PlayAlertSound 2 300
+    PlayEffect Pink
+
+# [1402] FIVE-LINK — MEDIUM
+Show
+    Rarity Normal Magic Rare
+    LinkedSockets 5
+    SetFontSize 37
+    SetTextColor 240 135 205 255
+    SetBackgroundColor 18 7 15 250
+    SetBorderColor 185 75 150 255
+
+# [1403] FOUR-LINK — SIMPLE
+Show
+    Rarity Normal Magic Rare
+    LinkedSockets 4
+    SetFontSize 32
+    SetTextColor 205 125 185 255
+    SetBackgroundColor 20 10 17 245
+    SetBorderColor 110 55 95 255
+
+# ==============================================================================================================
 # [[4000]] CURRENCY — MAIN PRICE TIERS
 # ==============================================================================================================
 
