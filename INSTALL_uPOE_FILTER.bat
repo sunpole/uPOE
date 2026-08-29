@@ -37,7 +37,7 @@ if errorlevel 1 (
 echo.
 echo ==============================================
 echo uPOE - UPDATING NEVER SINK FOUNDATION
-necho ==============================================
+echo ==============================================
 
 del /Q "%NS_TEMP%" >nul 2>&1
 
@@ -135,7 +135,7 @@ if not "%NS_SOURCE_SIZE%"=="%NS_DEST_SIZE%" (
 echo.
 echo ==============================================
 echo uPOE + NEVER SINK FOUNDATION INSTALLED
-necho ==============================================
+echo ==============================================
 echo.
 echo uPOE:
 echo   %DEST%
@@ -145,7 +145,7 @@ echo   %NS_DEST%
 echo.
 for /f "tokens=*" %%V in ('findstr /C:"# VERSION:" "%NS_SOURCE%"') do echo NeverSink %%V
 for /f "tokens=*" %%V in ('findstr /C:"# TYPE:" "%NS_SOURCE%"') do echo NeverSink %%V
-necho.
+echo.
 echo In Path of Exile select item filter: uPOE
 echo If the game is already running, reload the item filter in Options.
 echo.
