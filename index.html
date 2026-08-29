@@ -7,6 +7,7 @@
   <meta name="description" content="uPOE — интерактивная лаборатория персонального loot-фильтра Path of Exile 1.">
   <title>uPOE — PoE1 Loot Filter Laboratory</title>
   <link rel="stylesheet" href="./styles.css">
+  <link rel="stylesheet" href="./tier-v05.css">
 </head>
 <body>
 <main class="shell">
@@ -18,7 +19,7 @@
   <section class="main-grid">
     <article class="card">
       <div class="head">
-        <div><div class="eyebrow">Currency v0.4 · playable price snapshot</div><h1>Как будет выглядеть дроп</h1><p class="lead">Случайный дроп показывает игровую ситуацию. Главный источник истины сейчас — скачиваемый <code>uPOE.filter</code>. Ценовые границы Currency: SIMPLE &lt;10c, MEDIUM 10c–&lt;1 Divine, HIGH ≥1 Divine.</p></div>
+        <div><div class="eyebrow">Currency v0.5 · four-tier hierarchy</div><h1>Как будет выглядеть дроп</h1><p class="lead">Главный источник истины — скачиваемый <code>uPOE.filter</code>. T1 — дешёвая Currency, T2 — средняя, T3 — дорогая, T4 — текущая лига и динамическая страховка для новой/неразмеченной Stackable Currency.</p></div>
         <div class="status">PoE 1 · uPOE</div>
       </div>
       <div class="toolbar">
@@ -37,38 +38,38 @@
     </article>
 
     <aside class="card sidebar">
-      <div><div class="eyebrow">uPOE visual system</div><h2>3 ценовых тира + League</h2><p class="muted">Цена теперь определяет SIMPLE / MEDIUM / HIGH. Вся HIGH-группа получает Sound 1 и постоянный зелёный луч. MinimapIcon оставляем только для десяти самых дорогих валют текущего снимка рынка.</p></div>
+      <div><div class="eyebrow">uPOE visual system</div><h2>4 тира Currency</h2><p class="muted">T1 стал чуть холоднее, T2 оставлен базовым, T3 стал теплее и желтее. T4 заметно отличается холодной морской рамкой, Sound 16 и зелёной Moon на миникарте.</p></div>
       <div class="legend">
-        <div class="legend-row"><div><span class="drop-label simple">Chromatic Orb</span><div class="rgb">145 190 75 / 15 20 14 / 72 100 45</div></div><div class="legend-meta">SIMPLE<br>&lt;10c<br>Font 32</div></div>
-        <div class="legend-row"><div><span class="drop-label medium">Orb of Annulment</span><div class="rgb">175 230 75 / 12 19 10 / 125 175 55</div></div><div class="legend-meta">MEDIUM<br>10c–&lt;1d<br>Font 37</div></div>
-        <div class="legend-row"><div><span class="drop-label high">Divine Orb</span><div class="rgb">205 255 70 / 3 7 2 / 185 255 45</div></div><div class="legend-meta">HIGH<br>≥1d<br>Font 45<br>Sound 1 + Green beam</div></div>
-        <div class="legend-row"><div><span class="drop-label league">Ukatoa's Ducat</span><div class="rgb">180 240 75 / 5 11 4 / 140 205 50</div></div><div class="legend-meta">LEAGUE<br>special<br>Font 41</div></div>
+        <div class="legend-row"><div><span class="drop-label simple">Chromatic Orb</span><div class="rgb">138 190 85 / 15 20 14 / 72 100 45</div></div><div class="legend-meta">TIER 1<br>&lt;10c<br>Font 32</div></div>
+        <div class="legend-row"><div><span class="drop-label medium">Orb of Annulment</span><div class="rgb">175 230 75 / 12 19 10 / 125 175 55</div></div><div class="legend-meta">TIER 2<br>10c–&lt;1d<br>Font 37</div></div>
+        <div class="legend-row"><div><span class="drop-label high">Divine Orb</span><div class="rgb">213 255 60 / 3 7 2 / 185 255 45</div></div><div class="legend-meta">TIER 3<br>≥1d<br>Font 45<br>Sound 1 + Green beam</div></div>
+        <div class="legend-row"><div><span class="drop-label league">NEW / LEAGUE RESOURCE</span><div class="rgb">213 255 60 / 5 11 4 / 45 175 215</div></div><div class="legend-meta">TIER 4<br>dynamic<br>Font 37<br>Sound 16 + Moon</div></div>
       </div>
-      <div class="notice"><strong>Ценовой закон:</strong><br><code>max(SIMPLE) &lt; min(MEDIUM) &lt; min(HIGH)</code><br>Неизвестная/новая Stackable Currency временно получает MEDIUM, а не SIMPLE.</div>
-      <div class="notice"><strong>MinimapIcon по цене:</strong><br>TOP 1–5 → <code>MinimapIcon 0 Green Cross</code><br>TOP 6–10 → <code>MinimapIcon 0 Green Circle</code><br>остальная валюта → без значка.</div>
-      <div class="notice"><strong>Важно:</strong> конкретный TOP‑10 — это снимок рынка, а не вечный список. Перед следующей большой версией Currency мы снова сверяем цены.</div>
-      <div class="notice"><strong>Звуки на сайте:</strong> PoE официально поддерживает встроенные ID 1–16. Оригинальные игровые аудиофайлы не включены в uPOE. В Sound Lab можно назначить свои локальные записи каждому ID; они сохраняются только в этом браузере.</div>
-      <div class="notice"><strong>Источник истины:</strong> игровой <code>uPOE.filter</code> из GitHub + актуальная экономика Allflame. Preview помогает визуально, но не заменяет проверку внутри игры.</div>
+      <div class="notice"><strong>Ценовой закон T1–T3:</strong><br><code>max(T1) &lt; min(T2) &lt; min(T3)</code><br>T1 &lt;10c, T2 10c–&lt;1 Divine, T3 ≥1 Divine.</div>
+      <div class="notice"><strong>TIER 4 / safety:</strong><br>Текущая лига + любая новая <code>Stackable Currency</code>, которой ещё нет в списках T1/T2/T3. Она автоматически получает тёплый текст, морскую рамку, <code>PlayAlertSound 16 300</code> и <code>MinimapIcon 1 Green Moon</code>.</div>
+      <div class="notice"><strong>MinimapIcon TIER 3:</strong><br>TOP 1–5 → <code>MinimapIcon 0 Green Cross</code><br>TOP 6–10 → <code>MinimapIcon 0 Green Circle</code><br>остальная T3 → без значка.</div>
+      <div class="notice"><strong>Важно:</strong> T4 относится к Currency/ресурсам. Общий fallback для брони, оружия и остальных ещё не разработанных классов остаётся обычным <code>Show</code> без Sound 16 и Moon.</div>
+      <div class="notice"><strong>Источник истины:</strong> игровой <code>uPOE.filter</code> из GitHub. Preview помогает визуально, но финальную читаемость проверяем внутри игры.</div>
     </aside>
   </section>
 
   <section class="section card lab-card" id="sounds">
-    <div class="section-head"><div><div class="eyebrow">Sound laboratory</div><h2>Все встроенные PlayAlertSound</h2><p>16 доступных ID. Можно использовать синтезированное DEMO или назначить каждому ID реальный локальный аудиофайл.</p></div></div>
+    <div class="section-head"><div><div class="eyebrow">Sound laboratory</div><h2>Все встроенные PlayAlertSound</h2><p>16 доступных ID. TIER 3 использует Sound 1, TIER 4 — Sound 16.</p></div></div>
     <div class="sound-grid" id="soundGrid"></div>
-    <div class="selected-line">Выбрано: <span id="selectedSound">PlayAlertSound 1 300</span></div>
+    <div class="selected-line">Проект: T3 → PlayAlertSound 1 300 &nbsp; / &nbsp; T4 → PlayAlertSound 16 300</div>
   </section>
 
   <section class="section card lab-card" id="icons">
     <div class="section-head"><div><div class="eyebrow">MinimapIcon laboratory</div><h2>12 форм × 11 цветов × 3 размера</h2><p>Официальные варианты PoE1. Размер 0 — самый большой, 2 — самый маленький.</p></div></div>
     <div class="icon-controls"><button class="btn small active" data-icon-size="0" type="button">Size 0</button><button class="btn small" data-icon-size="1" type="button">Size 1</button><button class="btn small" data-icon-size="2" type="button">Size 2</button></div>
     <div class="icon-matrix"><div class="icon-table" id="iconTable"></div></div>
-    <div class="selected-line">Currency assignment: TOP 1–5 → MinimapIcon 0 Green Cross &nbsp; / &nbsp; TOP 6–10 → MinimapIcon 0 Green Circle &nbsp; / &nbsp; остальные → без иконки</div>
+    <div class="selected-line">T3 TOP 1–5 → Size 0 Green Cross &nbsp; / &nbsp; T3 TOP 6–10 → Size 0 Green Circle &nbsp; / &nbsp; T4 → Size 1 Green Moon</div>
   </section>
 
   <section class="section card lab-card" id="effects">
     <div class="section-head"><div><div class="eyebrow">PlayEffect laboratory</div><h2>Все цвета луча</h2><p>Каждый цвет поддерживает постоянный эффект или временный вариант <code>Temp</code>.</p></div></div>
     <div class="effect-grid" id="effectGrid"></div>
-    <div class="selected-line">HIGH currency: PlayEffect Green — постоянный зелёный луч для всей HIGH-группы.</div>
+    <div class="selected-line">TIER 3: PlayEffect Green — постоянный зелёный луч для всей дорогой Currency.</div>
   </section>
 
   <section class="section card lab-card" id="tools">
@@ -96,13 +97,14 @@
     <div class="copyright-note">uPOE не содержит оригинальные игровые аудиофайлы Path of Exile. Названия команд и допустимые значения отображаются как техническая документация.</div>
   </section>
 
-  <footer><span>uPOE · personal Path of Exile 1 loot filter</span><span>Currency v0.4 · 29.08.2026</span></footer>
+  <footer><span>uPOE · personal Path of Exile 1 loot filter</span><span>Currency v0.5 · 29.08.2026</span></footer>
 </main>
 
 <div class="filter-modal" id="filterModal" role="dialog" aria-modal="true">
   <div class="filter-panel"><div class="filter-head"><div class="filter-title"><strong>uPOE.filter</strong><span>актуальный файл из GitHub Pages</span></div><button class="btn small" id="copyFilter" type="button">Копировать</button><a class="btn small" href="./uPOE.filter" target="_blank">Открыть отдельно</a><button class="btn small" id="closeFilter" type="button">Закрыть</button></div><pre class="filter-code" id="filterCode"></pre></div>
 </div>
 <script src="./app.js"></script>
+<script src="./currency-v05.js"></script>
 <script src="./local-sounds.js"></script>
 <script src="./sound-default.js"></script>
 <script src="./economy-tiers.js"></script>
