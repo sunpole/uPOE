@@ -5,8 +5,9 @@ uPOE использует числовую архитектуру, совмес�
 ## Статусы
 
 - `CUSTOM` — категория уже переопределена uPOE выше импортируемого foundation.
-- `PARTIAL` — часть категории уже наша, остальное временно берётся из foundation.
+- `PARTIAL` — часть категории уже наша, остальное ещё требует отдельной проработки.
 - `UPSTREAM` — пока полностью обслуживается NeverSink 0-SOFT через `Import`.
+- `SYSTEM` — служебный слой uPOE.
 
 ## Каталог
 
@@ -48,13 +49,13 @@ uPOE использует числовую архитектуру, совмес�
 | 3400 | Pseudo-map items | UPSTREAM |
 | 3500 | Прочие map-related items | UPSTREAM |
 | 3600 | Fragments / scarabs | UPSTREAM |
-| 3700 | Currency: специальные приоритетные случаи | CUSTOM |
-| 3800 | Currency: leveling exceptions | CUSTOM |
-| 3900 | Currency: stack-size exceptions | CUSTOM |
+| 3700 | Currency: специальные приоритетные случаи | PARTIAL |
+| 3800 | Currency: leveling exceptions | PARTIAL |
+| 3900 | Currency: stack-size exceptions | PARTIAL |
 | 4000 | Currency: основная ценовая система T1 / T2 / T3 | CUSTOM |
-| 4100 | Currency: специальные и лиговые ресурсы | CUSTOM |
+| 4100 | Currency: специальные и лиговые ресурсы | PARTIAL |
 | 4104 | Allflame / current league resources | CUSTOM |
-| 4200 | Currency: splinters и похожие ресурсы | CUSTOM |
+| 4200 | Currency: splinters и похожие ресурсы | PARTIAL |
 | 4300 | Divination Cards | UPSTREAM |
 | 4400 | Currency: dynamic / unclassified T4 fallback | CUSTOM |
 | 4500 | Quest-like items, слой 1 | UPSTREAM |
@@ -72,6 +73,8 @@ uPOE использует числовую архитектуру, совмес�
 
 ## Правило миграции
 
-Когда мы берём следующую категорию, например `4300 Divination Cards`, мы создаём собственные правила `4300` выше `Import`. После проверки в игре статус меняется с `UPSTREAM` на `CUSTOM` или `PARTIAL`.
+Когда мы берём следующую категорию, например `4300 Divination Cards`, мы создаём собственные правила с номером `4300` выше `Import`. После проверки в игре статус меняется с `UPSTREAM` на `CUSTOM` или `PARTIAL`.
+
+Подномера позволяют менять только один кусок категории. Например, внутри Currency у нас уже есть `4001` (TOP 1–5), `4002` (TOP 6–10), `4003` (остальной HIGH), `4004` (MEDIUM), `4005` (SIMPLE) и `4104` (Allflame).
 
 Таким образом, каталог остаётся стабильным, а NeverSink постепенно заменяется uPOE по одной категории без риска потерять остальные классы предметов.
