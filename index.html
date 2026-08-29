@@ -44,13 +44,13 @@
         <div class="legend-row"><div><span class="drop-label high">Divine Orb</span><div class="rgb">205 255 70 / 3 7 2 / 185 255 45</div></div><div class="legend-meta">HIGH<br>Font 45<br>sound + beam</div></div>
         <div class="legend-row"><div><span class="drop-label league">Ukatoa's Ducat</span><div class="rgb">180 240 75 / 5 11 4 / 140 205 50</div></div><div class="legend-meta">LEAGUE<br>Font 41</div></div>
       </div>
-      <div class="notice"><strong>Звуки на сайте:</strong> PoE официально поддерживает встроенные ID 1–16. Оригинальные игровые аудиофайлы не включены в uPOE; веб-страница использует короткие синтезированные демо. В самой игре выбранный ID воспроизводит настоящий встроенный звук.</div>
+      <div class="notice"><strong>Звуки на сайте:</strong> PoE официально поддерживает встроенные ID 1–16. Оригинальные игровые аудиофайлы не включены в uPOE. В Sound Lab можно назначить свои локальные записи каждому ID; они сохраняются только в этом браузере.</div>
       <div class="notice"><strong>Источник истины:</strong> синтаксис GGG + актуальные NeverSink/FilterBlade данные. Наше оформление и структура остаются собственными.</div>
     </aside>
   </section>
 
   <section class="section card lab-card" id="sounds">
-    <div class="section-head"><div><div class="eyebrow">Sound laboratory</div><h2>Все встроенные PlayAlertSound</h2><p>16 доступных ID. Нажатие выбирает ID для веб-превью HIGH.</p></div></div>
+    <div class="section-head"><div><div class="eyebrow">Sound laboratory</div><h2>Все встроенные PlayAlertSound</h2><p>16 доступных ID. Можно использовать синтезированное DEMO или назначить каждому ID реальный локальный аудиофайл.</p></div></div>
     <div class="sound-grid" id="soundGrid"></div>
     <div class="selected-line">Выбрано: <span id="selectedSound">PlayAlertSound 6 300</span></div>
   </section>
@@ -99,5 +99,6 @@
   <div class="filter-panel"><div class="filter-head"><div class="filter-title"><strong>uPOE.filter</strong><span>актуальный файл из GitHub Pages</span></div><button class="btn small" id="copyFilter" type="button">Копировать</button><a class="btn small" href="./uPOE.filter" target="_blank">Открыть отдельно</a><button class="btn small" id="closeFilter" type="button">Закрыть</button></div><pre class="filter-code" id="filterCode"></pre></div>
 </div>
 <script src="./app.js"></script>
+<script src="./local-sounds.js"></script>
 </body>
 </html>
