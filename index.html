@@ -18,7 +18,7 @@
   <section class="main-grid">
     <article class="card">
       <div class="head">
-        <div><div class="eyebrow">Currency v0.3 · live preview</div><h1>Как будет выглядеть дроп</h1><p class="lead">Случайный дроп показывает обычную игровую ситуацию. «Дроп всей валюты» выводит сразу все уже распределённые виды валюты без наложений. Масштаб земли можно менять вручную или автоматически вместить содержимое.</p></div>
+        <div><div class="eyebrow">Currency v0.4 · playable price snapshot</div><h1>Как будет выглядеть дроп</h1><p class="lead">Случайный дроп показывает игровую ситуацию. Главный источник истины сейчас — скачиваемый <code>uPOE.filter</code>. Ценовые границы Currency: SIMPLE &lt;10c, MEDIUM 10c–&lt;1 Divine, HIGH ≥1 Divine.</p></div>
         <div class="status">PoE 1 · uPOE</div>
       </div>
       <div class="toolbar">
@@ -37,17 +37,18 @@
     </article>
 
     <aside class="card sidebar">
-      <div><div class="eyebrow">uPOE visual system</div><h2>4 уровня валюты</h2><p class="muted">Одна салатовая цветовая семья, но разная заметность. Вся HIGH-группа получает Sound 1 и постоянный зелёный луч. MinimapIcon оставляем только для десяти самых дорогих валют.</p></div>
+      <div><div class="eyebrow">uPOE visual system</div><h2>3 ценовых тира + League</h2><p class="muted">Цена теперь определяет SIMPLE / MEDIUM / HIGH. Вся HIGH-группа получает Sound 1 и постоянный зелёный луч. MinimapIcon оставляем только для десяти самых дорогих валют текущего снимка рынка.</p></div>
       <div class="legend">
-        <div class="legend-row"><div><span class="drop-label simple">Orb of Transmutation</span><div class="rgb">145 190 75 / 15 20 14 / 72 100 45</div></div><div class="legend-meta">SIMPLE<br>Font 32</div></div>
-        <div class="legend-row"><div><span class="drop-label medium">Chaos Orb</span><div class="rgb">175 230 75 / 12 19 10 / 125 175 55</div></div><div class="legend-meta">MEDIUM<br>Font 37</div></div>
-        <div class="legend-row"><div><span class="drop-label high">Divine Orb</span><div class="rgb">205 255 70 / 3 7 2 / 185 255 45</div></div><div class="legend-meta">HIGH<br>Font 45<br>Sound 1 + Green beam</div></div>
-        <div class="legend-row"><div><span class="drop-label league">Ukatoa's Ducat</span><div class="rgb">180 240 75 / 5 11 4 / 140 205 50</div></div><div class="legend-meta">LEAGUE<br>Font 41</div></div>
+        <div class="legend-row"><div><span class="drop-label simple">Chromatic Orb</span><div class="rgb">145 190 75 / 15 20 14 / 72 100 45</div></div><div class="legend-meta">SIMPLE<br>&lt;10c<br>Font 32</div></div>
+        <div class="legend-row"><div><span class="drop-label medium">Orb of Annulment</span><div class="rgb">175 230 75 / 12 19 10 / 125 175 55</div></div><div class="legend-meta">MEDIUM<br>10c–&lt;1d<br>Font 37</div></div>
+        <div class="legend-row"><div><span class="drop-label high">Divine Orb</span><div class="rgb">205 255 70 / 3 7 2 / 185 255 45</div></div><div class="legend-meta">HIGH<br>≥1d<br>Font 45<br>Sound 1 + Green beam</div></div>
+        <div class="legend-row"><div><span class="drop-label league">Ukatoa's Ducat</span><div class="rgb">180 240 75 / 5 11 4 / 140 205 50</div></div><div class="legend-meta">LEAGUE<br>special<br>Font 41</div></div>
       </div>
+      <div class="notice"><strong>Ценовой закон:</strong><br><code>max(SIMPLE) &lt; min(MEDIUM) &lt; min(HIGH)</code><br>Неизвестная/новая Stackable Currency временно получает MEDIUM, а не SIMPLE.</div>
       <div class="notice"><strong>MinimapIcon по цене:</strong><br>TOP 1–5 → <code>MinimapIcon 0 Green Cross</code><br>TOP 6–10 → <code>MinimapIcon 0 Green Circle</code><br>остальная валюта → без значка.</div>
-      <div class="notice"><strong>Текущий TOP 10, Allflame:</strong><br>1 Mirror of Kalandra · 2 Hinekora's Lock · 3 Mirror Shard · 4 Reflecting Mist · 5 Foulborn Exalted Orb · 6 Tempering Orb · 7 Tainted Divine Teardrop · 8 Orb of Dominance · 9 Volatile Vaal Orb · 10 Refracting Fog.</div>
+      <div class="notice"><strong>Важно:</strong> конкретный TOP‑10 — это снимок рынка, а не вечный список. Перед следующей большой версией Currency мы снова сверяем цены.</div>
       <div class="notice"><strong>Звуки на сайте:</strong> PoE официально поддерживает встроенные ID 1–16. Оригинальные игровые аудиофайлы не включены в uPOE. В Sound Lab можно назначить свои локальные записи каждому ID; они сохраняются только в этом браузере.</div>
-      <div class="notice"><strong>Источник истины:</strong> синтаксис GGG + актуальные NeverSink/FilterBlade/poe.ninja economy data. Наше оформление и структура остаются собственными.</div>
+      <div class="notice"><strong>Источник истины:</strong> игровой <code>uPOE.filter</code> из GitHub + актуальная экономика Allflame. Preview помогает визуально, но не заменяет проверку внутри игры.</div>
     </aside>
   </section>
 
@@ -87,15 +88,15 @@
   <section class="section card lab-card" id="projects">
     <div class="section-head"><div><div class="eyebrow">Open-source references</div><h2>Проекты, которые ускоряют uPOE</h2></div></div>
     <div class="repo-grid">
-      <div class="repo-card"><strong>NeverSink-Filter</strong><span>Главный актуальный источник готовых PoE1 tier-листов и практических правил.</span></div>
-      <div class="repo-card"><strong>FilterBlade Public Assets · MIT</strong><span>Разрешённые к повторному использованию данные и метаданные FilterBlade.</span></div>
-      <div class="repo-card"><strong>Scalpel · AGPL-3.0</strong><span>Современные UX-идеи: filter editor, economy audit, checkpoints. Код напрямую не копируем.</span></div>
-      <div class="repo-card"><strong>wraeblast · MIT</strong><span>Генерация фильтров, экономика poe.ninja и TTS alert sounds — интересная база для будущей автоматизации.</span></div>
+      <div class="repo-card"><strong>NeverSink-Filter</strong><span>Актуальный практический источник PoE1 правил и BaseType.</span></div>
+      <div class="repo-card"><strong>FilterBlade</strong><span>Используем как внешний эталон для тестирования и прослушивания игровых alert ID.</span></div>
+      <div class="repo-card"><strong>Exiles Base / Currency Exchange</strong><span>Текущий рыночный ориентир для ценовых границ и переоценки Currency.</span></div>
+      <div class="repo-card"><strong>GGG Item Filter docs</strong><span>Источник истины по синтаксису Show/Hide, цветам, звуку, лучам и MinimapIcon.</span></div>
     </div>
     <div class="copyright-note">uPOE не содержит оригинальные игровые аудиофайлы Path of Exile. Названия команд и допустимые значения отображаются как техническая документация.</div>
   </section>
 
-  <footer><span>uPOE · personal Path of Exile 1 loot filter</span><span>Filter laboratory · 29.08.2026</span></footer>
+  <footer><span>uPOE · personal Path of Exile 1 loot filter</span><span>Currency v0.4 · 29.08.2026</span></footer>
 </main>
 
 <div class="filter-modal" id="filterModal" role="dialog" aria-modal="true">
@@ -104,5 +105,6 @@
 <script src="./app.js"></script>
 <script src="./local-sounds.js"></script>
 <script src="./sound-default.js"></script>
+<script src="./economy-tiers.js"></script>
 </body>
 </html>
