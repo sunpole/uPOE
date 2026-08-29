@@ -1,0 +1,15 @@
+# OS / editors
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Temporary / backup files
+*.tmp
+*.bak
+*.old
+*~
+
+# Local test/export files
+local/
+exports/
