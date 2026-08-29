@@ -1,0 +1,20 @@
+:root{
+  --simple-text:rgb(138 190 85);
+  --high-text:rgb(213 255 60);
+  --league-text:rgb(213 255 60);
+  --league-bg:rgb(5 11 4);
+  --league-border:rgb(45 175 215);
+}
+
+/* TIER 4 uses the same label scale as TIER 2, but a much colder sea-coloured border. */
+.drop-label.league{
+  color:var(--league-text);
+  background:var(--league-bg);
+  border:2px solid var(--league-border);
+  font-size:18px;
+  box-shadow:0 0 0 1px #020302,0 5px 12px #000,0 0 14px rgba(45,175,215,.12);
+}
+
+@media(max-width:700px){
+  .drop-label.league{font-size:16px}
+}
