@@ -4,51 +4,77 @@
 
 ## Быстро начать играть
 
-Актуальный игровой файл: **`uPOE.filter`** в корне репозитория.
+Источник истины — `uPOE.filter` в GitHub.
 
-1. Скачай `uPOE.filter` из GitHub.
-2. Положи его в папку:
+На Windows после `git pull` запускай:
 
 ```text
-C:\Users\<ТВОЁ_ИМЯ>\Documents\My Games\Path of Exile\
+INSTALL_uPOE_FILTER.bat
 ```
 
-3. В Path of Exile открой настройки Item Filter и выбери `uPOE`.
-4. После каждого нового коммита достаточно скачать свежий `uPOE.filter` и заменить старый файл.
+BAT автоматически:
 
-Пока API и автоматическая синхронизация не используются: **GitHub-файл является источником истины**.
+1. берёт наш `uPOE.filter`;
+2. скачивает актуальный официальный **NeverSink PoE1 0-SOFT**;
+3. проверяет, что это действительно 0-SOFT;
+4. сохраняет его локально как `vendor/NeverSink-0-SOFT.filter`;
+5. копирует оба файла в `Documents\My Games\Path of Exile\`;
+6. сохраняет предыдущие версии как `.bak`.
 
-## Live preview
+После этого в Path of Exile выбирай item filter **uPOE**. Если игра уже запущена — перезагрузи фильтр в Options.
 
-**Интерактивный предпросмотр дропа:** https://sunpole.github.io/uPOE/
+## Архитектура: uPOE поверх NeverSink
 
-Сайт показывает визуальную систему фильтра прямо в браузере: SIMPLE / MEDIUM / HIGH / Current League, пример расположения предметов на земле, размеры, цвета, контраст, звук/луч и MinimapIcon.
+uPOE теперь использует **NeverSink 0-SOFT как полный fallback foundation** для всех категорий, которые мы ещё не переделали.
 
-> Браузерный preview предназначен для проверки визуальной иерархии. Финальный размер текста, звук и игровые эффекты обязательно проверяются внутри Path of Exile, потому что игра использует собственный рендеринг и встроенные звуки.
+Порядок правил:
 
-Текущая цель проекта: как можно раньше иметь **играбельный фильтр**, а затем улучшать его по одному классу предметов, не ломая уже готовые правила.
+```text
+uPOE custom rules
+↓
+Currency T1 / T2 / T3 / T4
+↓
+будущие кастомные категории uPOE
+↓
+Import "NeverSink-0-SOFT.filter" Optional
+↓
+финальный safety Show
+```
 
-## Currency v0.4 — рабочая ценовая система
+Это значит: мы не переписываем весь PoE-фильтр с нуля. Пока категория не настроена нами, её обрабатывает полный NeverSink 0-SOFT. Когда мы переделываем, например, Divination Cards или Maps, новые правила uPOE ставятся **выше Import** и автоматически получают приоритет.
+
+NeverSink foundation пока покрывает, среди прочего:
+
+- Gold;
+- influenced / eldritch items;
+- хорошие identified mods;
+- rare gear;
+- crafting bases;
+- flasks и tinctures;
+- jewels и cluster jewels;
+- Heist gear;
+- gems;
+- maps;
+- fragments и scarabs;
+- divination cards;
+- uniques;
+- leveling gear;
+- safety rules для неизвестных предметов.
+
+Подробно: `docs/NEVERSINK-FOUNDATION.md`.
+
+## Currency v0.5 — наша система
 
 Основная единица стоимости — **Chaos Orb**.
 
-| Tier | Цена | Оформление |
+| Tier | Цена / смысл | Оформление |
 |---|---:|---|
-| SIMPLE | `< 10c` | тёмное салатовое, Font 32 |
-| MEDIUM | `>= 10c` и `< 1 Divine` | салатовое, Font 37 |
-| HIGH | `>= 1 Divine` | ярко-салатовое, Font 45, Sound 1, Green beam |
+| T1 SIMPLE | `< 10c` | холодный зелёно-морской, Font 32 |
+| T2 MEDIUM | `>= 10c` и `< 1 Divine` | базовый салатовый, Font 37 |
+| T3 HIGH | `>= 1 Divine` | тёплый жёлто-салатовый, Font 45, Sound 1, Green beam |
+| T4 DYNAMIC | league + неизвестная Stackable Currency | T3 text, морская рамка, Font 37, Sound 16, Green Moon size 1 |
 
-Обязательное правило:
-
-```text
-max(SIMPLE) < min(MEDIUM) < min(HIGH)
-```
-
-Новая или пока не проверенная Stackable Currency временно получает **MEDIUM**, а не SIMPLE. Это сделано специально, чтобы неизвестный дорогой предмет не выглядел слишком незаметно.
-
-### HIGH
-
-Для всей HIGH currency:
+Для HIGH:
 
 ```text
 PlayAlertSound 1 300
@@ -62,49 +88,75 @@ TOP 1–5  -> MinimapIcon 0 Green Cross
 TOP 6–10 -> MinimapIcon 0 Green Circle
 ```
 
-Остальная HIGH currency не получает MinimapIcon.
+Любая новая Stackable Currency, которой ещё нет в наших списках, автоматически попадает в T4 и остаётся заметной.
 
-### Current League / Allflame
+## Live preview
 
-Лиговая валюта пока сохраняет отдельный согласованный стиль: примерно как MEDIUM, но крупнее и с более тёмным фоном. Её детальное ценовое разделение будет уточняться после стабилизации основной Currency-группы.
+Интерактивный предпросмотр:
+
+https://sunpole.github.io/uPOE/
+
+Preview нужен для визуальной проверки. Реальный размер текста, встроенный звук и эффекты окончательно проверяем внутри Path of Exile.
+
+## Рабочий цикл
+
+```text
+меняем одну категорию
+↓
+commit в GitHub
+↓
+git pull
+↓
+INSTALL_uPOE_FILTER.bat
+↓
+reload uPOE в игре
+↓
+тестируем
+```
+
+Наш план — идти по одному блоку и постепенно заменять NeverSink собственным стилем и логикой uPOE, не теряя полноту рабочего фильтра между этапами.
 
 ## Основные принципы
 
-- фильтр остаётся читаемым вручную;
-- цена важнее старых фиксированных tier-листов;
-- экономику сверяем по текущему рынку лиги;
-- визуальный стиль — собственный;
-- изменения вносятся небольшими проверяемыми шагами;
-- основной рабочий файл: `uPOE.filter`;
-- всё, что ещё не разработано, пока остаётся видимым через DEVELOPMENT FALLBACK.
+- Currency уже принадлежит uPOE и не отдаётся NeverSink;
+- одна категория за один этап;
+- не скрывать неизвестное без страховки;
+- NeverSink используется как проверенная полная база, а не как финальный дизайн;
+- визуальный стиль и ценовая иерархия uPOE остаются собственными;
+- GitHub — источник истины проекта.
 
 ## Структура
 
 ```text
-index.html
 uPOE.filter
+INSTALL_uPOE_FILTER.bat
 README.md
-CHANGELOG.md
+index.html
 app.js
 styles.css
 local-sounds.js
+vendor/
+  README.md
+  NeverSink-0-SOFT.filter   <- скачивается локально, в Git не хранится
 docs/
+  NEVERSINK-FOUNDATION.md
+  ECONOMY-TIERS.md
   SOURCES.md
   FILTER-RULES.md
   COLOR-SYSTEM.md
   CURRENT-STATE.md
-  ECONOMY-TIERS.md
 references/
   currency-tiers.md
 ```
 
-## Источники
+## Источники и лицензии
 
-- Path of Exile Item Filter information — https://www.pathofexile.com/item-filter/about
+- GGG Item Filter documentation — https://www.pathofexile.com/item-filter/about
 - FilterBlade — https://www.filterblade.xyz/?game=Poe1
 - NeverSink Filter — https://github.com/NeverSinkDev/NeverSink-Filter
-- текущая экономика Allflame — данные Currency Exchange через публичные economy-источники
+
+NeverSink-Filter опубликован под MIT License. Upstream-файл сохраняет оригинальный заголовок, автора и ссылки. uPOE не выдаёт NeverSink foundation за собственную работу.
 
 ## Статус
 
-Проект находится в активной разработке. **Currency v0.4 уже можно использовать в игре.** Остальные классы предметов пока не скрываются: они показываются через общий fallback и будут оформляться дальше по одному классу.
+**uPOE Currency v0.5 + полный NeverSink 0-SOFT foundation** — текущая игровая архитектура. Теперь можно играть с полноценной базой и постепенно переделывать категории по одной.
