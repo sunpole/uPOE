@@ -1,7 +1,8 @@
 # ==============================================================================================================
 # uPOE — Path of Exile 1 Loot Filter
 # Target: PoE 1 — 3.29 Curse of the Allflame
-# Currency system: v0.5 — four-tier visual hierarchy
+# Currency system: v0.6 — price tiers + 1c attention marker
+# Gem system: v0.1 — grey / white / ice-blue hierarchy
 # Catalog: NeverSink-compatible numeric section architecture
 # Foundation: NeverSink 0-SOFT imported after uPOE custom rules
 # Price snapshot: 2026-08-29, Allflame
@@ -17,6 +18,8 @@
 #   TIER 2 / MEDIUM  >= 10c and < 1 Divine
 #   TIER 3 / HIGH    >= 1 Divine
 #   TIER 4 / LEAGUE + UNCLASSIFIED = current-league resources and any Stackable Currency not listed above
+# Within TIER 1, currency around 1c or more gets an attention marker: Sound 14 + Green Triangle size 0.
+# TIER 2 gets the same attention marker. TIER 3 keeps its stronger Sound 1 / beam / top-market icon system.
 # Market prices move. Explicit lists below are a playable snapshot, not a permanent economy database.
 # TIER 4 is intentionally conspicuous so a new/unpriced currency cannot silently look like a cheap TIER 1 drop.
 # See docs/CATALOG.md for the full numbered project map.
@@ -58,6 +61,100 @@ Show
     SetBorderColor 110 55 95 255
 
 # ==============================================================================================================
+# [[3000]] GEMS — uPOE GREY / WHITE / ICE-BLUE HIERARCHY
+# Inspired by NeverSink's split between exceptional/special gems and quality/levelled gems,
+# but intentionally simplified into three stable visual grades.
+# ==============================================================================================================
+
+# [3001] GEM TIER 3 — ICE-BLUE — EXCEPTIONAL / TRANSFIGURED / PREMIUM
+# Any exceptional or transfigured gem is always high priority.
+Show
+    Class == "Skill Gems" "Support Gems"
+    Exceptional True
+    SetFontSize 45
+    SetTextColor 228 250 255 255
+    SetBackgroundColor 6 11 14 255
+    SetBorderColor 130 220 235 255
+
+Show
+    Class == "Skill Gems" "Support Gems"
+    TransfiguredGem True
+    SetFontSize 45
+    SetTextColor 228 250 255 255
+    SetBackgroundColor 6 11 14 255
+    SetBorderColor 130 220 235 255
+
+# Awakened gems and the classic exceptional support gems are high priority even at low level/quality.
+Show
+    Class == "Skill Gems" "Support Gems"
+    BaseType "Awakened" "Empower Support" "Enhance Support" "Enlighten Support"
+    SetFontSize 45
+    SetTextColor 228 250 255 255
+    SetBackgroundColor 6 11 14 255
+    SetBorderColor 130 220 235 255
+
+# Level 21+ and quality 23+ are always top gem drops.
+Show
+    Class == "Skill Gems" "Support Gems"
+    GemLevel >= 21
+    SetFontSize 45
+    SetTextColor 228 250 255 255
+    SetBackgroundColor 6 11 14 255
+    SetBorderColor 130 220 235 255
+
+Show
+    Class == "Skill Gems" "Support Gems"
+    Quality >= 23
+    SetFontSize 45
+    SetTextColor 228 250 255 255
+    SetBackgroundColor 6 11 14 255
+    SetBorderColor 130 220 235 255
+
+# A normal 20/20 gem is also treated as high grade.
+Show
+    Class == "Skill Gems" "Support Gems"
+    GemLevel >= 20
+    Quality >= 20
+    SetFontSize 45
+    SetTextColor 228 250 255 255
+    SetBackgroundColor 6 11 14 255
+    SetBorderColor 130 220 235 255
+
+# [3002] GEM TIER 2 — WHITE — VAAL / LEVELLED / QUALITY
+Show
+    Class == "Skill Gems" "Support Gems"
+    BaseType "Vaal"
+    SetFontSize 37
+    SetTextColor 238 240 242 255
+    SetBackgroundColor 12 14 16 250
+    SetBorderColor 150 160 168 255
+
+Show
+    Class == "Skill Gems" "Support Gems"
+    GemLevel >= 18
+    SetFontSize 37
+    SetTextColor 238 240 242 255
+    SetBackgroundColor 12 14 16 250
+    SetBorderColor 150 160 168 255
+
+# NeverSink 0-SOFT also treats any quality gem as worth noticing; we keep that safety behaviour.
+Show
+    Class == "Skill Gems" "Support Gems"
+    Quality >= 1
+    SetFontSize 37
+    SetTextColor 238 240 242 255
+    SetBackgroundColor 12 14 16 250
+    SetBorderColor 150 160 168 255
+
+# [3003] GEM TIER 1 — GREY — ALL REMAINING GEMS
+Show
+    Class == "Skill Gems" "Support Gems"
+    SetFontSize 32
+    SetTextColor 155 165 172 255
+    SetBackgroundColor 16 18 20 245
+    SetBorderColor 78 88 96 255
+
+# ==============================================================================================================
 # [[4000]] CURRENCY — MAIN PRICE TIERS
 # ==============================================================================================================
 
@@ -97,6 +194,7 @@ Show
     PlayEffect Green
 
 # [4004] TIER 2 / MEDIUM — >= 10c AND < 1 DIVINE
+# Every TIER 2 currency is well above the ~1c attention floor, so it gets Sound 14 + Green Triangle size 0.
 Show
     Class == "Stackable Currency"
     BaseType == "Warlord's Exalted Orb" "Shaper's Exalted Orb" "Elder's Exalted Orb" "Sacred Crystallised Lifeforce" "Veiled Chaos Orb" "Sinistral Catalyst" "Redeemer's Exalted Orb" "Maven's Chisel of Proliferation" "Crystallised Rancour" "Eldritch Orb of Annulment" "Eldritch Chaos Orb" "Prismatic Catalyst" "Maven's Chisel of Scarabs" "Maven's Chisel of Divination" "Maven's Chisel of Procurement" "Crusader's Exalted Orb" "Foulborn Orb of Augmentation" "Tainted Chromatic Orb" "Orb of Intention" "Eldritch Exalted Orb" "Greater Eldritch Ember" "Tainted Armourer's Scrap" "Grand Eldritch Ember" "Foulborn Regal Orb" "Orb of Annulment" "Fertile Catalyst" "Coin of Desecration" "Coin of Restoration" "Coin of Knowledge" "Coin of Power" "Coin of Skill" "Chaotic Astrolabe" "Deceptive Astrolabe" "Fruiting Astrolabe" "Fungal Astrolabe" "Grasping Astrolabe" "Lightless Astrolabe" "Nameless Astrolabe" "Runic Astrolabe" "Templar Astrolabe" "Timeless Astrolabe" "Sacred Orb" "Tainted Chaos Orb" "Tainted Mythic Orb" "Tainted Orb of Fusing" "Orb of Unravelling" "Ritual Vessel"
@@ -104,12 +202,27 @@ Show
     SetTextColor 175 230 75 255
     SetBackgroundColor 12 19 10 250
     SetBorderColor 125 175 55 255
+    PlayAlertSound 14 300
+    MinimapIcon 0 Green Triangle
 
-# [4005] TIER 1 / SIMPLE — < 10c
-# Slightly colder than the previous lime: shifted toward a sea/cyan direction.
+# [4005] TIER 1+ / SIMPLE ATTENTION — approximately >= 0.9c AND < 10c
+# Same cold-green TIER 1 appearance, but worth an audible/map notification.
+# Snapshot examples: Chaos=1c, Exalted~1.5c, Chromatic~3c+, Stacked Deck~4.5c,
+# Gemcutter's Prism~1c+, and several catalysts in the 1–8c range.
 Show
     Class == "Stackable Currency"
-    BaseType == "Chaos Orb" "Armourer's Scrap" "Blacksmith's Whetstone" "Jeweller's Orb" "Orb of Binding" "Orb of Chance" "Alchemy Shard" "Alteration Shard" "Transmutation Shard" "Orb of Transmutation" "Orb of Augmentation" "Portal Scroll" "Scroll of Wisdom" "Chromatic Orb" "Stacked Deck" "Exalted Orb" "Orb of Fusing" "Orb of Alchemy" "Orb of Alteration" "Orb of Regret" "Orb of Scouring" "Orb of Unmaking" "Regal Orb" "Instilling Orb" "Blessed Orb" "Gemcutter's Prism" "Glassblower's Bauble" "Enkindling Orb" "Abrasive Catalyst" "Accelerating Catalyst" "Imbued Catalyst" "Intrinsic Catalyst" "Noxious Catalyst" "Tainted Catalyst" "Tempering Catalyst" "Turbulent Catalyst" "Unstable Catalyst" "Fracturing Shard" "Tainted Blacksmith's Whetstone" "Tainted Jeweller's Orb" "Greater Eldritch Ichor" "Lesser Eldritch Ember" "Lesser Eldritch Ichor" "Grand Eldritch Ichor" "Vaal Orb"
+    BaseType == "Chaos Orb" "Chromatic Orb" "Stacked Deck" "Exalted Orb" "Gemcutter's Prism" "Accelerating Catalyst" "Imbued Catalyst" "Intrinsic Catalyst" "Tainted Catalyst" "Tempering Catalyst" "Turbulent Catalyst" "Unstable Catalyst" "Fracturing Shard"
+    SetFontSize 32
+    SetTextColor 138 190 85 255
+    SetBackgroundColor 15 20 14 245
+    SetBorderColor 72 100 45 255
+    PlayAlertSound 14 300
+    MinimapIcon 0 Green Triangle
+
+# [4006] TIER 1 / SIMPLE LOW — remaining currency below the ~1c attention floor
+Show
+    Class == "Stackable Currency"
+    BaseType == "Armourer's Scrap" "Blacksmith's Whetstone" "Jeweller's Orb" "Orb of Binding" "Orb of Chance" "Alchemy Shard" "Alteration Shard" "Transmutation Shard" "Orb of Transmutation" "Orb of Augmentation" "Portal Scroll" "Scroll of Wisdom" "Orb of Fusing" "Orb of Alchemy" "Orb of Alteration" "Orb of Regret" "Orb of Scouring" "Orb of Unmaking" "Regal Orb" "Instilling Orb" "Blessed Orb" "Glassblower's Bauble" "Enkindling Orb" "Abrasive Catalyst" "Noxious Catalyst" "Tainted Blacksmith's Whetstone" "Tainted Jeweller's Orb" "Greater Eldritch Ichor" "Lesser Eldritch Ember" "Lesser Eldritch Ichor" "Grand Eldritch Ichor" "Vaal Orb"
     SetFontSize 32
     SetTextColor 138 190 85 255
     SetBackgroundColor 15 20 14 245
