@@ -43,8 +43,6 @@ Show
 # ==============================================================================================================
 
 # [0201] MARKET TOP 1–5 — BIG GREEN CROSS
-# Ultra-rare/high-value group. Some items can have no standing offer in a single exchange hour;
-# they remain in this safety-first top group based on established market value.
 Show
     Class == "Stackable Currency"
     BaseType == "Mirror of Kalandra" "Hinekora's Lock" "Mirror Shard" "Reflecting Mist" "Veiled Exalted Orb"
@@ -69,7 +67,6 @@ Show
     MinimapIcon 0 Green Circle
 
 # [0203] REMAINING VERIFIED / CONSERVATIVE HIGH
-# No minimap icon. All HIGH currency still gets Sound 1 + Green beam.
 Show
     Class == "Stackable Currency"
     BaseType == "Awakener's Orb" "Tailoring Orb" "Tempering Orb" "Fracturing Orb" "Orb of Conflict" "Hunter's Exalted Orb" "Dextral Catalyst" "Flesh of Xesht" "Exceptional Eldritch Ember" "Exceptional Eldritch Ichor" "Tainted Exalted Orb" "Orb of Remembrance" "Maven's Chisel of Avarice" "Valdo's Puzzle Box" "Eternal Orb" "Divine Orb"
@@ -82,7 +79,6 @@ Show
 
 # ==============================================================================================================
 # [0300] CURRENCY — MEDIUM (>= 10c and < 1 Divine)
-# Lime, slightly larger than ordinary currency, no alert sound.
 # ==============================================================================================================
 
 Show
@@ -95,12 +91,11 @@ Show
 
 # ==============================================================================================================
 # [0400] CURRENCY — SIMPLE (< 10c)
-# Dark lime, dark background, normal size.
 # ==============================================================================================================
 
 Show
     Class == "Stackable Currency"
-    BaseType == "Armourer's Scrap" "Blacksmith's Whetstone" "Jeweller's Orb" "Orb of Binding" "Orb of Chance" "Alchemy Shard" "Alteration Shard" "Transmutation Shard" "Orb of Transmutation" "Orb of Augmentation" "Portal Scroll" "Scroll of Wisdom" "Chromatic Orb" "Stacked Deck" "Exalted Orb" "Orb of Fusing" "Orb of Alchemy" "Orb of Alteration" "Orb of Regret" "Orb of Scouring" "Orb of Unmaking" "Regal Orb" "Instilling Orb" "Blessed Orb" "Gemcutter's Prism" "Glassblower's Bauble" "Enkindling Orb" "Abrasive Catalyst" "Accelerating Catalyst" "Imbued Catalyst" "Intrinsic Catalyst" "Noxious Catalyst" "Tainted Catalyst" "Tempering Catalyst" "Turbulent Catalyst" "Unstable Catalyst" "Fracturing Shard" "Tainted Blacksmith's Whetstone" "Tainted Jeweller's Orb" "Greater Eldritch Ichor" "Lesser Eldritch Ember" "Lesser Eldritch Ichor" "Grand Eldritch Ichor" "Vaal Orb"
+    BaseType == "Chaos Orb" "Armourer's Scrap" "Blacksmith's Whetstone" "Jeweller's Orb" "Orb of Binding" "Orb of Chance" "Alchemy Shard" "Alteration Shard" "Transmutation Shard" "Orb of Transmutation" "Orb of Augmentation" "Portal Scroll" "Scroll of Wisdom" "Chromatic Orb" "Stacked Deck" "Exalted Orb" "Orb of Fusing" "Orb of Alchemy" "Orb of Alteration" "Orb of Regret" "Orb of Scouring" "Orb of Unmaking" "Regal Orb" "Instilling Orb" "Blessed Orb" "Gemcutter's Prism" "Glassblower's Bauble" "Enkindling Orb" "Abrasive Catalyst" "Accelerating Catalyst" "Imbued Catalyst" "Intrinsic Catalyst" "Noxious Catalyst" "Tainted Catalyst" "Tempering Catalyst" "Turbulent Catalyst" "Unstable Catalyst" "Fracturing Shard" "Tainted Blacksmith's Whetstone" "Tainted Jeweller's Orb" "Greater Eldritch Ichor" "Lesser Eldritch Ember" "Lesser Eldritch Ichor" "Grand Eldritch Ichor" "Vaal Orb"
     SetFontSize 32
     SetTextColor 145 190 75 255
     SetBackgroundColor 15 20 14 245
