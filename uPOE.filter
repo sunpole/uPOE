@@ -1,15 +1,24 @@
 # ==============================================================================================================
 # uPOE — Path of Exile 1 Loot Filter
 # Target: PoE 1 — 3.29 Curse of the Allflame
-# Currency system: v0.3
+# Currency system: v0.4 — first playable price-based snapshot
+# Price snapshot: 2026-08-29, Allflame
+# Primary market unit: Chaos Orb; HIGH boundary: approximately 1 Divine Orb (~250c at snapshot time)
 # ==============================================================================================================
 
-# Rules are processed top-to-bottom. Current-league currency is intentionally placed first.
-# The rest of the filter is still under development, so a final Show fallback keeps unclassified items visible.
+# IMPORTANT
+# Rules are processed top-to-bottom.
+# Currency pricing is now the main tiering rule:
+#   SIMPLE  < 10c
+#   MEDIUM  >= 10c and < 1 Divine
+#   HIGH    >= 1 Divine
+# Market prices move. Explicit lists below are a playable snapshot, not a permanent economy database.
+# Unverified/new Stackable Currency falls back to MEDIUM so an unknown valuable drop is not visually understated.
 
 # ==============================================================================================================
-# [0100] CURRENCY — CURRENT LEAGUE / ALLFLAME
-# Style: medium lime, larger label, darker background, no alert sound yet.
+# [0100] CURRENT LEAGUE / ALLFLAME — SPECIAL VISUAL FAMILY
+# League items keep the previously approved special style for now.
+# Their detailed price split will be refined after the core Currency class is stable.
 # ==============================================================================================================
 
 Show
@@ -28,17 +37,17 @@ Show
     SetBorderColor 140 205 50 255
 
 # ==============================================================================================================
-# [0200] CURRENCY — HIGH
-# Style: bright lime, almost-black background, maximum label size, Sound 1 and permanent green beam.
-# Minimap icons are reserved only for the current top 10 currencies by market value.
-# Price snapshot: Allflame, 2026-08-29, sourced from live poe.ninja-based economy data.
+# [0200] CURRENCY — HIGH (>= 1 Divine)
+# Bright lime + black contrast + Sound 1 + permanent green beam.
+# Minimap icons are reserved only for the market TOP 10 snapshot.
 # ==============================================================================================================
 
-# [0201] HIGH — MARKET TOP 1–5
-# Mirror of Kalandra, Hinekora's Lock, Mirror Shard, Reflecting Mist, Foulborn Exalted Orb
+# [0201] MARKET TOP 1–5 — BIG GREEN CROSS
+# Ultra-rare/high-value group. Some items can have no standing offer in a single exchange hour;
+# they remain in this safety-first top group based on established market value.
 Show
     Class == "Stackable Currency"
-    BaseType == "Mirror of Kalandra" "Hinekora's Lock" "Mirror Shard" "Reflecting Mist" "Foulborn Exalted Orb"
+    BaseType == "Mirror of Kalandra" "Hinekora's Lock" "Mirror Shard" "Reflecting Mist" "Veiled Exalted Orb"
     SetFontSize 45
     SetTextColor 205 255 70 255
     SetBackgroundColor 3 7 2 255
@@ -47,11 +56,10 @@ Show
     PlayEffect Green
     MinimapIcon 0 Green Cross
 
-# [0202] HIGH — MARKET TOP 6–10
-# Tempering Orb, Tainted Divine Teardrop, Orb of Dominance, Volatile Vaal Orb, Refracting Fog
+# [0202] MARKET TOP 6–10 — BIG GREEN CIRCLE
 Show
     Class == "Stackable Currency"
-    BaseType == "Tempering Orb" "Tainted Divine Teardrop" "Orb of Dominance" "Volatile Vaal Orb" "Refracting Fog"
+    BaseType == "Tainted Divine Teardrop" "Volatile Vaal Orb" "Orb of Dominance" "Refracting Fog" "Foulborn Exalted Orb"
     SetFontSize 45
     SetTextColor 205 255 70 255
     SetBackgroundColor 3 7 2 255
@@ -60,11 +68,11 @@ Show
     PlayEffect Green
     MinimapIcon 0 Green Circle
 
-# [0203] HIGH — REMAINING HIGH-TIER CURRENCY
-# No minimap icon. Sound 1 + permanent green beam remain for the whole HIGH grade.
+# [0203] REMAINING VERIFIED / CONSERVATIVE HIGH
+# No minimap icon. All HIGH currency still gets Sound 1 + Green beam.
 Show
     Class == "Stackable Currency"
-    BaseType == "Albino Rhoa Feather" "Ancient Orb" "Awakener's Orb" "Chaotic Astrolabe" "Coin of Knowledge" "Coin of Power" "Coin of Skill" "Crusader's Exalted Orb" "Crystallised Rancour" "Crescent Splinter" "Deceptive Astrolabe" "Dextral Catalyst" "Divine Orb" "Elder's Exalted Orb" "Eldritch Chaos Orb" "Eldritch Orb of Annulment" "Eternal Orb" "Exceptional Eldritch Ember" "Exceptional Eldritch Ichor" "Exotic Coinage" "Fertile Catalyst" "Flesh of Xesht" "Foulborn Regal Orb" "Fracturing Orb" "Fracturing Shard" "Fruiting Astrolabe" "Fungal Astrolabe" "Grand Eldritch Ember" "Grasping Astrolabe" "Hunter's Exalted Orb" "Lightless Astrolabe" "Maven's Chisel of Avarice" "Maven's Chisel of Divination" "Maven's Chisel of Procurement" "Maven's Chisel of Proliferation" "Maven's Chisel of Scarabs" "Memory of Loneliness" "Memory of Reverence" "Memory of Trauma" "Nameless Astrolabe" "Orb of Annulment" "Orb of Conflict" "Orb of Remembrance" "Orb of Unravelling" "Prismatic Catalyst" "Redeemer's Exalted Orb" "Ritual Vessel" "Runic Astrolabe" "Sacred Crystallised Lifeforce" "Sacred Orb" "Shaper's Exalted Orb" "Sinistral Catalyst" "Tainted Catalyst" "Tainted Chaos Orb" "Tainted Exalted Orb" "Tainted Mythic Orb" "Tainted Orb of Fusing" "Tailoring Orb" "Templar Astrolabe" "Timeless Astrolabe" "Unstable Catalyst" "Valdo's Puzzle Box" "Veiled Chaos Orb" "Veiled Exalted Orb" "Warlord's Exalted Orb"
+    BaseType == "Awakener's Orb" "Tailoring Orb" "Tempering Orb" "Fracturing Orb" "Orb of Conflict" "Hunter's Exalted Orb" "Dextral Catalyst" "Flesh of Xesht" "Exceptional Eldritch Ember" "Exceptional Eldritch Ichor" "Tainted Exalted Orb" "Orb of Remembrance" "Maven's Chisel of Avarice" "Valdo's Puzzle Box" "Eternal Orb" "Divine Orb"
     SetFontSize 45
     SetTextColor 205 255 70 255
     SetBackgroundColor 3 7 2 255
@@ -73,42 +81,45 @@ Show
     PlayEffect Green
 
 # ==============================================================================================================
-# [0300] CURRENCY — MEDIUM
-# Style: lime, slightly larger than normal, no alert sound.
+# [0300] CURRENCY — MEDIUM (>= 10c and < 1 Divine)
+# Lime, slightly larger than ordinary currency, no alert sound.
 # ==============================================================================================================
 
 Show
     Class == "Stackable Currency"
-    BaseType == "Abrasive Catalyst" "Accelerating Catalyst" "Astragali" "Blessed Orb" "Burial Medallion" "Chaos Orb" "Chromatic Orb" "Coin of Desecration" "Coin of Restoration" "Eldritch Exalted Orb" "Enkindling Orb" "Exalted Orb" "Foulborn Orb of Augmentation" "Gemcutter's Prism" "Glassblower's Bauble" "Grand Eldritch Ichor" "Greater Eldritch Ember" "Greater Eldritch Ichor" "Imbued Catalyst" "Instilling Orb" "Intrinsic Catalyst" "Lesser Eldritch Ember" "Lesser Eldritch Ichor" "Noxious Catalyst" "Orb of Alchemy" "Orb of Alteration" "Orb of Fusing" "Orb of Intention" "Orb of Regret" "Orb of Scouring" "Orb of Unmaking" "Regal Orb" "Ritual Splinter" "Scrap Metal" "Stacked Deck" "Tainted Armourer's Scrap" "Tainted Blacksmith's Whetstone" "Tainted Chromatic Orb" "Tainted Jeweller's Orb" "Tempering Catalyst" "Turbulent Catalyst" "Vaal Orb" "Veiled Scarab"
+    BaseType == "Warlord's Exalted Orb" "Shaper's Exalted Orb" "Elder's Exalted Orb" "Sacred Crystallised Lifeforce" "Veiled Chaos Orb" "Sinistral Catalyst" "Redeemer's Exalted Orb" "Maven's Chisel of Proliferation" "Crystallised Rancour" "Eldritch Orb of Annulment" "Eldritch Chaos Orb" "Prismatic Catalyst" "Maven's Chisel of Scarabs" "Maven's Chisel of Divination" "Maven's Chisel of Procurement" "Crusader's Exalted Orb" "Foulborn Orb of Augmentation" "Tainted Chromatic Orb" "Orb of Intention" "Eldritch Exalted Orb" "Greater Eldritch Ember" "Tainted Armourer's Scrap" "Grand Eldritch Ember" "Foulborn Regal Orb" "Orb of Annulment" "Fertile Catalyst" "Coin of Desecration" "Coin of Restoration" "Coin of Knowledge" "Coin of Power" "Coin of Skill" "Chaotic Astrolabe" "Deceptive Astrolabe" "Fruiting Astrolabe" "Fungal Astrolabe" "Grasping Astrolabe" "Lightless Astrolabe" "Nameless Astrolabe" "Runic Astrolabe" "Templar Astrolabe" "Timeless Astrolabe" "Sacred Orb" "Tainted Chaos Orb" "Tainted Mythic Orb" "Tainted Orb of Fusing" "Orb of Unravelling" "Ritual Vessel"
     SetFontSize 37
     SetTextColor 175 230 75 255
     SetBackgroundColor 12 19 10 250
     SetBorderColor 125 175 55 255
 
 # ==============================================================================================================
-# [0400] CURRENCY — SIMPLE
-# Style: dark lime, dark background, normal size.
+# [0400] CURRENCY — SIMPLE (< 10c)
+# Dark lime, dark background, normal size.
 # ==============================================================================================================
 
 Show
     Class == "Stackable Currency"
-    BaseType == "Armourer's Scrap" "Jeweller's Orb" "Orb of Binding" "Orb of Chance" "Alchemy Shard" "Alteration Shard" "Blacksmith's Whetstone" "Orb of Transmutation" "Orb of Augmentation" "Transmutation Shard" "Portal Scroll" "Scroll of Wisdom"
-    SetFontSize 32
-    SetTextColor 145 190 75 255
-    SetBackgroundColor 15 20 14 245
-    SetBorderColor 72 100 45 255
-
-# Safety fallback for stackable currencies not yet explicitly tiered (Essences, Oils, Fossils, future additions, etc.).
-# They stay visible with the SIMPLE style until their own class/section is designed.
-Show
-    Class == "Stackable Currency"
+    BaseType == "Armourer's Scrap" "Blacksmith's Whetstone" "Jeweller's Orb" "Orb of Binding" "Orb of Chance" "Alchemy Shard" "Alteration Shard" "Transmutation Shard" "Orb of Transmutation" "Orb of Augmentation" "Portal Scroll" "Scroll of Wisdom" "Chromatic Orb" "Stacked Deck" "Exalted Orb" "Orb of Fusing" "Orb of Alchemy" "Orb of Alteration" "Orb of Regret" "Orb of Scouring" "Orb of Unmaking" "Regal Orb" "Instilling Orb" "Blessed Orb" "Gemcutter's Prism" "Glassblower's Bauble" "Enkindling Orb" "Abrasive Catalyst" "Accelerating Catalyst" "Imbued Catalyst" "Intrinsic Catalyst" "Noxious Catalyst" "Tainted Catalyst" "Tempering Catalyst" "Turbulent Catalyst" "Unstable Catalyst" "Fracturing Shard" "Tainted Blacksmith's Whetstone" "Tainted Jeweller's Orb" "Greater Eldritch Ichor" "Lesser Eldritch Ember" "Lesser Eldritch Ichor" "Grand Eldritch Ichor" "Vaal Orb"
     SetFontSize 32
     SetTextColor 145 190 75 255
     SetBackgroundColor 15 20 14 245
     SetBorderColor 72 100 45 255
 
 # ==============================================================================================================
-# [9000] DEVELOPMENT FALLBACK
+# [0490] CURRENCY — UNVERIFIED / NEW SAFETY FALLBACK
+# Medium styling is intentional: unknown currency should not be visually downgraded to SIMPLE until priced.
+# ==============================================================================================================
+
+Show
+    Class == "Stackable Currency"
+    SetFontSize 37
+    SetTextColor 175 230 75 255
+    SetBackgroundColor 12 19 10 250
+    SetBorderColor 125 175 55 255
+
+# ==============================================================================================================
+# [9000] DEVELOPMENT FALLBACK — all other item classes remain visible while we build the filter class-by-class.
 # ==============================================================================================================
 
 Show
