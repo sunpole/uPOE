@@ -1,6 +1,6 @@
 # uPOE
 
-Собственный loot-фильтр для **Path of Exile 1**.
+Собственный loot-фильтр для **Path of Exile 1** с постепенной заменой NeverSink своими правилами.
 
 ## Быстро начать играть
 
@@ -15,148 +15,160 @@ INSTALL_uPOE_FILTER.bat
 BAT автоматически:
 
 1. берёт наш `uPOE.filter`;
-2. скачивает актуальный официальный **NeverSink PoE1 0-SOFT**;
-3. проверяет, что это действительно 0-SOFT;
+2. скачивает актуальный **NeverSink PoE1 0-SOFT**;
+3. проверяет foundation;
 4. сохраняет его локально как `vendor/NeverSink-0-SOFT.filter`;
 5. копирует оба файла в `Documents\My Games\Path of Exile\`;
 6. сохраняет предыдущие версии как `.bak`.
 
-После этого в Path of Exile выбирай item filter **uPOE**. Если игра уже запущена — перезагрузи фильтр в Options.
+В Path of Exile выбирай именно **uPOE**, не `NeverSink-0-SOFT`.
 
-## Архитектура: uPOE поверх NeverSink
+## Live laboratory
 
-uPOE теперь использует **NeverSink 0-SOFT как полный fallback foundation** для всех категорий, которые мы ещё не переделали.
+**https://sunpole.github.io/uPOE/**
 
-Порядок правил:
+Сайт — это живая витрина проекта:
+
+- Currency v0.6 с T1 low / T1+ / T2 / T3 / T4;
+- `1400` Links: 4L / 5L / 6L;
+- `3000` Gems: grey / white / ice-blue;
+- полный номерной каталог `0100–5400`;
+- статусы `CUSTOM / PARTIAL / UPSTREAM / SYSTEM`;
+- Sound Lab 1–16 + локальные пользовательские аудиофайлы;
+- MinimapIcon Lab;
+- PlayEffect Lab;
+- просмотр и скачивание актуального `uPOE.filter`.
+
+Игровой файл остаётся источником истины; браузерная лаборатория нужна для визуального контроля и проектирования.
+
+## Архитектура
 
 ```text
-uPOE custom rules
+uPOE CUSTOM RULES
 ↓
-Currency T1 / T2 / T3 / T4
-↓
-будущие кастомные категории uPOE
+[[1400]] Links
+[[3000]] Gems
+[[4000]] Currency
+[[4104]] Allflame
+[[4400]] Dynamic Currency fallback
 ↓
 Import "NeverSink-0-SOFT.filter" Optional
 ↓
-финальный safety Show
+[[9999]] FINAL SAFETY Show
 ```
 
-Это значит: мы не переписываем весь PoE-фильтр с нуля. Пока категория не настроена нами, её обрабатывает полный NeverSink 0-SOFT. Когда мы переделываем, например, Divination Cards или Maps, новые правила uPOE ставятся **выше Import** и автоматически получают приоритет.
+Пока категория не переделана нами, её обслуживает NeverSink 0-SOFT. Когда мы берём следующий номер, собственные правила uPOE ставятся **выше Import** и получают приоритет.
 
-NeverSink foundation пока покрывает, среди прочего:
+Полная карта проекта: `docs/CATALOG.md`.
 
-- Gold;
-- influenced / eldritch items;
-- хорошие identified mods;
-- rare gear;
-- crafting bases;
-- flasks и tinctures;
-- jewels и cluster jewels;
-- Heist gear;
-- gems;
-- maps;
-- fragments и scarabs;
-- divination cards;
-- uniques;
-- leveling gear;
-- safety rules для неизвестных предметов.
+## Уже CUSTOM
 
-Подробно: `docs/NEVERSINK-FOUNDATION.md`.
+### [[1400]] Links
 
-## Currency v0.5 — наша система
+- `1401` — 6-link: hot pink, Font 45, Sound 2, Pink beam;
+- `1402` — 5-link: medium pink, Font 37;
+- `1403` — 4-link: dark pink, Font 32.
 
-Основная единица стоимости — **Chaos Orb**.
+Сейчас правила применяются к Normal / Magic / Rare. Unique остаются foundation до отдельной переработки `4800`.
 
-| Tier | Цена / смысл | Оформление |
+### [[3000]] Gems
+
+- `3001` — ice-blue: Exceptional, Transfigured, Awakened, Empower/Enhance/Enlighten, GemLevel 21+, Quality 23+, 20/20;
+- `3002` — white: Vaal, GemLevel 18+, любое Quality;
+- `3003` — grey: остальные Skill / Support Gems.
+
+### [[4000]] Currency v0.6
+
+Основные экономические границы:
+
+| Слой | Цена / смысл | Сигнал |
 |---|---:|---|
-| T1 SIMPLE | `< 10c` | холодный зелёно-морской, Font 32 |
-| T2 MEDIUM | `>= 10c` и `< 1 Divine` | базовый салатовый, Font 37 |
-| T3 HIGH | `>= 1 Divine` | тёплый жёлто-салатовый, Font 45, Sound 1, Green beam |
-| T4 DYNAMIC | league + неизвестная Stackable Currency | T3 text, морская рамка, Font 37, Sound 16, Green Moon size 1 |
+| T1 LOW | `<≈0.9c` | без звука / иконки |
+| T1+ | `≈0.9c … <10c` | Sound 14 + Green Triangle size 0 |
+| T2 | `10c … <1 Divine` | Sound 14 + Green Triangle size 0 |
+| T3 | `>=1 Divine` | Sound 1 + Green beam |
+| T4 | league / unclassified | Sound 16 + Green Moon size 1 |
 
-Для HIGH:
+T1+ — **не новый экономический тир**, а attention-layer внутри T1.
 
-```text
-PlayAlertSound 1 300
-PlayEffect Green
-```
-
-Для наиболее дорогой валюты:
+Для T3:
 
 ```text
 TOP 1–5  -> MinimapIcon 0 Green Cross
 TOP 6–10 -> MinimapIcon 0 Green Circle
+остальная T3 -> без MinimapIcon, но Sound 1 + Green beam
 ```
 
-Любая новая Stackable Currency, которой ещё нет в наших списках, автоматически попадает в T4 и остаётся заметной.
+Любая новая Stackable Currency, которой ещё нет в наших списках, автоматически попадает в `4400` T4 и остаётся заметной.
 
-## Live preview
+## Номерной каталог
 
-Интерактивный предпросмотр:
+uPOE заимствует удобную номерную архитектуру NeverSink. Примеры:
 
-https://sunpole.github.io/uPOE/
+```text
+1400 Links
+3000 Gems
+3200 Special Maps
+3300 Maps
+3600 Fragments / Scarabs
+4000 Currency
+4300 Divination Cards
+4800 Uniques
+5300 Leveling
+5400 Normal / Magic + unknown safety
+```
 
-Preview нужен для визуальной проверки. Реальный размер текста, встроенный звук и эффекты окончательно проверяем внутри Path of Exile.
+Статусы:
+
+- `CUSTOM` — уже наша система;
+- `PARTIAL` — частично переработано;
+- `UPSTREAM` — пока обслуживает NeverSink;
+- `SYSTEM` — служебный слой uPOE.
 
 ## Рабочий цикл
 
 ```text
-меняем одну категорию
+берём один номер каталога
 ↓
-commit в GitHub
+изучаем NeverSink / GGG syntax
+↓
+делаем uPOE-версию выше Import
+↓
+обновляем docs/CATALOG.md и лабораторию
 ↓
 git pull
 ↓
 INSTALL_uPOE_FILTER.bat
 ↓
-reload uPOE в игре
-↓
-тестируем
+Reload uPOE в игре
 ```
 
-Наш план — идти по одному блоку и постепенно заменять NeverSink собственным стилем и логикой uPOE, не теряя полноту рабочего фильтра между этапами.
-
-## Основные принципы
-
-- Currency уже принадлежит uPOE и не отдаётся NeverSink;
-- одна категория за один этап;
-- не скрывать неизвестное без страховки;
-- NeverSink используется как проверенная полная база, а не как финальный дизайн;
-- визуальный стиль и ценовая иерархия uPOE остаются собственными;
-- GitHub — источник истины проекта.
-
-## Структура
+## Основные файлы
 
 ```text
 uPOE.filter
 INSTALL_uPOE_FILTER.bat
-README.md
 index.html
-app.js
 styles.css
+currency-v06.js
+app.js
+economy-tiers.js
 local-sounds.js
-vendor/
-  README.md
-  NeverSink-0-SOFT.filter   <- скачивается локально, в Git не хранится
-docs/
-  NEVERSINK-FOUNDATION.md
-  ECONOMY-TIERS.md
-  SOURCES.md
-  FILTER-RULES.md
-  COLOR-SYSTEM.md
-  CURRENT-STATE.md
-references/
-  currency-tiers.md
+sound-default.js
+docs/CATALOG.md
+docs/NEVERSINK-FOUNDATION.md
 ```
 
-## Источники и лицензии
+`vendor/NeverSink-0-SOFT.filter` скачивается BAT-файлом локально и в Git не хранится.
+
+## Источники
 
 - GGG Item Filter documentation — https://www.pathofexile.com/item-filter/about
 - FilterBlade — https://www.filterblade.xyz/?game=Poe1
 - NeverSink Filter — https://github.com/NeverSinkDev/NeverSink-Filter
 
-NeverSink-Filter опубликован под MIT License. Upstream-файл сохраняет оригинальный заголовок, автора и ссылки. uPOE не выдаёт NeverSink foundation за собственную работу.
+NeverSink-Filter опубликован под MIT License. uPOE использует его как внешний foundation и не выдаёт upstream-правила за собственные.
 
-## Статус
+## Текущий статус
 
-**uPOE Currency v0.5 + полный NeverSink 0-SOFT foundation** — текущая игровая архитектура. Теперь можно играть с полноценной базой и постепенно переделывать категории по одной.
+**Playable:** uPOE Currency v0.6 + Links + Gems + полный NeverSink 0-SOFT foundation. Дальше проект развивается по одному номерному разделу без потери полноты рабочего фильтра.
