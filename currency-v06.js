@@ -9,8 +9,8 @@
       "Alchemy Shard","Orb of Transmutation","Orb of Augmentation","Portal Scroll","Scroll of Wisdom",
       "Orb of Fusing","Orb of Alchemy","Orb of Alteration","Orb of Regret","Orb of Scouring","Orb of Unmaking",
       "Regal Orb","Instilling Orb","Blessed Orb","Glassblower's Bauble","Tainted Blacksmith's Whetstone",
-      "Tainted Jeweller's Orb","Greater Eldritch Ichor","Lesser Eldritch Ember","Lesser Eldritch Ichor",
-      "Vaal Orb","Orb of Intention"
+      "Tainted Jeweller's Orb","Greater Eldritch Ichor","Greater Eldritch Ember","Lesser Eldritch Ember",
+      "Lesser Eldritch Ichor","Vaal Orb","Orb of Intention"
     ],
     simplePlus: [
       "Chaos Orb","Alteration Shard","Noxious Catalyst","Enkindling Orb","Exalted Orb","Abrasive Catalyst",
@@ -23,13 +23,13 @@
       "Shaper's Exalted Orb","Elder's Exalted Orb","Sacred Crystallised Lifeforce","Veiled Chaos Orb",
       "Sinistral Catalyst","Redeemer's Exalted Orb","Maven's Chisel of Proliferation","Eldritch Orb of Annulment",
       "Eldritch Chaos Orb","Prismatic Catalyst","Maven's Chisel of Scarabs","Maven's Chisel of Divination",
-      "Maven's Chisel of Procurement","Crusader's Exalted Orb","Greater Eldritch Ember","Grand Eldritch Ember",
-      "Foulborn Regal Orb","Orb of Annulment","Fertile Catalyst","Coin of Desecration","Coin of Restoration",
-      "Coin of Knowledge","Coin of Power","Coin of Skill","Chaotic Astrolabe","Deceptive Astrolabe",
-      "Fruiting Astrolabe","Fungal Astrolabe","Grasping Astrolabe","Lightless Astrolabe","Nameless Astrolabe",
-      "Runic Astrolabe","Templar Astrolabe","Timeless Astrolabe","Sacred Orb","Tainted Mythic Orb",
-      "Tainted Orb of Fusing","Ritual Vessel","Transmutation Shard","Fracturing Shard","Flesh of Xesht",
-      "Exceptional Eldritch Ember","Exceptional Eldritch Ichor","Orb of Remembrance","Maven's Chisel of Avarice"
+      "Maven's Chisel of Procurement","Crusader's Exalted Orb","Grand Eldritch Ember","Foulborn Regal Orb",
+      "Orb of Annulment","Fertile Catalyst","Coin of Desecration","Coin of Restoration","Coin of Knowledge",
+      "Coin of Power","Coin of Skill","Chaotic Astrolabe","Deceptive Astrolabe","Fruiting Astrolabe",
+      "Fungal Astrolabe","Grasping Astrolabe","Lightless Astrolabe","Nameless Astrolabe","Runic Astrolabe",
+      "Templar Astrolabe","Timeless Astrolabe","Sacred Orb","Tainted Mythic Orb","Tainted Orb of Fusing",
+      "Ritual Vessel","Transmutation Shard","Fracturing Shard","Flesh of Xesht","Exceptional Eldritch Ember",
+      "Exceptional Eldritch Ichor","Orb of Remembrance","Maven's Chisel of Avarice"
     ],
     high: [
       "Mirror of Kalandra","Hinekora's Lock","Mirror Shard","Veiled Exalted Orb","Tainted Divine Teardrop",
