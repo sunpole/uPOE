@@ -4,107 +4,193 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="theme-color" content="#080c08">
-  <meta name="description" content="uPOE — интерактивная лаборатория персонального loot-фильтра Path of Exile 1.">
+  <meta name="description" content="uPOE — живая карта разработки и интерактивная лаборатория loot-фильтра Path of Exile 1.">
   <title>uPOE — PoE1 Loot Filter Laboratory</title>
   <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="./tier-v05.css">
 </head>
 <body>
 <main class="shell">
   <header class="topbar">
-    <a class="brand" href="./"><span class="mark"></span><span><div class="brand-title">uPOE</div><div class="brand-sub">PoE 1 loot filter laboratory</div></span></a>
-    <nav class="toplinks"><a class="linkbtn" href="https://github.com/sunpole/uPOE">GitHub</a><button class="linkbtn" id="showFilter" type="button">Показать весь фильтр</button></nav>
+    <a class="brand" href="./"><span class="mark"></span><span><div class="brand-title">uPOE</div><div class="brand-sub">PoE 1 loot filter · live laboratory</div></span></a>
+    <nav class="toplinks">
+      <a class="linkbtn download" href="./uPOE.filter" download>↓ Скачать uPOE.filter</a>
+      <a class="linkbtn" href="https://github.com/sunpole/uPOE" target="_blank" rel="noreferrer">GitHub</a>
+      <a class="linkbtn" href="https://www.filterblade.xyz/?game=Poe1" target="_blank" rel="noreferrer">FilterBlade</a>
+      <button class="linkbtn" id="showFilter" type="button">Код фильтра</button>
+    </nav>
   </header>
 
-  <section class="main-grid">
+  <section class="card project-hero">
+    <div class="hero-copy">
+      <div class="eyebrow">LIVE PROJECT MAP · PoE 1 · 3.29</div>
+      <h1>Витрина и лаборатория всего uPOE</h1>
+      <p class="lead">Игровой <code>uPOE.filter</code> — источник истины. Наши CUSTOM-правила стоят первыми, а всё ещё не переработанное обслуживает свежий <strong>NeverSink 0-SOFT</strong> через <code>Import</code>. Поэтому фильтр уже можно использовать в игре и постепенно заменять по одному номерному разделу.</p>
+    </div>
+    <div class="architecture-flow" aria-label="Архитектура фильтра">
+      <div class="flow-node ours"><strong>uPOE CUSTOM</strong><span>1400 · 3000 · 4000…</span></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node upstream"><strong>NeverSink 0-SOFT</strong><span>все UPSTREAM-разделы</span></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-node safety"><strong>9999 SAFETY</strong><span>последний Show</span></div>
+    </div>
+    <div class="overview-grid">
+      <a class="overview-card" href="#customSystems"><span class="status-badge custom">CUSTOM</span><strong id="countCustom">—</strong><small>готовых разделов / под-разделов</small></a>
+      <a class="overview-card" href="#catalog"><span class="status-badge partial">PARTIAL</span><strong id="countPartial">—</strong><small>частично перенесённых</small></a>
+      <a class="overview-card" href="#catalog"><span class="status-badge upstream">UPSTREAM</span><strong id="countUpstream">—</strong><small>пока ведёт NeverSink</small></a>
+      <a class="overview-card strong" href="./uPOE.filter" download><span class="status-badge system">PLAY</span><strong>uPOE</strong><small>скачать актуальный игровой файл</small></a>
+    </div>
+  </section>
+
+  <section class="main-grid section" id="currency">
     <article class="card">
       <div class="head">
-        <div><div class="eyebrow">Currency v0.5 · four-tier hierarchy</div><h1>Как будет выглядеть дроп</h1><p class="lead">Главный источник истины — скачиваемый <code>uPOE.filter</code>. T1 — дешёвая Currency, T2 — средняя, T3 — дорогая, T4 — текущая лига и динамическая страховка для новой/неразмеченной Stackable Currency.</p></div>
-        <div class="status">PoE 1 · uPOE</div>
+        <div>
+          <div class="eyebrow">[[4000]] Currency v0.6</div>
+          <h2>Живая симуляция Currency</h2>
+          <p class="lead">T1 теперь разделён только по уровню внимания: дешёвая T1 без сигнала и T1+ около 1c+ с Sound 14 + большим зелёным Triangle. Экономические границы T1/T2/T3 остаются прежними.</p>
+        </div>
+        <div class="status">CUSTOM · 4000/4104/4400</div>
       </div>
       <div class="toolbar">
         <button class="btn primary" id="reroll" type="button">Новый дроп</button>
-        <button class="btn active" data-mode="random" type="button">Случайный дроп</button>
-        <button class="btn" data-mode="all" type="button">Дроп ВСЕЙ валюты</button>
+        <button class="btn active" data-mode="random" type="button">Случайный</button>
+        <button class="btn" data-mode="all" type="button">Показать всю Currency</button>
         <button class="btn active" id="soundToggle" type="button">🔊 Звук: ВКЛ</button>
-        <button class="btn" id="soundTest" type="button">Тест звука</button>
         <span class="spacer"></span><span class="counter" id="counter"></span>
       </div>
       <div class="toolbar zoom-bar">
         <span class="eyebrow">Масштаб земли</span>
-        <button class="btn small" id="zoomOut" type="button">−</button><button class="btn small" id="zoomReset" type="button">100%</button><button class="btn small" id="zoomIn" type="button">+</button><button class="btn small" id="zoomFit" type="button">Вместить</button><span class="zoom-value" id="zoomValue">100%</span>
+        <button class="btn small" id="zoomOut" type="button">−</button>
+        <button class="btn small" id="zoomReset" type="button">100%</button>
+        <button class="btn small" id="zoomIn" type="button">+</button>
+        <button class="btn small" id="zoomFit" type="button">Вместить</button>
+        <span class="zoom-value" id="zoomValue">100%</span>
       </div>
       <div class="ground-viewport" id="groundViewport"><div class="ground-world" id="groundWorld"></div></div>
     </article>
 
     <aside class="card sidebar">
-      <div><div class="eyebrow">uPOE visual system</div><h2>4 тира Currency</h2><p class="muted">T1 стал чуть холоднее, T2 оставлен базовым, T3 стал теплее и желтее. T4 заметно отличается холодной морской рамкой, Sound 16 и зелёной Moon на миникарте.</p></div>
+      <div><div class="eyebrow">Currency visual law</div><h2>Сигналы цены</h2><p class="muted">Цвет показывает ценовой уровень, а звук/иконка — необходимость обратить внимание.</p></div>
       <div class="legend">
-        <div class="legend-row"><div><span class="drop-label simple">Chromatic Orb</span><div class="rgb">138 190 85 / 15 20 14 / 72 100 45</div></div><div class="legend-meta">TIER 1<br>&lt;10c<br>Font 32</div></div>
-        <div class="legend-row"><div><span class="drop-label medium">Orb of Annulment</span><div class="rgb">175 230 75 / 12 19 10 / 125 175 55</div></div><div class="legend-meta">TIER 2<br>10c–&lt;1d<br>Font 37</div></div>
-        <div class="legend-row"><div><span class="drop-label high">Divine Orb</span><div class="rgb">213 255 60 / 3 7 2 / 185 255 45</div></div><div class="legend-meta">TIER 3<br>≥1d<br>Font 45<br>Sound 1 + Green beam</div></div>
-        <div class="legend-row"><div><span class="drop-label league">NEW / LEAGUE RESOURCE</span><div class="rgb">213 255 60 / 5 11 4 / 45 175 215</div></div><div class="legend-meta">TIER 4<br>dynamic<br>Font 37<br>Sound 16 + Moon</div></div>
+        <div class="legend-row"><div><span class="drop-label simplelow">Orb of Fusing</span><div class="rgb">138 190 85 / 15 20 14 / 72 100 45</div></div><div class="legend-meta">T1 LOW<br>&lt;≈1c<br>Font 32<br>тихо</div></div>
+        <div class="legend-row"><div><span class="drop-label simpleplus">Chaos Orb</span><div class="rgb">тот же T1 style</div></div><div class="legend-meta">T1+<br>≈1c–&lt;10c<br>Sound 14<br>▲ Green 0</div></div>
+        <div class="legend-row"><div><span class="drop-label medium">Orb of Annulment</span><div class="rgb">175 230 75 / 12 19 10 / 125 175 55</div></div><div class="legend-meta">T2<br>10c–&lt;1d<br>Sound 14<br>▲ Green 0</div></div>
+        <div class="legend-row"><div><span class="drop-label high">Divine Orb</span><div class="rgb">213 255 60 / 3 7 2 / 185 255 45</div></div><div class="legend-meta">T3<br>≥1d<br>Sound 1<br>Green beam</div></div>
+        <div class="legend-row"><div><span class="drop-label league">NEW / LEAGUE</span><div class="rgb">213 255 60 / 5 11 4 / 45 175 215</div></div><div class="legend-meta">T4<br>dynamic<br>Sound 16<br>Moon Green 1</div></div>
       </div>
-      <div class="notice"><strong>Ценовой закон T1–T3:</strong><br><code>max(T1) &lt; min(T2) &lt; min(T3)</code><br>T1 &lt;10c, T2 10c–&lt;1 Divine, T3 ≥1 Divine.</div>
-      <div class="notice"><strong>TIER 4 / safety:</strong><br>Текущая лига + любая новая <code>Stackable Currency</code>, которой ещё нет в списках T1/T2/T3. Она автоматически получает тёплый текст, морскую рамку, <code>PlayAlertSound 16 300</code> и <code>MinimapIcon 1 Green Moon</code>.</div>
-      <div class="notice"><strong>MinimapIcon TIER 3:</strong><br>TOP 1–5 → <code>MinimapIcon 0 Green Cross</code><br>TOP 6–10 → <code>MinimapIcon 0 Green Circle</code><br>остальная T3 → без значка.</div>
-      <div class="notice"><strong>Важно:</strong> T4 относится к Currency/ресурсам. Общий fallback для брони, оружия и остальных ещё не разработанных классов остаётся обычным <code>Show</code> без Sound 16 и Moon.</div>
-      <div class="notice"><strong>Источник истины:</strong> игровой <code>uPOE.filter</code> из GitHub. Preview помогает визуально, но финальную читаемость проверяем внутри игры.</div>
+      <div class="notice"><strong>T3 TOP:</strong><br>TOP 1–5 → <code>Cross Green 0</code><br>TOP 6–10 → <code>Circle Green 0</code><br>вся T3 → Sound 1 + постоянный Green beam.</div>
+      <div class="notice"><strong>T4 safety:</strong><br>Новая <code>Stackable Currency</code>, которой ещё нет в списках, автоматически заметна и не превращается в дешёвый незаметный дроп.</div>
+      <div class="notice"><strong>Важно:</strong><br>цены — snapshot рынка. Имена в T1+/T2/T3 требуют периодической переоценки; оформление и структура при этом стабильны.</div>
     </aside>
   </section>
 
+  <section class="section card lab-card" id="customSystems">
+    <div class="section-head"><div><div class="eyebrow">CUSTOM SYSTEMS</div><h2>Уже наши разделы</h2><p>Эти правила находятся выше NeverSink Import и полностью управляются uPOE.</p></div></div>
+    <div class="system-grid">
+      <article class="system-card pink-system">
+        <div class="system-head"><div><span class="catalog-code">[[1400]]</span><h3>Links / Recipes</h3></div><span class="status-badge custom">CUSTOM</span></div>
+        <p>Розовая семья для Normal / Magic / Rare. Unique пока остаются NeverSink, чтобы не потерять ценную уникальную подсветку.</p>
+        <div class="sample-stack">
+          <div class="sample-row"><span class="drop-label link6">6 LINK</span><span>1401 · Font 45 · Sound 2 · Pink beam</span></div>
+          <div class="sample-row"><span class="drop-label link5">5 LINK</span><span>1402 · Font 37 · medium pink</span></div>
+          <div class="sample-row"><span class="drop-label link4">4 LINK</span><span>1403 · Font 32 · dark pink</span></div>
+        </div>
+      </article>
+
+      <article class="system-card gem-system">
+        <div class="system-head"><div><span class="catalog-code">[[3000]]</span><h3>Skill / Support Gems</h3></div><span class="status-badge custom">CUSTOM</span></div>
+        <p>Три стабильных уровня: обычный серый → заметный белый → премиальный почти белый ледяно-голубой.</p>
+        <div class="sample-stack">
+          <div class="sample-row"><span class="drop-label gem3">Awakened / 21+ / 23+ / 20·20</span><span>3001 · Exceptional / Transfigured / premium · Font 45</span></div>
+          <div class="sample-row"><span class="drop-label gem2">Vaal / lvl 18+ / Quality</span><span>3002 · Font 37 · white</span></div>
+          <div class="sample-row"><span class="drop-label gem1">Обычный Gem</span><span>3003 · Font 32 · grey</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section card lab-card" id="catalog">
+    <div class="section-head catalog-head">
+      <div><div class="eyebrow">NEVERSINK-COMPATIBLE NUMBERED ARCHITECTURE</div><h2>Каталог uPOE 0100–5400</h2><p id="catalogSummary">Загрузка каталога…</p></div>
+      <div class="catalog-controls">
+        <button class="btn small active" data-catalog="all" type="button">Все</button>
+        <button class="btn small" data-catalog="custom" type="button">CUSTOM</button>
+        <button class="btn small" data-catalog="partial" type="button">PARTIAL</button>
+        <button class="btn small" data-catalog="upstream" type="button">UPSTREAM</button>
+        <button class="btn small" data-catalog="system" type="button">SYSTEM</button>
+      </div>
+    </div>
+    <div class="catalog-wrap">
+      <table class="catalog-table">
+        <thead><tr><th>№</th><th>Категория</th><th>Статус</th></tr></thead>
+        <tbody id="catalogRows"></tbody>
+      </table>
+    </div>
+    <div class="notice catalog-note"><strong>Как мы работаем:</strong> выбираем номер, например <code>4300 Divination Cards</code> → изучаем правила NeverSink → создаём uPOE-версию выше Import → меняем статус на PARTIAL или CUSTOM. Всё остальное продолжает работать через foundation.</div>
+  </section>
+
   <section class="section card lab-card" id="sounds">
-    <div class="section-head"><div><div class="eyebrow">Sound laboratory</div><h2>Все встроенные PlayAlertSound</h2><p>16 доступных ID. TIER 3 использует Sound 1, TIER 4 — Sound 16.</p></div></div>
+    <div class="section-head"><div><div class="eyebrow">Sound laboratory</div><h2>PlayAlertSound 1–16</h2><p>Используемые uPOE ID подсвечены. Браузерное демо синтетическое; реальные встроенные звуки проверяются в игре или FilterBlade.</p></div></div>
     <div class="sound-grid" id="soundGrid"></div>
-    <div class="selected-line">Проект: T3 → PlayAlertSound 1 300 &nbsp; / &nbsp; T4 → PlayAlertSound 16 300</div>
+    <div class="selected-line"><span id="selectedSound">PlayAlertSound 1 300 — Currency T3 HIGH</span></div>
+    <div class="sound-actions"><button class="btn" id="soundTest" type="button">▶ Проиграть выбранное демо</button><a class="btn" href="https://www.filterblade.xyz/?game=Poe1" target="_blank" rel="noreferrer">Открыть FilterBlade</a></div>
   </section>
 
   <section class="section card lab-card" id="icons">
-    <div class="section-head"><div><div class="eyebrow">MinimapIcon laboratory</div><h2>12 форм × 11 цветов × 3 размера</h2><p>Официальные варианты PoE1. Размер 0 — самый большой, 2 — самый маленький.</p></div></div>
+    <div class="section-head"><div><div class="eyebrow">MinimapIcon laboratory</div><h2>12 форм × 11 цветов × 3 размера</h2><p>Размер 0 — самый большой. Текущие uPOE: Triangle 0, Cross 0, Circle 0 и Moon 1.</p></div></div>
     <div class="icon-controls"><button class="btn small active" data-icon-size="0" type="button">Size 0</button><button class="btn small" data-icon-size="1" type="button">Size 1</button><button class="btn small" data-icon-size="2" type="button">Size 2</button></div>
+    <div class="selected-line marker-summary">T1+/T2 → Green Triangle 0 · T3 TOP 1–5 → Green Cross 0 · T3 TOP 6–10 → Green Circle 0 · T4 → Green Moon 1</div>
     <div class="icon-matrix"><div class="icon-table" id="iconTable"></div></div>
-    <div class="selected-line">T3 TOP 1–5 → Size 0 Green Cross &nbsp; / &nbsp; T3 TOP 6–10 → Size 0 Green Circle &nbsp; / &nbsp; T4 → Size 1 Green Moon</div>
   </section>
 
   <section class="section card lab-card" id="effects">
-    <div class="section-head"><div><div class="eyebrow">PlayEffect laboratory</div><h2>Все цвета луча</h2><p>Каждый цвет поддерживает постоянный эффект или временный вариант <code>Temp</code>.</p></div></div>
+    <div class="section-head"><div><div class="eyebrow">PlayEffect laboratory</div><h2>Все цвета луча</h2><p>uPOE сейчас использует постоянный Green beam для T3 Currency и Pink beam для 6-link.</p></div></div>
     <div class="effect-grid" id="effectGrid"></div>
-    <div class="selected-line">TIER 3: PlayEffect Green — постоянный зелёный луч для всей дорогой Currency.</div>
   </section>
 
   <section class="section card lab-card" id="tools">
-    <div class="section-head"><div><div class="eyebrow">Filter toolkit</div><h2>Другие инструменты фильтра</h2><p>Основные команды, которые мы будем постепенно подключать к визуальному редактору uPOE.</p></div></div>
+    <div class="section-head"><div><div class="eyebrow">Filter toolkit</div><h2>Строительные блоки uPOE</h2></div></div>
     <div class="tool-grid">
-      <div class="tool-card"><h3>Label colours</h3><code>SetTextColor<br>SetBackgroundColor<br>SetBorderColor</code><p>RGB + alpha для текста, фона и рамки.</p></div>
-      <div class="tool-card"><h3>Font</h3><code>SetFontSize 1–45</code><p>Размер игровой надписи предмета.</p></div>
-      <div class="tool-card"><h3>Built-in sound</h3><code>PlayAlertSound 1–16 0–300</code><p>Обычный встроенный alert.</p></div>
-      <div class="tool-card"><h3>Positional sound</h3><code>PlayAlertSoundPositional</code><p>Alert звучит из 3D-позиции предмета.</p></div>
-      <div class="tool-card"><h3>Custom sound</h3><code>CustomAlertSound<br>CustomAlertSoundOptional</code><p>Свой mp3/wav/другой поддерживаемый файл.</p></div>
-      <div class="tool-card"><h3>Drop sound flags</h3><code>DisableDropSound<br>EnableDropSound<br>DisableDropSoundIfAlertSound</code><p>Управление обычным физическим звуком падения.</p></div>
-      <div class="tool-card"><h3>Rule flow</h3><code>Show · Hide · Continue</code><p><code>Continue</code> позволяет предмету пройти к следующим правилам.</p></div>
-      <div class="tool-card"><h3>Composition</h3><code>Import "file.filter" Optional</code><p>Можно разбивать большой фильтр на отдельные файлы.</p></div>
+      <div class="tool-card"><h3>Label colours</h3><code>SetTextColor<br>SetBackgroundColor<br>SetBorderColor</code><p>RGB(A) текста, фона и рамки.</p></div>
+      <div class="tool-card"><h3>Font</h3><code>SetFontSize 1–45</code><p>Размер игровой надписи.</p></div>
+      <div class="tool-card"><h3>Sound</h3><code>PlayAlertSound 1–16 0–300</code><p>1 = T3 Currency, 2 = 6L, 14 = attention, 16 = T4.</p></div>
+      <div class="tool-card"><h3>Map + beam</h3><code>MinimapIcon<br>PlayEffect</code><p>Иконка на карте и вертикальный луч.</p></div>
+      <div class="tool-card"><h3>Gem properties</h3><code>GemLevel<br>Quality<br>Exceptional<br>TransfiguredGem</code><p>Позволяют tiering без списков каждого обычного камня.</p></div>
+      <div class="tool-card"><h3>Links</h3><code>LinkedSockets 4/5/6</code><p>Розовая система 1400.</p></div>
+      <div class="tool-card"><h3>Rule flow</h3><code>Show · Hide · Continue</code><p>Правила читаются сверху вниз.</p></div>
+      <div class="tool-card"><h3>Foundation</h3><code>Import "NeverSink-0-SOFT.filter" Optional</code><p>Всё ещё не кастомизированное остаётся полноценным.</p></div>
     </div>
   </section>
 
-  <section class="section card lab-card" id="projects">
-    <div class="section-head"><div><div class="eyebrow">Open-source references</div><h2>Проекты, которые ускоряют uPOE</h2></div></div>
+  <section class="section card lab-card" id="sources">
+    <div class="section-head"><div><div class="eyebrow">Sources / foundation</div><h2>На чём стоит uPOE</h2></div></div>
     <div class="repo-grid">
-      <div class="repo-card"><strong>NeverSink-Filter</strong><span>Актуальный практический источник PoE1 правил и BaseType.</span></div>
-      <div class="repo-card"><strong>FilterBlade</strong><span>Используем как внешний эталон для тестирования и прослушивания игровых alert ID.</span></div>
-      <div class="repo-card"><strong>Exiles Base / Currency Exchange</strong><span>Текущий рыночный ориентир для ценовых границ и переоценки Currency.</span></div>
-      <div class="repo-card"><strong>GGG Item Filter docs</strong><span>Источник истины по синтаксису Show/Hide, цветам, звуку, лучам и MinimapIcon.</span></div>
+      <a class="repo-card" href="https://github.com/NeverSinkDev/NeverSink-Filter" target="_blank" rel="noreferrer"><strong>NeverSink 0-SOFT</strong><span>Полный foundation для разделов, которые мы ещё не перенесли.</span></a>
+      <a class="repo-card" href="https://www.filterblade.xyz/?game=Poe1" target="_blank" rel="noreferrer"><strong>FilterBlade</strong><span>Внешний эталон и тестирование реального поведения фильтров.</span></a>
+      <a class="repo-card" href="https://www.pathofexile.com/item-filter/about" target="_blank" rel="noreferrer"><strong>GGG Item Filter docs</strong><span>Официальный синтаксис условий, цветов, звуков, Import и эффектов.</span></a>
+      <a class="repo-card" href="https://github.com/sunpole/uPOE/blob/main/docs/CATALOG.md" target="_blank" rel="noreferrer"><strong>uPOE Catalog</strong><span>Живая карта номеров и статусов CUSTOM / PARTIAL / UPSTREAM.</span></a>
     </div>
-    <div class="copyright-note">uPOE не содержит оригинальные игровые аудиофайлы Path of Exile. Названия команд и допустимые значения отображаются как техническая документация.</div>
+    <div class="copyright-note">uPOE не распространяет оригинальные игровые аудиофайлы Path of Exile. NeverSink используется как внешний foundation; собственные правила uPOE постепенно перекрывают его сверху.</div>
   </section>
 
-  <footer><span>uPOE · personal Path of Exile 1 loot filter</span><span>Currency v0.5 · 29.08.2026</span></footer>
+  <footer><span>uPOE · personal Path of Exile 1 loot filter</span><span>Currency v0.6 · Gems v0.1 · live catalog</span></footer>
 </main>
 
 <div class="filter-modal" id="filterModal" role="dialog" aria-modal="true">
-  <div class="filter-panel"><div class="filter-head"><div class="filter-title"><strong>uPOE.filter</strong><span>актуальный файл из GitHub Pages</span></div><button class="btn small" id="copyFilter" type="button">Копировать</button><a class="btn small" href="./uPOE.filter" target="_blank">Открыть отдельно</a><button class="btn small" id="closeFilter" type="button">Закрыть</button></div><pre class="filter-code" id="filterCode"></pre></div>
+  <div class="filter-panel">
+    <div class="filter-head">
+      <div class="filter-title"><strong>uPOE.filter</strong><span>актуальный игровой файл из GitHub Pages</span></div>
+      <button class="btn small" id="copyFilter" type="button">Копировать</button>
+      <a class="btn small" href="./uPOE.filter" download>Скачать</a>
+      <a class="btn small" href="./uPOE.filter" target="_blank">Открыть отдельно</a>
+      <button class="btn small" id="closeFilter" type="button">Закрыть</button>
+    </div>
+    <pre class="filter-code" id="filterCode"></pre>
+  </div>
 </div>
+
+<script src="./currency-v06.js"></script>
 <script src="./app.js"></script>
-<script src="./currency-v05.js"></script>
 <script src="./local-sounds.js"></script>
 <script src="./sound-default.js"></script>
 <script src="./economy-tiers.js"></script>
