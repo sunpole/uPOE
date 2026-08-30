@@ -6,20 +6,26 @@
 
 Источник истины — `uPOE.filter` в GitHub.
 
-На Windows после `git pull` запускай:
+После того как локальная папка проекта уже получена из GitHub, на Windows достаточно запускать двойным кликом:
 
 ```text
 INSTALL_uPOE_FILTER.bat
 ```
 
-BAT автоматически:
+BAT теперь выполняет полный цикл одной кнопкой:
 
-1. берёт наш `uPOE.filter`;
-2. скачивает актуальный **NeverSink PoE1 0-SOFT**;
-3. проверяет foundation;
-4. сохраняет его локально как `vendor/NeverSink-0-SOFT.filter`;
-5. копирует оба файла в `Documents\My Games\Path of Exile\`;
-6. сохраняет предыдущие версии как `.bak`.
+1. проверяет Git и локальный репозиторий;
+2. убеждается, что активна ветка `main`;
+3. останавливается, если есть локальные несохранённые изменения;
+4. выполняет `git pull --ff-only origin main`;
+5. после успешной синхронизации берёт уже обновлённый `uPOE.filter`;
+6. скачивает и проверяет актуальный **NeverSink PoE1 0-SOFT**;
+7. сохраняет foundation как `vendor/NeverSink-0-SOFT.filter`;
+8. делает `.bak` предыдущих установленных фильтров;
+9. копирует `uPOE.filter` и `NeverSink-0-SOFT.filter` в `Documents\My Games\Path of Exile\`;
+10. проверяет размеры скопированных файлов.
+
+Если GitHub-синхронизация не удалась, установка останавливается — старый локальный `uPOE.filter` не копируется в игру как будто он новый.
 
 В Path of Exile выбирай именно **uPOE**, не `NeverSink-0-SOFT`.
 
@@ -29,6 +35,7 @@ BAT автоматически:
 
 Сайт — это живая витрина проекта:
 
+- случайный дроп разных классов предметов;
 - Currency v0.6 с T1 low / T1+ / T2 / T3 / T4;
 - `1400` Links: 4L / 5L / 6L;
 - `3000` Gems: grey / white / ice-blue;
@@ -136,9 +143,11 @@ uPOE заимствует удобную номерную архитектуру
 ↓
 обновляем docs/CATALOG.md и лабораторию
 ↓
-git pull
+двойной клик INSTALL_uPOE_FILTER.bat
 ↓
-INSTALL_uPOE_FILTER.bat
+BAT сам синхронизирует GitHub
+↓
+BAT обновляет NeverSink и переносит оба фильтра в PoE
 ↓
 Reload uPOE в игре
 ```
@@ -152,6 +161,7 @@ index.html
 styles.css
 currency-v06.js
 app.js
+showcase-v07.js
 economy-tiers.js
 local-sounds.js
 sound-default.js
@@ -171,4 +181,4 @@ NeverSink-Filter опубликован под MIT License. uPOE использ�
 
 ## Текущий статус
 
-**Playable:** uPOE Currency v0.6 + Links + Gems + полный NeverSink 0-SOFT foundation. Дальше проект развивается по одному номерному разделу без потери полноты рабочего фильтра.
+**Playable:** uPOE Currency v0.6 + Links + Gems + полный NeverSink 0-SOFT foundation. Локальная установка теперь обновляется одной кнопкой через GitHub sync → NeverSink update → Path of Exile install.
