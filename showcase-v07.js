@@ -1,8 +1,20 @@
 (() => {
   'use strict';
 
+  // app.js keeps the historical internal key `simplePlus`; from Currency v0.7
+  // that key represents the explicit T2B 0.9c–<10c attention tier.
+  if (typeof tierNames !== 'undefined') {
+    tierNames.simpleLow = 'T1 · LOW <0.9c';
+    tierNames.simplePlus = 'T2B · ATTENTION 0.9c–<10c';
+    tierNames.medium = 'T2A · MEDIUM 10c–<1d';
+    tierNames.high = 'T3 · HIGH ≥1 DIVINE';
+  }
+  if (typeof soundUsage !== 'undefined') soundUsage[14] = 'Currency T2B / T2A';
+
   const style = document.createElement('style');
   style.textContent = `
+    /* Exact web counterpart of uPOE.filter [4005] T2B. */
+    .drop-label.simpleplus{color:rgb(158 210 80);background:rgba(13,19,11,.973);border-color:rgb(98 138 50);font-size:17px}
     .drop-label.upstream{font-size:15px;color:#c8c2b6;background:#11100e;border-color:#655f55;font-weight:600}
     .drop-label.upstream.gold{color:#f0cf70;border-color:#8e7436;background:#171307}
     .drop-label.upstream.map{color:#e8e3d7;border-color:#7a7468;background:#12110f}
@@ -19,9 +31,41 @@
     .random-item .drop-wrap{align-items:flex-start}
     .quick-sound-status{font-size:10px;color:#72806e;padding:0 3px;white-space:nowrap}
     .drop-label.link6,.drop-label.link5,.drop-label.link4,.drop-label.gem3,.drop-label.gem2,.drop-label.gem1{white-space:nowrap}
-    @media(max-width:700px){.drop-label.upstream{font-size:12px}.upstream-signal{font-size:8px}.quick-sound-status{width:100%}}
+    @media(max-width:700px){.drop-label.simpleplus{font-size:15px}.drop-label.upstream{font-size:12px}.upstream-signal{font-size:8px}.quick-sound-status{width:100%}}
   `;
   document.head.appendChild(style);
+
+  function syncStaticCurrencyCopy(){
+    const section=document.getElementById('currency');
+    if(!section)return;
+    const eyebrow=section.querySelector('.head .eyebrow');
+    const heading=section.querySelector('.head h2');
+    const lead=section.querySelector('.head .lead');
+    if(eyebrow)eyebrow.textContent='[[4000]] Currency v0.7 · T2B attention';
+    if(heading)heading.textContent='Живая симуляция всего дропа';
+    if(lead)lead.innerHTML='Режим «Случайный весь дроп» смешивает Currency, Gems, Links и примеры UPSTREAM-классов. Кнопка «Вся Currency» показывает точные текущие списки uPOE: T1 &lt;0.9c → T2B 0.9–&lt;10c → T2A 10c–&lt;1 Divine → T3 ≥1 Divine.';
+
+    const rows=[...section.querySelectorAll('.legend-row')];
+    if(rows[0]){
+      const meta=rows[0].querySelector('.legend-meta');
+      if(meta)meta.innerHTML='T1 LOW<br>&lt;0.9c<br>Font 32<br>тихо';
+    }
+    if(rows[1]){
+      const rgb=rows[1].querySelector('.rgb');
+      const meta=rows[1].querySelector('.legend-meta');
+      if(rgb)rgb.textContent='158 210 80 / 13 19 11 / 98 138 50';
+      if(meta)meta.innerHTML='T2B<br>0.9c–&lt;10c<br>Font 35<br>Sound 14<br>▲ Green 0';
+    }
+    if(rows[2]){
+      const meta=rows[2].querySelector('.legend-meta');
+      if(meta)meta.innerHTML='T2A<br>10c–&lt;1d<br>Font 37<br>Sound 14<br>▲ Green 0';
+    }
+    const notices=[...section.querySelectorAll('.notice')];
+    if(notices[2])notices[2].innerHTML='<strong>Важно:</strong><br>Currency v0.7 пересортирована по свежему Allflame snapshot. Рыночные цены меняются, поэтому списки периодически пересматриваем; T2B начинается от 0.9 Chaos.';
+
+    const marker=document.querySelector('.marker-summary');
+    if(marker)marker.textContent='T2B/T2A → Green Triangle 0 · T3 TOP 1–5 → Green Cross 0 · T3 TOP 6–10 → Green Circle 0 · T4 → Green Moon 1';
+  }
 
   const upstreamPools = {
     gold:['Gold','Gold × 487','Gold × 1260'],
@@ -108,8 +152,6 @@
     layer.className='random-layer diverse-drop';
     groundWorld.appendChild(layer);
 
-    // One guaranteed alert item makes the laboratory useful for sound testing,
-    // while the rest of the board represents many different PoE drop classes.
     const alertTier=choice(['simplePlus','medium','high','league']);
     const linkKind=choice(['link4','link5','link6']);
     const alertId=alertSoundFor(alertTier, linkKind);
@@ -118,17 +160,14 @@
     addRandomItem(layer,currencyRenderer(alertTier),39,15,alertTier==='high'?'#65ff62':null);
     addRandomItem(layer,()=>customSimpleDrop(choice(['gem1','gem2','gem3'])),68,15);
     addRandomItem(layer,()=>customSimpleDrop(linkKind),86,29,linkKind==='link6'?'#ff62c8':null);
-
     addRandomItem(layer,()=>upstreamDrop('gold'),14,39);
     addRandomItem(layer,()=>upstreamDrop('map'),38,39);
     addRandomItem(layer,()=>upstreamDrop('scarab'),65,40);
     addRandomItem(layer,()=>upstreamDrop('divcard'),85,50);
-
     addRandomItem(layer,()=>upstreamDrop('unique'),13,62);
     addRandomItem(layer,()=>upstreamDrop('rare'),38,61);
     addRandomItem(layer,()=>upstreamDrop('flask'),63,63);
     addRandomItem(layer,()=>upstreamDrop('jewel'),84,69);
-
     addRandomItem(layer,()=>upstreamDrop('fragment'),18,82);
     addRandomItem(layer,()=>upstreamDrop('heist'),45,83);
     addRandomItem(layer,currencyRenderer(choice(['simplePlus','medium'])),72,84);
@@ -194,6 +233,7 @@
   const allButton=document.querySelector('[data-mode="all"]');
   if(allButton) allButton.textContent='Вся Currency';
 
+  syncStaticCurrencyCopy();
   installTopSoundTest();
   setTimeout(recoverSilentLocalOnly,350);
   setTimeout(()=>renderRandom(false),0);
