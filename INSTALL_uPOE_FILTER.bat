@@ -203,7 +203,7 @@ if not exist "%NS_SOURCE%" (
 
 rem Ask Windows for the real Documents folder. This also works when Documents
 rem is redirected to OneDrive or another location.
-for /f "delims=" %%I in ('powershell -NoProfile -Command "[Environment]::GetFolderPath(''MyDocuments'')"') do set "DOCS=%%I"
+for /f "delims=" %%I in ('powershell -NoProfile -Command "[Environment]::GetFolderPath([Environment+SpecialFolder]::MyDocuments)"') do set "DOCS=%%I"
 if not defined DOCS set "DOCS=%USERPROFILE%\Documents"
 
 set "DEST_DIR=%DOCS%\My Games\Path of Exile"
