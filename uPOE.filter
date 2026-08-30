@@ -1,25 +1,26 @@
 # ==============================================================================================================
 # uPOE — Path of Exile 1 Loot Filter
 # Target: PoE 1 — 3.29 Curse of the Allflame
-# Currency system: v0.6 — price tiers + 1c attention marker
+# Currency system: v0.7 — current price tiers + explicit T2B ~1c attention tier
 # Gem system: v0.1 — grey / white / ice-blue hierarchy
 # Catalog: NeverSink-compatible numeric section architecture
 # Foundation: NeverSink 0-SOFT imported after uPOE custom rules
-# Price snapshot: 2026-08-29, Allflame
-# Primary market unit: Chaos Orb; HIGH boundary: approximately 1 Divine Orb (~250c at snapshot time)
+# Price snapshot: late August 2026, Allflame; market values are approximate and move over time
+# Primary market unit: Chaos Orb
 # ==============================================================================================================
 
 # IMPORTANT
 # Rules are processed top-to-bottom.
 # uPOE custom rules always come BEFORE the NeverSink foundation. Once an item matches a uPOE rule,
 # it does not fall through to NeverSink. This lets us replace the foundation one numbered category at a time.
-# Currency pricing is the main tiering rule for known currency:
-#   TIER 1 / SIMPLE  < 10c
-#   TIER 2 / MEDIUM  >= 10c and < 1 Divine
-#   TIER 3 / HIGH    >= 1 Divine
+# Currency pricing for known currency:
+#   TIER 1 / SIMPLE LOW   < 0.9c
+#   TIER 2B / ATTENTION   >= 0.9c and < 10c
+#   TIER 2A / MEDIUM      >= 10c and < 1 Divine
+#   TIER 3 / HIGH         >= 1 Divine
 #   TIER 4 / LEAGUE + UNCLASSIFIED = current-league resources and any Stackable Currency not listed above
-# Within TIER 1, currency around 1c or more gets an attention marker: Sound 14 + Green Triangle size 0.
-# TIER 2 gets the same attention marker. TIER 3 keeps its stronger Sound 1 / beam / top-market icon system.
+# T2B is the explicit ~1 Chaos (+/-10%) attention layer requested for everyday valuable drops.
+# T2B and T2A both use Sound 14 + Green Triangle size 0. T3 keeps stronger Sound 1 / beam / TOP icons.
 # Market prices move. Explicit lists below are a playable snapshot, not a permanent economy database.
 # TIER 4 is intentionally conspicuous so a new/unpriced currency cannot silently look like a cheap TIER 1 drop.
 # See docs/CATALOG.md for the full numbered project map.
@@ -67,7 +68,6 @@ Show
 # ==============================================================================================================
 
 # [3001] GEM TIER 3 — ICE-BLUE — EXCEPTIONAL / TRANSFIGURED / PREMIUM
-# Any exceptional or transfigured gem is always high priority.
 Show
     Class == "Skill Gems" "Support Gems"
     Exceptional True
@@ -84,7 +84,6 @@ Show
     SetBackgroundColor 6 11 14 255
     SetBorderColor 130 220 235 255
 
-# Awakened gems and the classic exceptional support gems are high priority even at low level/quality.
 Show
     Class == "Skill Gems" "Support Gems"
     BaseType "Awakened" "Empower Support" "Enhance Support" "Enlighten Support"
@@ -93,7 +92,6 @@ Show
     SetBackgroundColor 6 11 14 255
     SetBorderColor 130 220 235 255
 
-# Level 21+ and quality 23+ are always top gem drops.
 Show
     Class == "Skill Gems" "Support Gems"
     GemLevel >= 21
@@ -110,7 +108,6 @@ Show
     SetBackgroundColor 6 11 14 255
     SetBorderColor 130 220 235 255
 
-# A normal 20/20 gem is also treated as high grade.
 Show
     Class == "Skill Gems" "Support Gems"
     GemLevel >= 20
@@ -137,7 +134,6 @@ Show
     SetBackgroundColor 12 14 16 250
     SetBorderColor 150 160 168 255
 
-# NeverSink 0-SOFT also treats any quality gem as worth noticing; we keep that safety behaviour.
 Show
     Class == "Skill Gems" "Support Gems"
     Quality >= 1
@@ -155,13 +151,13 @@ Show
     SetBorderColor 78 88 96 255
 
 # ==============================================================================================================
-# [[4000]] CURRENCY — MAIN PRICE TIERS
+# [[4000]] CURRENCY — CURRENT PRICE HIERARCHY
 # ==============================================================================================================
 
-# [4001] TIER 3 / HIGH — MARKET TOP 1–5 — BIG GREEN CROSS
+# [4001] TIER 3 / HIGH — CURRENT MARKET TOP 1–5 — BIG GREEN CROSS
 Show
     Class == "Stackable Currency"
-    BaseType == "Mirror of Kalandra" "Hinekora's Lock" "Mirror Shard" "Reflecting Mist" "Veiled Exalted Orb"
+    BaseType == "Mirror of Kalandra" "Hinekora's Lock" "Mirror Shard" "Veiled Exalted Orb" "Tainted Divine Teardrop"
     SetFontSize 45
     SetTextColor 213 255 60 255
     SetBackgroundColor 3 7 2 255
@@ -170,10 +166,10 @@ Show
     PlayEffect Green
     MinimapIcon 0 Green Cross
 
-# [4002] TIER 3 / HIGH — MARKET TOP 6–10 — BIG GREEN CIRCLE
+# [4002] TIER 3 / HIGH — CURRENT MARKET TOP 6–10 — BIG GREEN CIRCLE
 Show
     Class == "Stackable Currency"
-    BaseType == "Tainted Divine Teardrop" "Volatile Vaal Orb" "Orb of Dominance" "Refracting Fog" "Foulborn Exalted Orb"
+    BaseType == "Volatile Vaal Orb" "Reflecting Mist" "Foulborn Exalted Orb" "Orb of Dominance" "Awakener's Orb"
     SetFontSize 45
     SetTextColor 213 255 60 255
     SetBackgroundColor 3 7 2 255
@@ -182,10 +178,10 @@ Show
     PlayEffect Green
     MinimapIcon 0 Green Circle
 
-# [4003] TIER 3 / HIGH — REMAINING VERIFIED / CONSERVATIVE HIGH
+# [4003] TIER 3 / HIGH — >= 1 DIVINE OR CONSERVATIVE SPECIAL HIGH
 Show
     Class == "Stackable Currency"
-    BaseType == "Awakener's Orb" "Tailoring Orb" "Tempering Orb" "Fracturing Orb" "Orb of Conflict" "Hunter's Exalted Orb" "Dextral Catalyst" "Flesh of Xesht" "Exceptional Eldritch Ember" "Exceptional Eldritch Ichor" "Tainted Exalted Orb" "Orb of Remembrance" "Maven's Chisel of Avarice" "Valdo's Puzzle Box" "Eternal Orb" "Divine Orb"
+    BaseType == "Refracting Fog" "Warlord's Exalted Orb" "Crystallised Rancour" "Tailoring Orb" "Tempering Orb" "Fracturing Orb" "Orb of Conflict" "Hunter's Exalted Orb" "Dextral Catalyst" "Tainted Exalted Orb" "Valdo's Puzzle Box" "Eternal Orb" "Divine Orb"
     SetFontSize 45
     SetTextColor 213 255 60 255
     SetBackgroundColor 3 7 2 255
@@ -193,11 +189,10 @@ Show
     PlayAlertSound 1 300
     PlayEffect Green
 
-# [4004] TIER 2 / MEDIUM — >= 10c AND < 1 DIVINE
-# Every TIER 2 currency is well above the ~1c attention floor, so it gets Sound 14 + Green Triangle size 0.
+# [4004] TIER 2A / MEDIUM — >= 10c AND < 1 DIVINE
 Show
     Class == "Stackable Currency"
-    BaseType == "Warlord's Exalted Orb" "Shaper's Exalted Orb" "Elder's Exalted Orb" "Sacred Crystallised Lifeforce" "Veiled Chaos Orb" "Sinistral Catalyst" "Redeemer's Exalted Orb" "Maven's Chisel of Proliferation" "Crystallised Rancour" "Eldritch Orb of Annulment" "Eldritch Chaos Orb" "Prismatic Catalyst" "Maven's Chisel of Scarabs" "Maven's Chisel of Divination" "Maven's Chisel of Procurement" "Crusader's Exalted Orb" "Foulborn Orb of Augmentation" "Tainted Chromatic Orb" "Orb of Intention" "Eldritch Exalted Orb" "Greater Eldritch Ember" "Tainted Armourer's Scrap" "Grand Eldritch Ember" "Foulborn Regal Orb" "Orb of Annulment" "Fertile Catalyst" "Coin of Desecration" "Coin of Restoration" "Coin of Knowledge" "Coin of Power" "Coin of Skill" "Chaotic Astrolabe" "Deceptive Astrolabe" "Fruiting Astrolabe" "Fungal Astrolabe" "Grasping Astrolabe" "Lightless Astrolabe" "Nameless Astrolabe" "Runic Astrolabe" "Templar Astrolabe" "Timeless Astrolabe" "Sacred Orb" "Tainted Chaos Orb" "Tainted Mythic Orb" "Tainted Orb of Fusing" "Orb of Unravelling" "Ritual Vessel"
+    BaseType == "Shaper's Exalted Orb" "Elder's Exalted Orb" "Sacred Crystallised Lifeforce" "Veiled Chaos Orb" "Sinistral Catalyst" "Redeemer's Exalted Orb" "Maven's Chisel of Proliferation" "Eldritch Orb of Annulment" "Eldritch Chaos Orb" "Prismatic Catalyst" "Maven's Chisel of Scarabs" "Maven's Chisel of Divination" "Maven's Chisel of Procurement" "Crusader's Exalted Orb" "Greater Eldritch Ember" "Grand Eldritch Ember" "Foulborn Regal Orb" "Orb of Annulment" "Fertile Catalyst" "Coin of Desecration" "Coin of Restoration" "Coin of Knowledge" "Coin of Power" "Coin of Skill" "Chaotic Astrolabe" "Deceptive Astrolabe" "Fruiting Astrolabe" "Fungal Astrolabe" "Grasping Astrolabe" "Lightless Astrolabe" "Nameless Astrolabe" "Runic Astrolabe" "Templar Astrolabe" "Timeless Astrolabe" "Sacred Orb" "Tainted Mythic Orb" "Tainted Orb of Fusing" "Ritual Vessel" "Transmutation Shard" "Fracturing Shard" "Flesh of Xesht" "Exceptional Eldritch Ember" "Exceptional Eldritch Ichor" "Orb of Remembrance" "Maven's Chisel of Avarice"
     SetFontSize 37
     SetTextColor 175 230 75 255
     SetBackgroundColor 12 19 10 250
@@ -205,24 +200,23 @@ Show
     PlayAlertSound 14 300
     MinimapIcon 0 Green Triangle
 
-# [4005] TIER 1+ / SIMPLE ATTENTION — approximately >= 0.9c AND < 10c
-# Same cold-green TIER 1 appearance, but worth an audible/map notification.
-# Snapshot examples: Chaos=1c, Exalted~1.5c, Chromatic~3c+, Stacked Deck~4.5c,
-# Gemcutter's Prism~1c+, and several catalysts in the 1–8c range.
+# [4005] TIER 2B / ~1 CHAOS ATTENTION — >= 0.9c AND < 10c
+# Explicit intermediate visual grade: brighter than T1, slightly quieter/smaller than T2A.
+# Every item here gets the requested Sound 14 + biggest Green Triangle.
 Show
     Class == "Stackable Currency"
-    BaseType == "Chaos Orb" "Chromatic Orb" "Stacked Deck" "Exalted Orb" "Gemcutter's Prism" "Accelerating Catalyst" "Imbued Catalyst" "Intrinsic Catalyst" "Tainted Catalyst" "Tempering Catalyst" "Turbulent Catalyst" "Unstable Catalyst" "Fracturing Shard"
-    SetFontSize 32
-    SetTextColor 138 190 85 255
-    SetBackgroundColor 15 20 14 245
-    SetBorderColor 72 100 45 255
+    BaseType == "Chaos Orb" "Alteration Shard" "Noxious Catalyst" "Enkindling Orb" "Exalted Orb" "Abrasive Catalyst" "Imbued Catalyst" "Turbulent Catalyst" "Gemcutter's Prism" "Accelerating Catalyst" "Intrinsic Catalyst" "Tainted Armourer's Scrap" "Foulborn Orb of Augmentation" "Eldritch Exalted Orb" "Chromatic Orb" "Stacked Deck" "Tainted Chromatic Orb" "Grand Eldritch Ichor" "Tempering Catalyst" "Unstable Catalyst" "Orb of Unravelling" "Ancient Orb" "Tainted Catalyst" "Tainted Chaos Orb"
+    SetFontSize 35
+    SetTextColor 158 210 80 255
+    SetBackgroundColor 13 19 11 248
+    SetBorderColor 98 138 50 255
     PlayAlertSound 14 300
     MinimapIcon 0 Green Triangle
 
-# [4006] TIER 1 / SIMPLE LOW — remaining currency below the ~1c attention floor
+# [4006] TIER 1 / SIMPLE LOW — < 0.9c
 Show
     Class == "Stackable Currency"
-    BaseType == "Armourer's Scrap" "Blacksmith's Whetstone" "Jeweller's Orb" "Orb of Binding" "Orb of Chance" "Alchemy Shard" "Alteration Shard" "Transmutation Shard" "Orb of Transmutation" "Orb of Augmentation" "Portal Scroll" "Scroll of Wisdom" "Orb of Fusing" "Orb of Alchemy" "Orb of Alteration" "Orb of Regret" "Orb of Scouring" "Orb of Unmaking" "Regal Orb" "Instilling Orb" "Blessed Orb" "Glassblower's Bauble" "Enkindling Orb" "Abrasive Catalyst" "Noxious Catalyst" "Tainted Blacksmith's Whetstone" "Tainted Jeweller's Orb" "Greater Eldritch Ichor" "Lesser Eldritch Ember" "Lesser Eldritch Ichor" "Grand Eldritch Ichor" "Vaal Orb"
+    BaseType == "Armourer's Scrap" "Blacksmith's Whetstone" "Jeweller's Orb" "Orb of Binding" "Orb of Chance" "Alchemy Shard" "Orb of Transmutation" "Orb of Augmentation" "Portal Scroll" "Scroll of Wisdom" "Orb of Fusing" "Orb of Alchemy" "Orb of Alteration" "Orb of Regret" "Orb of Scouring" "Orb of Unmaking" "Regal Orb" "Instilling Orb" "Blessed Orb" "Glassblower's Bauble" "Tainted Blacksmith's Whetstone" "Tainted Jeweller's Orb" "Greater Eldritch Ichor" "Lesser Eldritch Ember" "Lesser Eldritch Ichor" "Vaal Orb" "Orb of Intention"
     SetFontSize 32
     SetTextColor 138 190 85 255
     SetBackgroundColor 15 20 14 245
@@ -233,7 +227,6 @@ Show
 # ==============================================================================================================
 
 # [4104] ALLFLAME / CURRENT LEAGUE — TIER 4
-# TIER 2 font size, TIER 3 warm-yellow text, cold sea border, Sound 16 and Green Moon size 1.
 Show
     Class == "Cursed Ducat"
     SetFontSize 37
