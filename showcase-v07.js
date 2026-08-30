@@ -15,23 +15,32 @@
   style.textContent = `
     /* Exact web counterpart of uPOE.filter [4005] T2B. */
     .drop-label.simpleplus{color:rgb(158 210 80);background:rgba(13,19,11,.973);border-color:rgb(98 138 50);font-size:17px}
-    .drop-label.upstream{font-size:15px;color:#c8c2b6;background:#11100e;border-color:#655f55;font-weight:600}
-    .drop-label.upstream.gold{color:#f0cf70;border-color:#8e7436;background:#171307}
-    .drop-label.upstream.map{color:#e8e3d7;border-color:#7a7468;background:#12110f}
-    .drop-label.upstream.divcard{color:#83d7f2;border-color:#3f8298;background:#071317}
-    .drop-label.upstream.unique{color:#d99b65;border-color:#8d5d39;background:#1a1008}
-    .drop-label.upstream.rare{color:#f1e36b;border-color:#8b7d32;background:#171506}
-    .drop-label.upstream.scarab{color:#c5b2f2;border-color:#715c9a;background:#100b18}
-    .drop-label.upstream.flask{color:#b8d8df;border-color:#5c7880;background:#0a1113}
-    .drop-label.upstream.jewel{color:#d5c7d8;border-color:#766a78;background:#120f13}
-    .drop-label.upstream.fragment{color:#c8d9ae;border-color:#647451;background:#0d120a}
-    .drop-label.upstream.heist{color:#c9b697;border-color:#746348;background:#151109}
+
+    /* UPSTREAM classes stay neutral until their real NeverSink section is mirrored. */
+    .drop-label.upstream{font-size:15px;color:#b7bab4;background:#101210;border-color:#4b5049;font-weight:600}
     .upstream-signal{display:flex;align-items:center;gap:5px;margin-top:3px;font-size:9px;color:#777b73;white-space:nowrap}
     .upstream-dot{width:5px;height:5px;border-radius:50%;background:#737b70;display:inline-block}
+
+    /* NeverSink [[0200]] Gold — exact RGB/threshold families, scaled for browser preview. */
+    .drop-label.ns-gold{font-weight:600;white-space:nowrap}
+    .drop-label.ns-gold.gold-low{font-size:17px;color:rgb(180 180 180);background:rgba(20,20,0,.706);border-color:rgb(0 0 0)}
+    .drop-label.ns-gold.gold-stack1{font-size:20px;color:rgb(255 255 255);background:rgb(20 20 0);border-color:rgb(255 255 255)}
+    .drop-label.ns-gold.gold-stack2{font-size:22px;color:rgb(255 255 255);background:rgb(20 20 0);border-color:rgb(255 255 255)}
+    .drop-label.ns-gold.gold-stack3{font-size:22px;color:rgb(235 200 110);background:rgb(20 20 0);border-color:rgb(235 200 110)}
+    .gold-signal{display:flex;align-items:center;gap:5px;margin-top:3px;font-size:9px;color:#989c91;white-space:nowrap}
+
     .random-item .drop-wrap{align-items:flex-start}
     .quick-sound-status{font-size:10px;color:#72806e;padding:0 3px;white-space:nowrap}
     .drop-label.link6,.drop-label.link5,.drop-label.link4,.drop-label.gem3,.drop-label.gem2,.drop-label.gem1{white-space:nowrap}
-    @media(max-width:700px){.drop-label.simpleplus{font-size:15px}.drop-label.upstream{font-size:12px}.upstream-signal{font-size:8px}.quick-sound-status{width:100%}}
+    @media(max-width:700px){
+      .drop-label.simpleplus{font-size:15px}
+      .drop-label.upstream{font-size:12px}
+      .drop-label.ns-gold.gold-low{font-size:14px}
+      .drop-label.ns-gold.gold-stack1{font-size:16px}
+      .drop-label.ns-gold.gold-stack2,.drop-label.ns-gold.gold-stack3{font-size:18px}
+      .upstream-signal,.gold-signal{font-size:8px}
+      .quick-sound-status{width:100%}
+    }
   `;
   document.head.appendChild(style);
 
@@ -68,7 +77,6 @@
   }
 
   const upstreamPools = {
-    gold:['Gold','Gold × 487','Gold × 1260'],
     map:['Dunes Map','Cemetery Map','Strand Map','Jungle Valley Map'],
     scarab:['Cartography Scarab','Ambush Scarab','Divination Scarab','Expedition Scarab'],
     divcard:['The Gambler','The Saint’s Treasure','The Nurse','Rain of Chaos'],
@@ -98,12 +106,56 @@
     const wrap=document.createElement('div');
     wrap.className='drop-wrap compact';
     const el=document.createElement('span');
-    el.className=`drop-label upstream ${kind}`;
+    el.className='drop-label upstream';
     el.textContent=choice(upstreamPools[kind]);
     wrap.appendChild(el);
     const meta=document.createElement('span');
     meta.className='upstream-signal';
-    meta.innerHTML='<span class="upstream-dot"></span><span>UPSTREAM · NeverSink 0-SOFT</span>';
+    meta.innerHTML='<span class="upstream-dot"></span><span>UPSTREAM · style not mirrored yet</span>';
+    wrap.appendChild(meta);
+    return wrap;
+  }
+
+  // Exact NeverSink [[0200]] Gold thresholds. The showcase uses campaign AreaLevel 60
+  // so stacks 50–149 follow the special campaign rule visible to a levelling character.
+  function goldDrop(){
+    const stack=choice([18,34,58,82,126,214,487,728,1260,3420]);
+    const areaLevel=60;
+    let css='gold-low';
+    let font=35;
+    let icon={color:'Grey',shape:'Cross',size:2};
+    let signal='Grey Cross 2';
+    let beamColor=null;
+
+    if(stack>=3001){
+      css='gold-stack3';font=45;
+      icon={color:'Yellow',shape:'Cross',size:1};
+      signal='Sound 2 · Orange beam · Yellow Cross 1';
+      beamColor=effectColors.Orange;
+    }else if(stack>=500){
+      css='gold-stack2';font=45;
+      icon={color:'White',shape:'Cross',size:1};
+      signal='Orange Temp beam · White Cross 1';
+      beamColor=effectColors.Orange;
+    }else if(stack>=150 || (stack>=50 && areaLevel<=68)){
+      css='gold-stack1';font=40;
+      icon={color:'Grey',shape:'Cross',size:2};
+      signal='Grey Cross 2';
+    }
+
+    const wrap=document.createElement('div');
+    wrap.className='drop-wrap compact';
+    if(beamColor) wrap.appendChild(beam(beamColor));
+
+    const el=document.createElement('span');
+    el.className=`drop-label ns-gold ${css}`;
+    el.textContent=`Gold × ${stack}`;
+    wrap.appendChild(el);
+
+    const meta=document.createElement('span');
+    meta.className='gold-signal';
+    const hex=effectColors[icon.color] || effectColors.Grey;
+    meta.innerHTML=`${iconSvg(icon.shape,hex,icon.size)}<span>NeverSink [[0200]] · Font ${font} · ${signal}</span>`;
     wrap.appendChild(meta);
     return wrap;
   }
@@ -160,7 +212,7 @@
     addRandomItem(layer,currencyRenderer(alertTier),39,15,alertTier==='high'?'#65ff62':null);
     addRandomItem(layer,()=>customSimpleDrop(choice(['gem1','gem2','gem3'])),68,15);
     addRandomItem(layer,()=>customSimpleDrop(linkKind),86,29,linkKind==='link6'?'#ff62c8':null);
-    addRandomItem(layer,()=>upstreamDrop('gold'),14,39);
+    addRandomItem(layer,goldDrop,14,39);
     addRandomItem(layer,()=>upstreamDrop('map'),38,39);
     addRandomItem(layer,()=>upstreamDrop('scarab'),65,40);
     addRandomItem(layer,()=>upstreamDrop('divcard'),85,50);
