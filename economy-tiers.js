@@ -23,26 +23,26 @@
   section.id='economy';
   section.innerHTML=`
     <div class="section-head">
-      <div><div class="eyebrow">[[4000]] Economy rules</div><h2>Currency v0.6 — цена + уровень внимания</h2><p>Основных экономических тира по-прежнему три. T1+ — не новый ценовой тир, а сигнал внимания внутри T1. T4 остаётся динамическим safety-слоем.</p></div>
+      <div><div class="eyebrow">[[4000]] Economy rules</div><h2>Currency v0.7 — T1 / T2B / T2A / T3</h2><p>T2B — отдельный промежуточный ценовой уровень от 0.9 Chaos. Он и T2A получают одинаковый сигнал внимания: Sound 14 + большой Green Triangle.</p></div>
       <span class="status-badge custom">CUSTOM</span>
     </div>
     <div class="economy-table-wrap">
       <table class="economy-table">
         <thead><tr><th>Слой</th><th>Диапазон</th><th>Вид</th><th>Сигнал</th><th>Смысл</th></tr></thead>
         <tbody>
-          <tr><td class="tier-name">T1 LOW</td><td class="range">&lt;≈0.9c</td><td>холодный зелёный · Font 32</td><td>—</td><td>дешёвая Currency без лишнего шума</td></tr>
-          <tr><td class="tier-name">T1+</td><td class="range">≈0.9c … &lt;10c</td><td>тот же T1 · Font 32</td><td>Sound 14 + Green Triangle 0</td><td>уже стоит заметить, но это всё ещё T1</td></tr>
-          <tr><td class="tier-name">T2</td><td class="range">10c … &lt;1d</td><td>салатовый · Font 37</td><td>Sound 14 + Green Triangle 0</td><td>средняя стоимость</td></tr>
+          <tr><td class="tier-name">T1 LOW</td><td class="range">&lt;0.9c</td><td>холодный зелёный · Font 32</td><td>—</td><td>дешёвая Currency без лишнего шума</td></tr>
+          <tr><td class="tier-name">T2B</td><td class="range">0.9c … &lt;10c</td><td>промежуточный зелёный · Font 35</td><td>Sound 14 + Green Triangle 0</td><td>примерно 1 Chaos и выше — уже заметный дроп</td></tr>
+          <tr><td class="tier-name">T2A</td><td class="range">10c … &lt;1d</td><td>яркий салатовый · Font 37</td><td>Sound 14 + Green Triangle 0</td><td>средняя стоимость</td></tr>
           <tr><td class="tier-name">T3</td><td class="range">≥1d</td><td>тёплый жёлто-зелёный · Font 45</td><td>Sound 1 + Green beam</td><td>дорогая Currency; TOP получает Cross/Circle</td></tr>
           <tr><td class="tier-name">T4 DYNAMIC</td><td class="range">league / unknown</td><td>жёлтый текст + морская рамка · Font 37</td><td>Sound 16 + Green Moon 1</td><td>страховка для новой и неразмеченной Currency</td></tr>
         </tbody>
       </table>
     </div>
     <div class="economy-rule">
-      <div><strong>Ценовой закон</strong><span>T1 &lt;10c, T2 10c–&lt;1d, T3 ≥1d. Границы не пересекаются.</span></div>
-      <div><strong>T1+ ≠ новый tier</strong><span>Это дополнительный audible/map marker внутри T1 около 1 Chaos и выше.</span></div>
-      <div><strong>T3 TOP</strong><span>TOP 1–5 → Cross 0. TOP 6–10 → Circle 0. Остальной HIGH без MinimapIcon, но с Sound 1 и beam.</span></div>
-      <div><strong>T4 safety</strong><span>Последний Stackable Currency fallback не даёт новому ресурсу выглядеть дешёвым и незаметным.</span></div>
+      <div><strong>Порог T2B</strong><span>0.9 Chaos — нижняя граница, то есть 1 Chaos ±10% попадает в заметный уровень.</span></div>
+      <div><strong>Один сигнал</strong><span>T2B и T2A: PlayAlertSound 14 300 + MinimapIcon 0 Green Triangle.</span></div>
+      <div><strong>T3 TOP</strong><span>TOP 1–5 → Cross 0. TOP 6–10 → Circle 0. Остальной HIGH — Sound 1 + Green beam.</span></div>
+      <div><strong>T4 safety</strong><span>Последний Stackable Currency fallback не даёт новой валюте выглядеть дешёвой и незаметной.</span></div>
     </div>`;
   sounds.parentNode.insertBefore(section,sounds);
 })();
