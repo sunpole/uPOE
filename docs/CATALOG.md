@@ -58,13 +58,13 @@ uPOE использует числовую архитектуру, совмес�
 | 3700 | Currency: специальные приоритетные случаи | PARTIAL |
 | 3800 | Currency: leveling exceptions | PARTIAL |
 | 3900 | Currency: stack-size exceptions | PARTIAL |
-| 4000 | Currency: основная ценовая система T1 / T2 / T3 | CUSTOM |
-| 4001 | Currency T3 — market TOP 1–5, Sound 1, Green beam, Cross | CUSTOM |
-| 4002 | Currency T3 — market TOP 6–10, Sound 1, Green beam, Circle | CUSTOM |
+| 4000 | Currency: основная ценовая система T1 / T2B / T2A / T3 | CUSTOM |
+| 4001 | Currency T3 — current market TOP 1–5, Sound 1, Green beam, Cross | CUSTOM |
+| 4002 | Currency T3 — current market TOP 6–10, Sound 1, Green beam, Circle | CUSTOM |
 | 4003 | Currency T3 — remaining HIGH, Sound 1, Green beam | CUSTOM |
-| 4004 | Currency T2 — MEDIUM, Sound 14 + Green Triangle size 0 | CUSTOM |
-| 4005 | Currency T1+ — ≈1c to <10c, T1 style + Sound 14 + Green Triangle size 0 | CUSTOM |
-| 4006 | Currency T1 low — below ≈1c attention floor | CUSTOM |
+| 4004 | Currency T2A — >=10c and <1 Divine, Sound 14 + Green Triangle size 0 | CUSTOM |
+| 4005 | Currency T2B — >=0.9c and <10c, Sound 14 + Green Triangle size 0 | CUSTOM |
+| 4006 | Currency T1 low — <0.9c, quiet | CUSTOM |
 | 4100 | Currency: специальные и лиговые ресурсы | PARTIAL |
 | 4104 | Allflame / current league resources | CUSTOM |
 | 4200 | Currency: splinters и похожие ресурсы | PARTIAL |
@@ -87,6 +87,6 @@ uPOE использует числовую архитектуру, совмес�
 
 Когда мы берём следующую категорию, например `4300 Divination Cards`, мы создаём собственные правила с номером `4300` выше `Import`. После проверки в игре статус меняется с `UPSTREAM` на `CUSTOM` или `PARTIAL`.
 
-Подномера позволяют менять только один кусок категории. Например, `1401` — 6-link, `1402` — 5-link, `1403` — 4-link. Для Gems: `3001` — самый высокий ледяной уровень, `3002` — белый заметный, `3003` — серый обычный. Для Currency: `4004` — MEDIUM, `4005` — T1+ с порогом внимания около 1 Chaos, `4006` — дешёвая T1 без звука/иконки.
+Подномера позволяют менять только один кусок категории. Например, `1401` — 6-link, `1402` — 5-link, `1403` — 4-link. Для Gems: `3001` — самый высокий ледяной уровень, `3002` — белый заметный, `3003` — серый обычный. Для Currency: `4004` — T2A >=10c, `4005` — T2B примерно от 1 Chaos с Sound 14 + Green Triangle 0, `4006` — дешёвая T1 ниже 0.9c без звука/иконки.
 
 Таким образом, каталог остаётся стабильным, а NeverSink постепенно заменяется uPOE по одной категории без риска потерять остальные классы предметов.
