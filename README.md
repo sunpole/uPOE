@@ -12,7 +12,7 @@
 INSTALL_uPOE_FILTER.bat
 ```
 
-BAT теперь выполняет полный цикл одной кнопкой:
+BAT выполняет полный цикл одной кнопкой:
 
 1. проверяет Git и локальный репозиторий;
 2. убеждается, что активна ветка `main`;
@@ -33,10 +33,10 @@ BAT теперь выполняет полный цикл одной кнопк�
 
 **https://sunpole.github.io/uPOE/**
 
-Сайт — это живая витрина проекта:
+Сайт — живая витрина проекта:
 
 - случайный дроп разных классов предметов;
-- Currency v0.6 с T1 low / T1+ / T2 / T3 / T4;
+- Currency v0.7 с T1 / T2B / T2A / T3 / T4;
 - `1400` Links: 4L / 5L / 6L;
 - `3000` Gems: grey / white / ice-blue;
 - полный номерной каталог `0100–5400`;
@@ -46,7 +46,7 @@ BAT теперь выполняет полный цикл одной кнопк�
 - PlayEffect Lab;
 - просмотр и скачивание актуального `uPOE.filter`.
 
-Игровой файл остаётся источником истины; браузерная лаборатория нужна для визуального контроля и проектирования.
+Игровой файл остаётся источником истины. Для CUSTOM-разделов сайт повторяет наши RGB/размеры/сигналы; UPSTREAM-предметы на витрине помечаются как NeverSink и не считаются точным браузерным рендером его оформления.
 
 ## Архитектура
 
@@ -84,19 +84,19 @@ Import "NeverSink-0-SOFT.filter" Optional
 - `3002` — white: Vaal, GemLevel 18+, любое Quality;
 - `3003` — grey: остальные Skill / Support Gems.
 
-### [[4000]] Currency v0.6
+### [[4000]] Currency v0.7
 
-Основные экономические границы:
+Текущая ценовая шкала:
 
 | Слой | Цена / смысл | Сигнал |
 |---|---:|---|
-| T1 LOW | `<≈0.9c` | без звука / иконки |
-| T1+ | `≈0.9c … <10c` | Sound 14 + Green Triangle size 0 |
-| T2 | `10c … <1 Divine` | Sound 14 + Green Triangle size 0 |
+| T1 LOW | `<0.9c` | без звука / иконки |
+| T2B | `0.9c … <10c` | Sound 14 + Green Triangle size 0 |
+| T2A | `10c … <1 Divine` | Sound 14 + Green Triangle size 0 |
 | T3 | `>=1 Divine` | Sound 1 + Green beam |
 | T4 | league / unclassified | Sound 16 + Green Moon size 1 |
 
-T1+ — **не новый экономический тир**, а attention-layer внутри T1.
+`T2B` — отдельный промежуточный тир для валюты примерно от **1 Chaos ±10%**. Он визуально находится между T1 и T2A: Font 35, собственный промежуточный зелёный оттенок, Sound 14 и большой Green Triangle.
 
 Для T3:
 
@@ -181,4 +181,4 @@ NeverSink-Filter опубликован под MIT License. uPOE использ�
 
 ## Текущий статус
 
-**Playable:** uPOE Currency v0.6 + Links + Gems + полный NeverSink 0-SOFT foundation. Локальная установка теперь обновляется одной кнопкой через GitHub sync → NeverSink update → Path of Exile install.
+**Playable:** uPOE Currency v0.7 + Links + Gems + полный NeverSink 0-SOFT foundation. Локальная установка обновляется одной кнопкой через GitHub sync → NeverSink update → Path of Exile install.
