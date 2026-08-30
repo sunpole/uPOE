@@ -12,8 +12,16 @@
     if (typeof renderSounds === 'function') renderSounds();
   }
 
-  // Site-wide showcase enhancements are loaded after local-sounds.js so they can
-  // recover a stale LOCAL ONLY state and reuse the final sound wrapper.
+  const currencySection = document.getElementById('currency');
+  const eyebrow = currencySection?.querySelector('.head .eyebrow');
+  const title = currencySection?.querySelector('.head h2');
+  const lead = currencySection?.querySelector('.head .lead');
+  if (eyebrow) eyebrow.textContent = 'DROP SHOWCASE · Currency v0.6 · Gems · Links · NeverSink';
+  if (title) title.textContent = 'Живая симуляция всего дропа';
+  if (lead) lead.innerHTML = 'Режим <strong>«Случайный весь дроп»</strong> смешивает Currency, Gems, Links и типичные категории, которые пока ведёт NeverSink. Кнопка <strong>«Вся Currency»</strong> остаётся отдельной подробной проверкой валюты.';
+
+  // Loaded after local-sounds.js so the showcase can reuse the final sound wrapper
+  // and recover a stale LOCAL ONLY state when the local library is empty.
   const showcase = document.createElement('script');
   showcase.src = './showcase-v07.js';
   showcase.async = false;
