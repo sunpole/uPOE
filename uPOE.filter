@@ -192,7 +192,7 @@ Show
 # [4004] TIER 2A / MEDIUM — >= 10c AND < 1 DIVINE
 Show
     Class == "Stackable Currency"
-    BaseType == "Shaper's Exalted Orb" "Elder's Exalted Orb" "Sacred Crystallised Lifeforce" "Veiled Chaos Orb" "Sinistral Catalyst" "Redeemer's Exalted Orb" "Maven's Chisel of Proliferation" "Eldritch Orb of Annulment" "Eldritch Chaos Orb" "Prismatic Catalyst" "Maven's Chisel of Scarabs" "Maven's Chisel of Divination" "Maven's Chisel of Procurement" "Crusader's Exalted Orb" "Greater Eldritch Ember" "Grand Eldritch Ember" "Foulborn Regal Orb" "Orb of Annulment" "Fertile Catalyst" "Coin of Desecration" "Coin of Restoration" "Coin of Knowledge" "Coin of Power" "Coin of Skill" "Chaotic Astrolabe" "Deceptive Astrolabe" "Fruiting Astrolabe" "Fungal Astrolabe" "Grasping Astrolabe" "Lightless Astrolabe" "Nameless Astrolabe" "Runic Astrolabe" "Templar Astrolabe" "Timeless Astrolabe" "Sacred Orb" "Tainted Mythic Orb" "Tainted Orb of Fusing" "Ritual Vessel" "Transmutation Shard" "Fracturing Shard" "Flesh of Xesht" "Exceptional Eldritch Ember" "Exceptional Eldritch Ichor" "Orb of Remembrance" "Maven's Chisel of Avarice"
+    BaseType == "Shaper's Exalted Orb" "Elder's Exalted Orb" "Sacred Crystallised Lifeforce" "Veiled Chaos Orb" "Sinistral Catalyst" "Redeemer's Exalted Orb" "Maven's Chisel of Proliferation" "Eldritch Orb of Annulment" "Eldritch Chaos Orb" "Prismatic Catalyst" "Maven's Chisel of Scarabs" "Maven's Chisel of Divination" "Maven's Chisel of Procurement" "Crusader's Exalted Orb" "Grand Eldritch Ember" "Foulborn Regal Orb" "Orb of Annulment" "Fertile Catalyst" "Coin of Desecration" "Coin of Restoration" "Coin of Knowledge" "Coin of Power" "Coin of Skill" "Chaotic Astrolabe" "Deceptive Astrolabe" "Fruiting Astrolabe" "Fungal Astrolabe" "Grasping Astrolabe" "Lightless Astrolabe" "Nameless Astrolabe" "Runic Astrolabe" "Templar Astrolabe" "Timeless Astrolabe" "Sacred Orb" "Tainted Mythic Orb" "Tainted Orb of Fusing" "Ritual Vessel" "Transmutation Shard" "Fracturing Shard" "Flesh of Xesht" "Exceptional Eldritch Ember" "Exceptional Eldritch Ichor" "Orb of Remembrance" "Maven's Chisel of Avarice"
     SetFontSize 37
     SetTextColor 175 230 75 255
     SetBackgroundColor 12 19 10 250
@@ -216,7 +216,7 @@ Show
 # [4006] TIER 1 / SIMPLE LOW — < 0.9c
 Show
     Class == "Stackable Currency"
-    BaseType == "Armourer's Scrap" "Blacksmith's Whetstone" "Jeweller's Orb" "Orb of Binding" "Orb of Chance" "Alchemy Shard" "Orb of Transmutation" "Orb of Augmentation" "Portal Scroll" "Scroll of Wisdom" "Orb of Fusing" "Orb of Alchemy" "Orb of Alteration" "Orb of Regret" "Orb of Scouring" "Orb of Unmaking" "Regal Orb" "Instilling Orb" "Blessed Orb" "Glassblower's Bauble" "Tainted Blacksmith's Whetstone" "Tainted Jeweller's Orb" "Greater Eldritch Ichor" "Lesser Eldritch Ember" "Lesser Eldritch Ichor" "Vaal Orb" "Orb of Intention"
+    BaseType == "Armourer's Scrap" "Blacksmith's Whetstone" "Jeweller's Orb" "Orb of Binding" "Orb of Chance" "Alchemy Shard" "Orb of Transmutation" "Orb of Augmentation" "Portal Scroll" "Scroll of Wisdom" "Orb of Fusing" "Orb of Alchemy" "Orb of Alteration" "Orb of Regret" "Orb of Scouring" "Orb of Unmaking" "Regal Orb" "Instilling Orb" "Blessed Orb" "Glassblower's Bauble" "Tainted Blacksmith's Whetstone" "Tainted Jeweller's Orb" "Greater Eldritch Ichor" "Greater Eldritch Ember" "Lesser Eldritch Ember" "Lesser Eldritch Ichor" "Vaal Orb" "Orb of Intention"
     SetFontSize 32
     SetTextColor 138 190 85 255
     SetBackgroundColor 15 20 14 245
