@@ -4,6 +4,9 @@ setlocal EnableExtensions
 rem ============================================================================
 rem uPOE - ONE CLICK UPDATE + INSTALL for Path of Exile 1
 rem
+rem The launcher first copies itself to TEMP. The TEMP worker can safely run
+rem git pull even when GitHub updates this BAT file during the same run.
+rem
 rem Order:
 rem   1) safely sync this local repository with GitHub main
 rem   2) download/update NeverSink 0-SOFT foundation
@@ -15,9 +18,32 @@ rem   - uses git pull --ff-only (no automatic merge commits)
 rem   - stops installation if GitHub sync fails
 rem ============================================================================
 
-set "PROJECT_DIR=%~dp0"
-set "SOURCE=%PROJECT_DIR%uPOE.filter"
-set "VENDOR_DIR=%PROJECT_DIR%vendor"
+if /I "%~1"=="--worker" goto :WORKER
+
+rem Normalize the repository directory. %~dp0 ends with a backslash; using %%~fI
+rem removes the problematic trailing slash before passing the path to git -C.
+for %%I in ("%~dp0.") do set "ROOT_DIR=%%~fI"
+
+set "TEMP_BAT=%TEMP%\uPOE_INSTALL_%RANDOM%_%RANDOM%.bat"
+copy /Y "%~f0" "%TEMP_BAT%" >nul 2>&1
+if errorlevel 1 (
+    echo.
+    echo [ERROR] Could not create a temporary installer copy.
+    echo.
+    pause
+    exit /b 1
+)
+
+call "%TEMP_BAT%" --worker "%ROOT_DIR%"
+set "WORKER_EXIT=%ERRORLEVEL%"
+del /Q "%TEMP_BAT%" >nul 2>&1
+endlocal & exit /b %WORKER_EXIT%
+
+
+:WORKER
+set "PROJECT_DIR=%~2"
+set "SOURCE=%PROJECT_DIR%\uPOE.filter"
+set "VENDOR_DIR=%PROJECT_DIR%\vendor"
 set "NS_SOURCE=%VENDOR_DIR%\NeverSink-0-SOFT.filter"
 set "NS_TEMP=%VENDOR_DIR%\NeverSink-0-SOFT.filter.tmp"
 set "NS_URL=https://raw.githubusercontent.com/NeverSinkDev/NeverSink-Filter/master/NeverSink%%27s%%20filter%%20-%%200-SOFT.filter"
@@ -27,6 +53,9 @@ echo.
 echo ==============================================
 echo uPOE - GITHUB SYNC
 echo ==============================================
+echo.
+echo Project:
+echo   %PROJECT_DIR%
 echo.
 
 where git.exe >nul 2>&1
@@ -38,9 +67,11 @@ if errorlevel 1 (
     exit /b 1
 )
 
-if not exist "%PROJECT_DIR%.git" (
-    echo [ERROR] This folder is not the uPOE Git repository.
-    echo Expected .git folder in:
+rem Verify this is a real Git work tree. This also supports .git files/worktrees,
+rem not only repositories where .git is a directory.
+git -C "%PROJECT_DIR%" rev-parse --is-inside-work-tree >nul 2>&1
+if errorlevel 1 (
+    echo [ERROR] This folder is not a valid Git repository:
     echo   %PROJECT_DIR%
     echo.
     pause
@@ -48,7 +79,28 @@ if not exist "%PROJECT_DIR%.git" (
 )
 
 set "CURRENT_BRANCH="
-for /f "usebackq delims=" %%B in (`git -C "%PROJECT_DIR%" branch --show-current 2^>nul`) do set "CURRENT_BRANCH=%%B"
+for /f "delims=" %%B in ('git -C "%PROJECT_DIR%" rev-parse --abbrev-ref HEAD 2^>nul') do set "CURRENT_BRANCH=%%B"
+
+if not defined CURRENT_BRANCH (
+    echo [ERROR] Git could not determine the current branch.
+    echo.
+    echo Diagnostic:
+    git -C "%PROJECT_DIR%" status -sb
+    echo.
+    pause
+    exit /b 1
+)
+
+if /I "%CURRENT_BRANCH%"=="HEAD" (
+    echo [ERROR] Repository is in detached HEAD state.
+    echo Switch back to branch main, then run this BAT again.
+    echo.
+    git -C "%PROJECT_DIR%" status -sb
+    echo.
+    pause
+    exit /b 1
+)
+
 if /I not "%CURRENT_BRANCH%"=="main" (
     echo [ERROR] uPOE must be on branch main before automatic update.
     echo Current branch: %CURRENT_BRANCH%
@@ -60,7 +112,7 @@ if /I not "%CURRENT_BRANCH%"=="main" (
 rem Never destroy or hide local work. If tracked/untracked non-ignored files exist,
 rem stop and let the user decide what to commit/stash/remove first.
 set "DIRTY_REPO="
-for /f "usebackq delims=" %%S in (`git -C "%PROJECT_DIR%" status --porcelain --untracked-files=all 2^>nul`) do set "DIRTY_REPO=1"
+for /f "delims=" %%S in ('git -C "%PROJECT_DIR%" status --porcelain --untracked-files=all 2^>nul') do set "DIRTY_REPO=1"
 if defined DIRTY_REPO (
     echo [ERROR] Local Git changes were found.
     echo Automatic sync is stopped so nothing local is overwritten.
@@ -85,7 +137,7 @@ if errorlevel 1 (
 )
 
 set "GIT_HEAD="
-for /f "usebackq delims=" %%H in (`git -C "%PROJECT_DIR%" rev-parse --short HEAD 2^>nul`) do set "GIT_HEAD=%%H"
+for /f "delims=" %%H in ('git -C "%PROJECT_DIR%" rev-parse --short HEAD 2^>nul') do set "GIT_HEAD=%%H"
 echo [OK] GitHub synchronized. main @ %GIT_HEAD%
 echo.
 
@@ -151,7 +203,7 @@ if not exist "%NS_SOURCE%" (
 
 rem Ask Windows for the real Documents folder. This also works when Documents
 rem is redirected to OneDrive or another location.
-for /f "usebackq delims=" %%I in (`powershell -NoProfile -Command "[Environment]::GetFolderPath('MyDocuments')"`) do set "DOCS=%%I"
+for /f "delims=" %%I in ('powershell -NoProfile -Command "[Environment]::GetFolderPath(''MyDocuments'')"') do set "DOCS=%%I"
 if not defined DOCS set "DOCS=%USERPROFILE%\Documents"
 
 set "DEST_DIR=%DOCS%\My Games\Path of Exile"
@@ -241,4 +293,4 @@ echo It will sync GitHub first and install the newest filter automatically.
 echo.
 pause
 
-endlocal
+exit /b 0
