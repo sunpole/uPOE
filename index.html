@@ -45,16 +45,16 @@
     <article class="card">
       <div class="head">
         <div>
-          <div class="eyebrow">[[4000]] Currency v0.6</div>
-          <h2>Живая симуляция Currency</h2>
-          <p class="lead">T1 теперь разделён только по уровню внимания: дешёвая T1 без сигнала и T1+ около 1c+ с Sound 14 + большим зелёным Triangle. Экономические границы T1/T2/T3 остаются прежними.</p>
+          <div class="eyebrow">[[4000]] Currency v0.7 · T2B attention</div>
+          <h2>Живая симуляция всего дропа</h2>
+          <p class="lead">«Случайный весь дроп» смешивает Currency, Gems, Links и UPSTREAM-классы. «Вся Currency» показывает точную текущую шкалу: T1 &lt;0.9c → T2B 0.9–&lt;10c → T2A 10c–&lt;1 Divine → T3 ≥1 Divine.</p>
         </div>
-        <div class="status">CUSTOM · 4000/4104/4400</div>
+        <div class="status">CUSTOM · 1400/3000/4000</div>
       </div>
       <div class="toolbar">
         <button class="btn primary" id="reroll" type="button">Новый дроп</button>
-        <button class="btn active" data-mode="random" type="button">Случайный</button>
-        <button class="btn" data-mode="all" type="button">Показать всю Currency</button>
+        <button class="btn active" data-mode="random" type="button">Случайный весь дроп</button>
+        <button class="btn" data-mode="all" type="button">Вся Currency</button>
         <button class="btn active" id="soundToggle" type="button">🔊 Звук: ВКЛ</button>
         <span class="spacer"></span><span class="counter" id="counter"></span>
       </div>
@@ -72,15 +72,16 @@
     <aside class="card sidebar">
       <div><div class="eyebrow">Currency visual law</div><h2>Сигналы цены</h2><p class="muted">Цвет показывает ценовой уровень, а звук/иконка — необходимость обратить внимание.</p></div>
       <div class="legend">
-        <div class="legend-row"><div><span class="drop-label simplelow">Orb of Fusing</span><div class="rgb">138 190 85 / 15 20 14 / 72 100 45</div></div><div class="legend-meta">T1 LOW<br>&lt;≈1c<br>Font 32<br>тихо</div></div>
-        <div class="legend-row"><div><span class="drop-label simpleplus">Chaos Orb</span><div class="rgb">тот же T1 style</div></div><div class="legend-meta">T1+<br>≈1c–&lt;10c<br>Sound 14<br>▲ Green 0</div></div>
-        <div class="legend-row"><div><span class="drop-label medium">Orb of Annulment</span><div class="rgb">175 230 75 / 12 19 10 / 125 175 55</div></div><div class="legend-meta">T2<br>10c–&lt;1d<br>Sound 14<br>▲ Green 0</div></div>
-        <div class="legend-row"><div><span class="drop-label high">Divine Orb</span><div class="rgb">213 255 60 / 3 7 2 / 185 255 45</div></div><div class="legend-meta">T3<br>≥1d<br>Sound 1<br>Green beam</div></div>
+        <div class="legend-row"><div><span class="drop-label simplelow">Orb of Fusing</span><div class="rgb">138 190 85 / 15 20 14 / 72 100 45</div></div><div class="legend-meta">T1 LOW<br>&lt;0.9c<br>Font 32<br>тихо</div></div>
+        <div class="legend-row"><div><span class="drop-label simpleplus">Chaos Orb</span><div class="rgb">158 210 80 / 13 19 11 / 98 138 50</div></div><div class="legend-meta">T2B<br>0.9c–&lt;10c<br>Font 35<br>Sound 14<br>▲ Green 0</div></div>
+        <div class="legend-row"><div><span class="drop-label medium">Orb of Annulment</span><div class="rgb">175 230 75 / 12 19 10 / 125 175 55</div></div><div class="legend-meta">T2A<br>10c–&lt;1d<br>Font 37<br>Sound 14<br>▲ Green 0</div></div>
+        <div class="legend-row"><div><span class="drop-label high">Divine Orb</span><div class="rgb">213 255 60 / 3 7 2 / 185 255 45</div></div><div class="legend-meta">T3<br>≥1d<br>Font 45<br>Sound 1<br>Green beam</div></div>
         <div class="legend-row"><div><span class="drop-label league">NEW / LEAGUE</span><div class="rgb">213 255 60 / 5 11 4 / 45 175 215</div></div><div class="legend-meta">T4<br>dynamic<br>Sound 16<br>Moon Green 1</div></div>
       </div>
+      <div class="notice"><strong>T2B / T2A:</strong><br>всё от 0.9c до 1 Divine получает <code>PlayAlertSound 14 300</code> + <code>MinimapIcon 0 Green Triangle</code>.</div>
       <div class="notice"><strong>T3 TOP:</strong><br>TOP 1–5 → <code>Cross Green 0</code><br>TOP 6–10 → <code>Circle Green 0</code><br>вся T3 → Sound 1 + постоянный Green beam.</div>
       <div class="notice"><strong>T4 safety:</strong><br>Новая <code>Stackable Currency</code>, которой ещё нет в списках, автоматически заметна и не превращается в дешёвый незаметный дроп.</div>
-      <div class="notice"><strong>Важно:</strong><br>цены — snapshot рынка. Имена в T1+/T2/T3 требуют периодической переоценки; оформление и структура при этом стабильны.</div>
+      <div class="notice"><strong>Важно:</strong><br>Currency v0.7 пересортирована по свежему Allflame snapshot. Рыночные цены меняются, поэтому списки периодически пересматриваем.</div>
     </aside>
   </section>
 
@@ -139,7 +140,7 @@
   <section class="section card lab-card" id="icons">
     <div class="section-head"><div><div class="eyebrow">MinimapIcon laboratory</div><h2>12 форм × 11 цветов × 3 размера</h2><p>Размер 0 — самый большой. Текущие uPOE: Triangle 0, Cross 0, Circle 0 и Moon 1.</p></div></div>
     <div class="icon-controls"><button class="btn small active" data-icon-size="0" type="button">Size 0</button><button class="btn small" data-icon-size="1" type="button">Size 1</button><button class="btn small" data-icon-size="2" type="button">Size 2</button></div>
-    <div class="selected-line marker-summary">T1+/T2 → Green Triangle 0 · T3 TOP 1–5 → Green Cross 0 · T3 TOP 6–10 → Green Circle 0 · T4 → Green Moon 1</div>
+    <div class="selected-line marker-summary">T2B/T2A → Green Triangle 0 · T3 TOP 1–5 → Green Cross 0 · T3 TOP 6–10 → Green Circle 0 · T4 → Green Moon 1</div>
     <div class="icon-matrix"><div class="icon-table" id="iconTable"></div></div>
   </section>
 
@@ -153,7 +154,7 @@
     <div class="tool-grid">
       <div class="tool-card"><h3>Label colours</h3><code>SetTextColor<br>SetBackgroundColor<br>SetBorderColor</code><p>RGB(A) текста, фона и рамки.</p></div>
       <div class="tool-card"><h3>Font</h3><code>SetFontSize 1–45</code><p>Размер игровой надписи.</p></div>
-      <div class="tool-card"><h3>Sound</h3><code>PlayAlertSound 1–16 0–300</code><p>1 = T3 Currency, 2 = 6L, 14 = attention, 16 = T4.</p></div>
+      <div class="tool-card"><h3>Sound</h3><code>PlayAlertSound 1–16 0–300</code><p>1 = T3 Currency, 2 = 6L, 14 = T2B/T2A, 16 = T4.</p></div>
       <div class="tool-card"><h3>Map + beam</h3><code>MinimapIcon<br>PlayEffect</code><p>Иконка на карте и вертикальный луч.</p></div>
       <div class="tool-card"><h3>Gem properties</h3><code>GemLevel<br>Quality<br>Exceptional<br>TransfiguredGem</code><p>Позволяют tiering без списков каждого обычного камня.</p></div>
       <div class="tool-card"><h3>Links</h3><code>LinkedSockets 4/5/6</code><p>Розовая система 1400.</p></div>
@@ -173,7 +174,7 @@
     <div class="copyright-note">uPOE не распространяет оригинальные игровые аудиофайлы Path of Exile. NeverSink используется как внешний foundation; собственные правила uPOE постепенно перекрывают его сверху.</div>
   </section>
 
-  <footer><span>uPOE · personal Path of Exile 1 loot filter</span><span>Currency v0.6 · Gems v0.1 · live catalog</span></footer>
+  <footer><span>uPOE · personal Path of Exile 1 loot filter</span><span>Currency v0.7 · Gems v0.1 · Links v0.1 · live catalog</span></footer>
 </main>
 
 <div class="filter-modal" id="filterModal" role="dialog" aria-modal="true">
@@ -194,5 +195,6 @@
 <script src="./local-sounds.js"></script>
 <script src="./sound-default.js"></script>
 <script src="./economy-tiers.js"></script>
+<script src="./showcase-v07.js"></script>
 </body>
 </html>
